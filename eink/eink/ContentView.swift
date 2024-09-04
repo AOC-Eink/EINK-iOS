@@ -9,67 +9,64 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
-
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<Item>
+    
+    @Environment(\.appRouter) var appRouter
+    
+    @State private var selectedTab: Router = .home(nil)
+//    {
+//        switch appRouter.router {
+//        case .home:     
+//            return .home(nil)
+//        case .catagory:
+//            return .catagory(nil)
+//        case .favorites:
+//            return .favorites(nil)
+//        case .profile:
+//            return .profile(nil)
+//        case .addDevice:
+//            return .addDevice(nil)
+//        case .none:
+//            return .home(.detail(0))
+//        }
+//    }
+    
 
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-                    } label: {
-                        Text(item.timestamp!, formatter: itemFormatter)
-                    }
+        
+        TabView(selection: $selectedTab){
+            
+            HomeView()
+                .tabItem {
+                Label("home", systemImage: "house")}
+                .tag(Router.home(nil))
+
+            CatagoryView()
+                .tabItem {
+                Label("catagory", systemImage: "list.bullet")}
+                .tag(Router.catagory(nil))
+
+            Color.clear // 占位用的透明视图
+                .tabItem {
+                    Image(systemName: "plus.circle.fill")
+                        .resizable()
+                        .frame(width: 44, height: 44)
+                        .foregroundColor(.blue)
                 }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
+                .onTapGesture {
+                    // 点击添加按钮的操作
+                    print("Tapped add button")
                 }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                }
-            }
-            Text("Select an item")
-        }
-    }
 
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
+            FavoriteView()
+                .tabItem {
+                Label("favorites", systemImage: "heart")}
+                .tag(Router.favorites(nil))
 
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
-    }
+            ProfileView()
+                .tabItem {
+                Label("profile", systemImage: "person")}
+                .tag(Router.profile(nil))
 
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
         }
     }
 }
