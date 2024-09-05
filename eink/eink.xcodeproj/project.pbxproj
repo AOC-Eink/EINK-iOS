@@ -22,6 +22,9 @@
 		936D15E72C88AA5400066274 /* AddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15E62C88AA5400066274 /* AddView.swift */; };
 		936D15E92C88AA8200066274 /* FavoriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15E82C88AA8200066274 /* FavoriteView.swift */; };
 		936D15EB2C88AAA500066274 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15EA2C88AAA400066274 /* ProfileView.swift */; };
+		936D15EF2C89D91600066274 /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15EE2C89D91600066274 /* GuideView.swift */; };
+		936D15F22C89DC1F00066274 /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15F12C89DC1F00066274 /* DiscoverView.swift */; };
+		936D15F52C89F74100066274 /* TabbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15F42C89F74100066274 /* TabbarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +63,9 @@
 		936D15E62C88AA5400066274 /* AddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddView.swift; sourceTree = "<group>"; };
 		936D15E82C88AA8200066274 /* FavoriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteView.swift; sourceTree = "<group>"; };
 		936D15EA2C88AAA400066274 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		936D15EE2C89D91600066274 /* GuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideView.swift; sourceTree = "<group>"; };
+		936D15F12C89DC1F00066274 /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.swift; sourceTree = "<group>"; };
+		936D15F42C89F74100066274 /* TabbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,7 +116,10 @@
 		9301E7EF2C87489700381CA7 /* eink */ = {
 			isa = PBXGroup;
 			children = (
+				936D15EC2C89D8CD00066274 /* Tour */,
+				936D15F02C89DBDC00066274 /* Discover */,
 				936D15DA2C88A64B00066274 /* Router */,
+				936D15F32C89F70B00066274 /* Tabbar */,
 				936D15DD2C88A8ED00066274 /* Home */,
 				936D15DE2C88A8F700066274 /* Catagory */,
 				936D15DF2C88A90200066274 /* Add */,
@@ -197,6 +206,30 @@
 				936D15EA2C88AAA400066274 /* ProfileView.swift */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		936D15EC2C89D8CD00066274 /* Tour */ = {
+			isa = PBXGroup;
+			children = (
+				936D15EE2C89D91600066274 /* GuideView.swift */,
+			);
+			path = Tour;
+			sourceTree = "<group>";
+		};
+		936D15F02C89DBDC00066274 /* Discover */ = {
+			isa = PBXGroup;
+			children = (
+				936D15F12C89DC1F00066274 /* DiscoverView.swift */,
+			);
+			path = Discover;
+			sourceTree = "<group>";
+		};
+		936D15F32C89F70B00066274 /* Tabbar */ = {
+			isa = PBXGroup;
+			children = (
+				936D15F42C89F74100066274 /* TabbarView.swift */,
+			);
+			path = Tabbar;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -337,8 +370,11 @@
 				936D15E72C88AA5400066274 /* AddView.swift in Sources */,
 				936D15DC2C88A68C00066274 /* AppRouter.swift in Sources */,
 				9301E7F12C87489700381CA7 /* einkApp.swift in Sources */,
+				936D15EF2C89D91600066274 /* GuideView.swift in Sources */,
 				936D15E92C88AA8200066274 /* FavoriteView.swift in Sources */,
 				936D15E52C88AA2500066274 /* CatagoryView.swift in Sources */,
+				936D15F22C89DC1F00066274 /* DiscoverView.swift in Sources */,
+				936D15F52C89F74100066274 /* TabbarView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

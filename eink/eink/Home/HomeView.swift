@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.appRouter) var appRouter
 
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
@@ -65,6 +66,13 @@ struct HomeView: View {
                 .onDelete(perform: deleteItems)
             }
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button(action: {
+                        appRouter.isConnected?.toggle()
+                    }) {
+                        Label("Add Item", systemImage: "chevron.backward")
+                    }
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     EditButton()
                 }

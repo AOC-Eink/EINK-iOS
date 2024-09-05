@@ -12,6 +12,7 @@ import SwiftUI
 class AppRouter {
     
     var router:Router?
+    var isConnected:Bool?
     
     func updateRouter(_ route: Router) {
         router = route
