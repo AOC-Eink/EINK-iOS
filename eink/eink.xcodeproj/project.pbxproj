@@ -16,6 +16,10 @@
 		9301E8072C87489900381CA7 /* einkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9301E8062C87489900381CA7 /* einkTests.swift */; };
 		9301E8112C87489900381CA7 /* einkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9301E8102C87489900381CA7 /* einkUITests.swift */; };
 		9301E8132C87489900381CA7 /* einkUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9301E8122C87489900381CA7 /* einkUITestsLaunchTests.swift */; };
+		930BDA8B2C8B32F1008672C5 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930BDA8A2C8B32F1008672C5 /* Device.swift */; };
+		930BDA8D2C8B3AE5008672C5 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930BDA8C2C8B3AE5008672C5 /* OnboardingView.swift */; };
+		930BDA8F2C8B4FB5008672C5 /* DeviceCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930BDA8E2C8B4FB5008672C5 /* DeviceCard.swift */; };
+		930BDA922C8C436E008672C5 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930BDA912C8C436E008672C5 /* ColorExtension.swift */; };
 		936D15DC2C88A68C00066274 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15DB2C88A68C00066274 /* AppRouter.swift */; };
 		936D15E32C88A9DD00066274 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15E22C88A9DD00066274 /* HomeView.swift */; };
 		936D15E52C88AA2500066274 /* CatagoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15E42C88AA2500066274 /* CatagoryView.swift */; };
@@ -25,6 +29,7 @@
 		936D15EF2C89D91600066274 /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15EE2C89D91600066274 /* GuideView.swift */; };
 		936D15F22C89DC1F00066274 /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15F12C89DC1F00066274 /* DiscoverView.swift */; };
 		936D15F52C89F74100066274 /* TabbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15F42C89F74100066274 /* TabbarView.swift */; };
+		93E4B4FC2C8C4EA10094DEDD /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E4B4FB2C8C4EA10094DEDD /* FontExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +62,10 @@
 		9301E80C2C87489900381CA7 /* einkUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = einkUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9301E8102C87489900381CA7 /* einkUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = einkUITests.swift; sourceTree = "<group>"; };
 		9301E8122C87489900381CA7 /* einkUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = einkUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		930BDA8A2C8B32F1008672C5 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
+		930BDA8C2C8B3AE5008672C5 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		930BDA8E2C8B4FB5008672C5 /* DeviceCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceCard.swift; sourceTree = "<group>"; };
+		930BDA912C8C436E008672C5 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		936D15DB2C88A68C00066274 /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		936D15E22C88A9DD00066274 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		936D15E42C88AA2500066274 /* CatagoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatagoryView.swift; sourceTree = "<group>"; };
@@ -66,6 +75,7 @@
 		936D15EE2C89D91600066274 /* GuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideView.swift; sourceTree = "<group>"; };
 		936D15F12C89DC1F00066274 /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.swift; sourceTree = "<group>"; };
 		936D15F42C89F74100066274 /* TabbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarView.swift; sourceTree = "<group>"; };
+		93E4B4FB2C8C4EA10094DEDD /* FontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +126,8 @@
 		9301E7EF2C87489700381CA7 /* eink */ = {
 			isa = PBXGroup;
 			children = (
+				930BDA902C8C4331008672C5 /* Common */,
+				930BDA892C8B3297008672C5 /* AppData */,
 				936D15EC2C89D8CD00066274 /* Tour */,
 				936D15F02C89DBDC00066274 /* Discover */,
 				936D15DA2C88A64B00066274 /* Router */,
@@ -158,6 +170,23 @@
 				9301E8122C87489900381CA7 /* einkUITestsLaunchTests.swift */,
 			);
 			path = einkUITests;
+			sourceTree = "<group>";
+		};
+		930BDA892C8B3297008672C5 /* AppData */ = {
+			isa = PBXGroup;
+			children = (
+				930BDA8A2C8B32F1008672C5 /* Device.swift */,
+			);
+			path = AppData;
+			sourceTree = "<group>";
+		};
+		930BDA902C8C4331008672C5 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				930BDA912C8C436E008672C5 /* ColorExtension.swift */,
+				93E4B4FB2C8C4EA10094DEDD /* FontExtension.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 		936D15DA2C88A64B00066274 /* Router */ = {
@@ -212,6 +241,7 @@
 			isa = PBXGroup;
 			children = (
 				936D15EE2C89D91600066274 /* GuideView.swift */,
+				930BDA8C2C8B3AE5008672C5 /* OnboardingView.swift */,
 			);
 			path = Tour;
 			sourceTree = "<group>";
@@ -220,6 +250,7 @@
 			isa = PBXGroup;
 			children = (
 				936D15F12C89DC1F00066274 /* DiscoverView.swift */,
+				930BDA8E2C8B4FB5008672C5 /* DeviceCard.swift */,
 			);
 			path = Discover;
 			sourceTree = "<group>";
@@ -365,8 +396,13 @@
 				9301E7FD2C87489800381CA7 /* eink.xcdatamodeld in Sources */,
 				9301E7FA2C87489800381CA7 /* Persistence.swift in Sources */,
 				936D15EB2C88AAA500066274 /* ProfileView.swift in Sources */,
+				930BDA8D2C8B3AE5008672C5 /* OnboardingView.swift in Sources */,
 				9301E7F32C87489700381CA7 /* ContentView.swift in Sources */,
+				930BDA8F2C8B4FB5008672C5 /* DeviceCard.swift in Sources */,
+				93E4B4FC2C8C4EA10094DEDD /* FontExtension.swift in Sources */,
+				930BDA922C8C436E008672C5 /* ColorExtension.swift in Sources */,
 				936D15E32C88A9DD00066274 /* HomeView.swift in Sources */,
+				930BDA8B2C8B32F1008672C5 /* Device.swift in Sources */,
 				936D15E72C88AA5400066274 /* AddView.swift in Sources */,
 				936D15DC2C88A68C00066274 /* AppRouter.swift in Sources */,
 				9301E7F12C87489700381CA7 /* einkApp.swift in Sources */,

@@ -11,6 +11,7 @@ import SwiftUI
 struct einkApp: App {
     let persistenceController = PersistenceController.shared
     @State var appConfiguration = AppConfiguration()
+    
 
     var body: some Scene {
         WindowGroup {
@@ -25,5 +26,31 @@ struct einkApp: App {
 final class AppConfiguration: ObservableObject {
     /// colorScheme
     @AppStorage("showOnboarding") var showOnboarding: Bool = true
+    
+    
+    
+}
+
+enum SupportDevices:Hashable, CaseIterable{
+    case phoneCase
+    case clock
+    
+    var guideTips:String {
+        switch self {
+            case .clock:
+                return "Display personalized Electronic Paper"
+            case .phoneCase:
+                return "Display personalized Electronic Paper"
+        }
+    }
+    
+    var guideImage:String {
+        switch self {
+            case .clock:
+                return "eink.clock.tour"
+            case .phoneCase:
+                return "eink.case.tour"
+        }
+    }
     
 }

@@ -11,6 +11,7 @@ import CoreData
 struct ContentView: View {
     
     @EnvironmentObject var appConfig:AppConfiguration
+    @State var deviceManager = DeviceManager()
     
     @Environment(\.appRouter) var appRouter
 
@@ -31,6 +32,7 @@ struct ContentView: View {
     var body: some View {
         
         DiscoverView()
+            .environment(deviceManager)
             .fullScreenCover(isPresented: showOnboarding, content: {
                 GuideView()
             })
@@ -44,5 +46,5 @@ struct ContentView: View {
 
 
 #Preview {
-    ContentView()
+    ContentView().environmentObject(AppConfiguration())
 }
