@@ -7,14 +7,14 @@
 
 import CoreData
 
-struct PersistenceController {
-    static let shared = PersistenceController()
+struct CoreDataStack {
+    static let shared = CoreDataStack()
 
-    static var preview: PersistenceController = {
-        let result = PersistenceController(inMemory: true)
+    static var preview: CoreDataStack = {
+        let result = CoreDataStack(inMemory: true)
         let viewContext = result.container.viewContext
         for _ in 0..<10 {
-            let newItem = Item(context: viewContext)
+            let newItem = InkDevice(context: viewContext)
             newItem.timestamp = Date()
         }
         do {

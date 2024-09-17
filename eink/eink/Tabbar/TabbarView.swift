@@ -10,13 +10,20 @@ import SwiftUI
 struct TabbarView: View {
     
     @Environment(\.appRouter) var appRouter
+    @Environment(DeviceManager.self) var deviceManager
+    @State private var onAddTouch:Bool = false
+    let deviceIndex:Int
+    
+    var device:Device {
+        deviceManager.devices[deviceIndex]
+    }
     
     @State private var selectedTab: Router = .home(nil)
     
     var body: some View {
         TabView(selection: $selectedTab){
             
-            HomeView()
+            HomeView(device:device)
                 .tabItem {
                 Label("home", systemImage: "house")}
                 .tag(Router.home(nil))
@@ -26,17 +33,15 @@ struct TabbarView: View {
                 Label("catagory", systemImage: "list.bullet")}
                 .tag(Router.catagory(nil))
 
-            Color.clear // 占位用的透明视图
+            DIYView(device: device) // 占位用的透明视图
                 .tabItem {
                     Image(systemName: "plus.circle.fill")
                         .resizable()
                         .frame(width: 44, height: 44)
                         .foregroundColor(.blue)
                 }
-                .onTapGesture {
-                    // 点击添加按钮的操作
-                    print("Tapped add button")
-                }
+                .tag(Router.addDevice(nil))
+
 
             FavoriteView()
                 .tabItem {
@@ -49,9 +54,13 @@ struct TabbarView: View {
                 .tag(Router.profile(nil))
 
         }
+        .fullScreenCover(isPresented: $onAddTouch , content: {
+            DIYView(device: device)
+        })
+        
     }
 }
 
 #Preview {
-    TabbarView()
+    TabbarView(deviceIndex: 0)
 }

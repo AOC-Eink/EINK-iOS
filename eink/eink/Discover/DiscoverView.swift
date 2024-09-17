@@ -11,6 +11,9 @@ struct DiscoverView: View {
     @Environment(\.appRouter) var appRouter
     @EnvironmentObject var appConfig:AppConfiguration
     @Environment(DeviceManager.self) var deviceManager
+    
+    @Binding var selectIndex:Int
+
 //    let columns = [
 //            GridItem(.adaptive(minimum: 150))
 //        ]
@@ -38,7 +41,7 @@ struct DiscoverView: View {
                 }
                 
                 
-                Text("7 Devies")
+                Text("\(deviceManager.devices.count) Devies")
                     .font(.deviceCount)
                     .fontWeight(.light)
                     .foregroundColor(.ekSubtitle)
@@ -49,17 +52,18 @@ struct DiscoverView: View {
                 Text("Devies")
                     .font(.deviceCount)
                     .fontWeight(.light)
-                    .foregroundColor(.deviceSetionTitle)
-                    .padding(.top, 80)
+                    .foregroundColor(.sectionTitle)
+                    .padding(.top, 60)
                     .padding(.leading, 5)
                 
                 ScrollView {
                     LazyVGrid(columns: columns) {
-                        ForEach(deviceManager.devices, id: \.self) { item in
+                        ForEach(Array(deviceManager.devices.enumerated()), id: \.element) {index, item in
                             DeviceCard(name: item.deviceName,
                                        status: item.status,
                                        image: item.deviceImage)
                             .onTapGesture {
+                                selectIndex = index
                                 appRouter.isConnected = true
                             }
                         }
@@ -79,7 +83,7 @@ struct DiscoverView: View {
                         appConfig.showOnboarding = true
                     }) {
                         Image(systemName: "plus")
-                            .foregroundColor(.black)
+                            .foregroundColor(.plusbutton)
                             
                     }
                     
@@ -90,6 +94,6 @@ struct DiscoverView: View {
 }
 
 #Preview {
-    DiscoverView()
+    DiscoverView(selectIndex: .constant(0))
         .environment(DeviceManager())
 }

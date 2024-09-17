@@ -14,6 +14,7 @@ struct ContentView: View {
     @State var deviceManager = DeviceManager()
     
     @Environment(\.appRouter) var appRouter
+    @State var selectIndex:Int = 0
 
     var isConnected: Binding<Bool> {
         Binding<Bool>(
@@ -31,13 +32,14 @@ struct ContentView: View {
 
     var body: some View {
         
-        DiscoverView()
+        DiscoverView(selectIndex: $selectIndex)
             .environment(deviceManager)
             .fullScreenCover(isPresented: showOnboarding, content: {
                 GuideView()
             })
             .fullScreenCover(isPresented: isConnected, content: {
-                TabbarView()
+                TabbarView(deviceIndex: selectIndex)
+                    .environment(deviceManager)
             })
             
         

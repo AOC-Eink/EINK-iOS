@@ -23,13 +23,29 @@
 		936D15DC2C88A68C00066274 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15DB2C88A68C00066274 /* AppRouter.swift */; };
 		936D15E32C88A9DD00066274 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15E22C88A9DD00066274 /* HomeView.swift */; };
 		936D15E52C88AA2500066274 /* CatagoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15E42C88AA2500066274 /* CatagoryView.swift */; };
-		936D15E72C88AA5400066274 /* AddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15E62C88AA5400066274 /* AddView.swift */; };
 		936D15E92C88AA8200066274 /* FavoriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15E82C88AA8200066274 /* FavoriteView.swift */; };
 		936D15EB2C88AAA500066274 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15EA2C88AAA400066274 /* ProfileView.swift */; };
 		936D15EF2C89D91600066274 /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15EE2C89D91600066274 /* GuideView.swift */; };
 		936D15F22C89DC1F00066274 /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15F12C89DC1F00066274 /* DiscoverView.swift */; };
 		936D15F52C89F74100066274 /* TabbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15F42C89F74100066274 /* TabbarView.swift */; };
 		93E4B4FC2C8C4EA10094DEDD /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E4B4FB2C8C4EA10094DEDD /* FontExtension.swift */; };
+		93F292382C91E07800ECCE35 /* LanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F292372C91E07800ECCE35 /* LanguageView.swift */; };
+		93F2923E2C91E4B300ECCE35 /* TriangleGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F2923D2C91E4B300ECCE35 /* TriangleGrid.swift */; };
+		93F292442C947C3A00ECCE35 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F292432C947C3A00ECCE35 /* ViewExtension.swift */; };
+		93F2924A2C95D1ED00ECCE35 /* DiscoverView.Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F292492C95D1ED00ECCE35 /* DiscoverView.Model.swift */; };
+		93F2924C2C95D6E900ECCE35 /* Design.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F2924B2C95D6E900ECCE35 /* Design.swift */; };
+		93F2924E2C96671400ECCE35 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F2924D2C96671400ECCE35 /* StringExtension.swift */; };
+		93F292502C96751800ECCE35 /* DIYView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F2924F2C96751800ECCE35 /* DIYView.swift */; };
+		93F292522C96916300ECCE35 /* DIYPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F292512C96916300ECCE35 /* DIYPanel.swift */; };
+		93F292542C96945300ECCE35 /* FavoriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F292532C96945300ECCE35 /* FavoriteButton.swift */; };
+		93F292562C96AC3800ECCE35 /* ColorGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F292552C96AC3800ECCE35 /* ColorGrid.swift */; };
+		93F292582C96C4CF00ECCE35 /* OperationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F292572C96C4CF00ECCE35 /* OperationButton.swift */; };
+		93F2925B2C98629100ECCE35 /* TriangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F2925A2C98629100ECCE35 /* TriangleView.swift */; };
+		93F332C52C8F36FD00C01091 /* PresetCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F332C42C8F36FD00C01091 /* PresetCard.swift */; };
+		93F332C72C8F3DF400C01091 /* PresetGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F332C62C8F3DF400C01091 /* PresetGridView.swift */; };
+		93F332C92C8F3F2100C01091 /* PresetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F332C82C8F3F2100C01091 /* PresetView.swift */; };
+		93F332CF2C91C4E000C01091 /* SliderCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F332CE2C91C4E000C01091 /* SliderCard.swift */; };
+		93F332D12C91C52E00C01091 /* SliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F332D02C91C52E00C01091 /* SliderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,13 +85,29 @@
 		936D15DB2C88A68C00066274 /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		936D15E22C88A9DD00066274 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		936D15E42C88AA2500066274 /* CatagoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatagoryView.swift; sourceTree = "<group>"; };
-		936D15E62C88AA5400066274 /* AddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddView.swift; sourceTree = "<group>"; };
 		936D15E82C88AA8200066274 /* FavoriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteView.swift; sourceTree = "<group>"; };
 		936D15EA2C88AAA400066274 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		936D15EE2C89D91600066274 /* GuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideView.swift; sourceTree = "<group>"; };
 		936D15F12C89DC1F00066274 /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.swift; sourceTree = "<group>"; };
 		936D15F42C89F74100066274 /* TabbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarView.swift; sourceTree = "<group>"; };
 		93E4B4FB2C8C4EA10094DEDD /* FontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontExtension.swift; sourceTree = "<group>"; };
+		93F292372C91E07800ECCE35 /* LanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageView.swift; sourceTree = "<group>"; };
+		93F2923D2C91E4B300ECCE35 /* TriangleGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleGrid.swift; sourceTree = "<group>"; };
+		93F292432C947C3A00ECCE35 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
+		93F292492C95D1ED00ECCE35 /* DiscoverView.Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.Model.swift; sourceTree = "<group>"; };
+		93F2924B2C95D6E900ECCE35 /* Design.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Design.swift; sourceTree = "<group>"; };
+		93F2924D2C96671400ECCE35 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		93F2924F2C96751800ECCE35 /* DIYView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIYView.swift; sourceTree = "<group>"; };
+		93F292512C96916300ECCE35 /* DIYPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIYPanel.swift; sourceTree = "<group>"; };
+		93F292532C96945300ECCE35 /* FavoriteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteButton.swift; sourceTree = "<group>"; };
+		93F292552C96AC3800ECCE35 /* ColorGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorGrid.swift; sourceTree = "<group>"; };
+		93F292572C96C4CF00ECCE35 /* OperationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationButton.swift; sourceTree = "<group>"; };
+		93F2925A2C98629100ECCE35 /* TriangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleView.swift; sourceTree = "<group>"; };
+		93F332C42C8F36FD00C01091 /* PresetCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetCard.swift; sourceTree = "<group>"; };
+		93F332C62C8F3DF400C01091 /* PresetGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetGridView.swift; sourceTree = "<group>"; };
+		93F332C82C8F3F2100C01091 /* PresetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetView.swift; sourceTree = "<group>"; };
+		93F332CE2C91C4E000C01091 /* SliderCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderCard.swift; sourceTree = "<group>"; };
+		93F332D02C91C52E00C01091 /* SliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +158,7 @@
 		9301E7EF2C87489700381CA7 /* eink */ = {
 			isa = PBXGroup;
 			children = (
+				93F292452C95CC7B00ECCE35 /* CoreData */,
 				930BDA902C8C4331008672C5 /* Common */,
 				930BDA892C8B3297008672C5 /* AppData */,
 				936D15EC2C89D8CD00066274 /* Tour */,
@@ -134,14 +167,13 @@
 				936D15F32C89F70B00066274 /* Tabbar */,
 				936D15DD2C88A8ED00066274 /* Home */,
 				936D15DE2C88A8F700066274 /* Catagory */,
-				936D15DF2C88A90200066274 /* Add */,
+				936D15DF2C88A90200066274 /* DIY */,
 				936D15E02C88A92600066274 /* Favorite */,
 				936D15E12C88A94500066274 /* Profile */,
 				9301E7F02C87489700381CA7 /* einkApp.swift */,
 				9301E7F22C87489700381CA7 /* ContentView.swift */,
 				9301E7F42C87489800381CA7 /* Assets.xcassets */,
 				9301E7F92C87489800381CA7 /* Persistence.swift */,
-				9301E7FB2C87489800381CA7 /* eink.xcdatamodeld */,
 				9301E7F62C87489800381CA7 /* Preview Content */,
 			);
 			path = eink;
@@ -185,6 +217,8 @@
 			children = (
 				930BDA912C8C436E008672C5 /* ColorExtension.swift */,
 				93E4B4FB2C8C4EA10094DEDD /* FontExtension.swift */,
+				93F292432C947C3A00ECCE35 /* ViewExtension.swift */,
+				93F2924D2C96671400ECCE35 /* StringExtension.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -200,6 +234,7 @@
 		936D15DD2C88A8ED00066274 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				93F332CA2C91C33100C01091 /* Views */,
 				936D15E22C88A9DD00066274 /* HomeView.swift */,
 			);
 			path = Home;
@@ -213,12 +248,13 @@
 			path = Catagory;
 			sourceTree = "<group>";
 		};
-		936D15DF2C88A90200066274 /* Add */ = {
+		936D15DF2C88A90200066274 /* DIY */ = {
 			isa = PBXGroup;
 			children = (
-				936D15E62C88AA5400066274 /* AddView.swift */,
+				93F2924F2C96751800ECCE35 /* DIYView.swift */,
+				93F292592C985F8B00ECCE35 /* Views */,
 			);
-			path = Add;
+			path = DIY;
 			sourceTree = "<group>";
 		};
 		936D15E02C88A92600066274 /* Favorite */ = {
@@ -233,6 +269,7 @@
 			isa = PBXGroup;
 			children = (
 				936D15EA2C88AAA400066274 /* ProfileView.swift */,
+				93F292372C91E07800ECCE35 /* LanguageView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -250,6 +287,7 @@
 			isa = PBXGroup;
 			children = (
 				936D15F12C89DC1F00066274 /* DiscoverView.swift */,
+				93F292492C95D1ED00ECCE35 /* DiscoverView.Model.swift */,
 				930BDA8E2C8B4FB5008672C5 /* DeviceCard.swift */,
 			);
 			path = Discover;
@@ -261,6 +299,64 @@
 				936D15F42C89F74100066274 /* TabbarView.swift */,
 			);
 			path = Tabbar;
+			sourceTree = "<group>";
+		};
+		93F292452C95CC7B00ECCE35 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				93F292462C95CD9F00ECCE35 /* Model */,
+				9301E7FB2C87489800381CA7 /* eink.xcdatamodeld */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		93F292462C95CD9F00ECCE35 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				93F2924B2C95D6E900ECCE35 /* Design.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		93F292592C985F8B00ECCE35 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				93F2923D2C91E4B300ECCE35 /* TriangleGrid.swift */,
+				93F292552C96AC3800ECCE35 /* ColorGrid.swift */,
+				93F292512C96916300ECCE35 /* DIYPanel.swift */,
+				93F292532C96945300ECCE35 /* FavoriteButton.swift */,
+				93F292572C96C4CF00ECCE35 /* OperationButton.swift */,
+				93F2925A2C98629100ECCE35 /* TriangleView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		93F332CA2C91C33100C01091 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				93F332CC2C91C36500C01091 /* Slider */,
+				93F332CB2C91C35400C01091 /* Preset */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		93F332CB2C91C35400C01091 /* Preset */ = {
+			isa = PBXGroup;
+			children = (
+				93F332C62C8F3DF400C01091 /* PresetGridView.swift */,
+				93F332C42C8F36FD00C01091 /* PresetCard.swift */,
+				93F332C82C8F3F2100C01091 /* PresetView.swift */,
+			);
+			path = Preset;
+			sourceTree = "<group>";
+		};
+		93F332CC2C91C36500C01091 /* Slider */ = {
+			isa = PBXGroup;
+			children = (
+				93F332CE2C91C4E000C01091 /* SliderCard.swift */,
+				93F332D02C91C52E00C01091 /* SliderView.swift */,
+			);
+			path = Slider;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -394,23 +490,39 @@
 			buildActionMask = 2147483647;
 			files = (
 				9301E7FD2C87489800381CA7 /* eink.xcdatamodeld in Sources */,
+				93F2924E2C96671400ECCE35 /* StringExtension.swift in Sources */,
 				9301E7FA2C87489800381CA7 /* Persistence.swift in Sources */,
 				936D15EB2C88AAA500066274 /* ProfileView.swift in Sources */,
 				930BDA8D2C8B3AE5008672C5 /* OnboardingView.swift in Sources */,
+				93F292382C91E07800ECCE35 /* LanguageView.swift in Sources */,
+				93F2925B2C98629100ECCE35 /* TriangleView.swift in Sources */,
 				9301E7F32C87489700381CA7 /* ContentView.swift in Sources */,
+				93F332C52C8F36FD00C01091 /* PresetCard.swift in Sources */,
+				93F292582C96C4CF00ECCE35 /* OperationButton.swift in Sources */,
+				93F2924A2C95D1ED00ECCE35 /* DiscoverView.Model.swift in Sources */,
+				93F292542C96945300ECCE35 /* FavoriteButton.swift in Sources */,
 				930BDA8F2C8B4FB5008672C5 /* DeviceCard.swift in Sources */,
+				93F292562C96AC3800ECCE35 /* ColorGrid.swift in Sources */,
+				93F2924C2C95D6E900ECCE35 /* Design.swift in Sources */,
+				93F332C72C8F3DF400C01091 /* PresetGridView.swift in Sources */,
+				93F332D12C91C52E00C01091 /* SliderView.swift in Sources */,
+				93F292442C947C3A00ECCE35 /* ViewExtension.swift in Sources */,
 				93E4B4FC2C8C4EA10094DEDD /* FontExtension.swift in Sources */,
 				930BDA922C8C436E008672C5 /* ColorExtension.swift in Sources */,
 				936D15E32C88A9DD00066274 /* HomeView.swift in Sources */,
 				930BDA8B2C8B32F1008672C5 /* Device.swift in Sources */,
-				936D15E72C88AA5400066274 /* AddView.swift in Sources */,
+				93F332C92C8F3F2100C01091 /* PresetView.swift in Sources */,
 				936D15DC2C88A68C00066274 /* AppRouter.swift in Sources */,
+				93F2923E2C91E4B300ECCE35 /* TriangleGrid.swift in Sources */,
 				9301E7F12C87489700381CA7 /* einkApp.swift in Sources */,
+				93F292502C96751800ECCE35 /* DIYView.swift in Sources */,
 				936D15EF2C89D91600066274 /* GuideView.swift in Sources */,
 				936D15E92C88AA8200066274 /* FavoriteView.swift in Sources */,
 				936D15E52C88AA2500066274 /* CatagoryView.swift in Sources */,
 				936D15F22C89DC1F00066274 /* DiscoverView.swift in Sources */,
+				93F332CF2C91C4E000C01091 /* SliderCard.swift in Sources */,
 				936D15F52C89F74100066274 /* TabbarView.swift in Sources */,
+				93F292522C96916300ECCE35 /* DIYPanel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -582,12 +694,13 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.aoc.eink;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aoc.einkapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -611,12 +724,13 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.aoc.eink;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aoc.einkapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

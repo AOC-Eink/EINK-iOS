@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23D56" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="InkDesign" representedClassName="InkDesign" syncable="YES" codeGenerationType="class">
+        <attribute name="design" optional="YES" attributeType="String"/>
+        <attribute name="deviceMac" optional="YES" attributeType="String"/>
+        <attribute name="deviceType" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="hGrids" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="vGrids" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="device" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="InkDevice" inverseName="designs" inverseEntity="InkDevice"/>
+    </entity>
+    <entity name="InkDevice" representedClassName="InkDevice" syncable="YES" codeGenerationType="class">
+        <attribute name="deviceType" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="hGrids" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="mac" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="vGrids" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="designs" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="InkDesign" inverseName="device" inverseEntity="InkDesign"/>
+    </entity>
+</model>

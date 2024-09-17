@@ -32,7 +32,7 @@ enum Router: Hashable {
 }
 
 enum HomeRoute: Hashable {
-    case detail(Int)
+    case deviceHome(Int)
 }
 
 enum CatagoryRoute: Hashable {

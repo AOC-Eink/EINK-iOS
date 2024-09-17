@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct einkApp: App {
-    let persistenceController = PersistenceController.shared
+    let persistenceController = CoreDataStack.shared
     @State var appConfiguration = AppConfiguration()
     
 
