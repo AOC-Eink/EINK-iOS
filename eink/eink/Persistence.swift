@@ -15,7 +15,7 @@ struct CoreDataStack {
         let viewContext = result.container.viewContext
         for _ in 0..<10 {
             let newItem = InkDevice(context: viewContext)
-            newItem.timestamp = Date()
+            newItem.createTimestamp = Date()
         }
         do {
             try viewContext.save()
@@ -52,5 +52,39 @@ struct CoreDataStack {
             }
         })
         container.viewContext.automaticallyMergesChangesFromParent = true
+    }
+}
+
+
+extension CoreDataStack {
+    
+    func insetOrUpdateDesign(name:String = "", item: Design? = nil) {
+        container.performBackgroundTask { context in
+            let request = NSFetchRequest<InkDesign>(entityName: "InkDesign")
+            request.fetchLimit = 1
+            request.predicate = NSPredicate(format: "name = %@", name)
+            request.sortDescriptors = [NSSortDescriptor(key: "createTimestamp", ascending: true)]
+            let result = try? context.fetch(request).first
+            if let hasDesign = result {
+                guard let newDesign = item else {
+                    return
+                }
+                hasDesign.name = newDesign.name
+                hasDesign.colors = newDesign.colors
+                try? context.save()
+            } else {
+                guard let newDesign = item else {
+                    return
+                }
+                
+                let desgin = InkDesign(context: context)
+                desgin.name = newDesign.name
+                desgin.deviceId = newDesign.deviceId
+                desgin.colors = newDesign.colors
+                desgin.hGrids = Int64(newDesign.hGrids)
+                desgin.vGrids = Int64(newDesign.vGrids)
+                try? context.save()
+            }
+        }
     }
 }

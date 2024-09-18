@@ -58,7 +58,7 @@ struct CustomTriangle: Shape {
     func fillAndBorder<Fill: ShapeStyle>(_ fillStyle: Fill) -> some View{
         ZStack {
             self.fill(fillStyle)
-                .scaleEffect(showBorder ? 0.8 : 1)
+                //.scaleEffect(showBorder ? 0.8 : 1)
                 .animation(.easeInOut, value: showBorder)
                 
             

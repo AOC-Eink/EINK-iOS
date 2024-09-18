@@ -8,17 +8,28 @@
 import SwiftUI
 
 struct PresetView: View {
-    let image:String
+    let colors:String
+    let hGrids:Int
+    let vGrides:Int
+    
+    var hexColors:[String] {
+        colors.components(separatedBy: ",")
+    }
     
     var body: some View {
-        //VStack {
-        Image(image)
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-        //}
+        VStack {
+            TriangleGridView(colors: hexColors, columns: hGrids, rows: vGrides, triangleSize: 25, onTouch: {index in
+            })
+            .clipCornerRadius(10)
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(.deviceItemShadow, lineWidth: 1)
+            )
+            .shadow(color: .deviceItemShadow, radius: 5, x: 2, y: 2)
+        }
     }
 }
 
 #Preview {
-    PresetView(image: "preset.clock.club.b")
+    PresetView(colors: "", hGrids: 4, vGrides: 4)
 }

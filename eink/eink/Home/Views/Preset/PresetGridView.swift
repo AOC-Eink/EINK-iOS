@@ -6,10 +6,19 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct PresetGridView: View {
     
+    @FetchRequest var presetDesigns: FetchedResults<InkDesign>
+
     let device:Device
+    
+    init(device:Device) {
+        self.device = device
+        let request: NSFetchRequest<InkDesign> = InkDesign.designRequest(forDeviceId: device.indentify)
+        _presetDesigns = FetchRequest(fetchRequest: request)
+    }
     
     var body: some View {
         VStack(alignment:.leading){
@@ -20,9 +29,12 @@ struct PresetGridView: View {
             
             
                 LazyVGrid(columns: device.gridLayout, spacing: 10) {
-                    ForEach(device.deviceType.presetImages, id: \.self) { item in
-                        PresetCard(title: "Letter",
-                                   presetView: PresetView(image: item))
+                    ForEach(presetDesigns, id: \.self) { item in
+                        PresetCard(title: item.name ?? "",
+                                   presetView: PresetView(colors: item.colors ?? "",
+                                                          hGrids: Int(item.hGrids),
+                                                          vGrides: Int(item.vGrids)
+                                                         ))
                         .onTapGesture {
                             
                         }

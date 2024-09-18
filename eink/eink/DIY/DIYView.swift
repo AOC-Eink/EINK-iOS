@@ -15,22 +15,49 @@ struct DIYView: View {
     
     @State private var selectIndex:Int?
     
+    @Binding var isPresented:Bool
+    
+    @State var currentColor:String?
+    
+    var hGirds:Int {
+        device.deviceType.shape[0]
+    }
+    var vGirds:Int {
+        device.deviceType.shape[1]
+    }
+    
+    var hexString:String {
+        colors.joined(separator: ",")
+    }
+    
+    var randonName:String {
+        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" // 包含大小写字母
+            return String((0..<8).map { _ in letters.randomElement()! })
+    }
+    
+    
+    
     var body: some View {
-        VStack(spacing:30){
-            
-            
-            TriangleGridView(colors: colors, columns: 4, rows: 16, triangleSize: 50, onTouch: {index in
+        VStack{
+            Spacer()
+            TriangleGridView(colors: colors, columns: hGirds, rows: vGirds, triangleSize: 50, onTouch: {index in
                 selectIndex = index
+                if let color = currentColor {
+                    print("color : \(color)")
+                    colors[index] = color
+                    
+                }
+                
             })
-                .clipCornerRadius(20)
+            .clipShape(Circle())
 
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(.deviceItemShadow, lineWidth: 1)
-                )
-                .shadow(color: .deviceItemShadow, radius: 5, x: 2, y: 2)
+//            .overlay(
+//                RoundedRectangle(cornerRadius: 20)
+//                    .stroke(.deviceItemShadow, lineWidth: 1)
+//            )
+            .shadow(color: .deviceItemShadow, radius: 5, x: 2, y: 2)
 
-            
+            Spacer()
             DIYPanel(colors:  [
                 ("green", "497A64"),
                 ("yellow", "DFBE24"),
@@ -40,10 +67,29 @@ struct DIYView: View {
             ], onTouch: { color in
                 print("color : \(color)")
                 if (selectIndex != nil) {
+                    currentColor = color
                     colors[selectIndex ?? 0] = color
                     
+                    }
                 }
-            })
+                ,onSave: {
+                
+                    CoreDataStack.shared.insetOrUpdateDesign(
+                        name: randonName,
+                        item: Design(deviceId: device.indentify,
+                                     vGrids: vGirds,
+                                     hGrids: hGirds,
+                                     name: randonName,
+                                     colors: hexString,
+                                     favorite: false)
+                    )
+                    
+                    isPresented = false
+                }
+                ,onEmploy: {
+                    
+                }
+            )
             
         }
         .background(.white)
@@ -51,5 +97,5 @@ struct DIYView: View {
 }
 
 #Preview {
-    DIYView(device: DeviceManager().devices.first!)
+    DIYView(device: DeviceManager().devices.last!, isPresented: .constant(false))
 }

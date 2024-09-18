@@ -20,6 +20,9 @@
 		930BDA8D2C8B3AE5008672C5 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930BDA8C2C8B3AE5008672C5 /* OnboardingView.swift */; };
 		930BDA8F2C8B4FB5008672C5 /* DeviceCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930BDA8E2C8B4FB5008672C5 /* DeviceCard.swift */; };
 		930BDA922C8C436E008672C5 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930BDA912C8C436E008672C5 /* ColorExtension.swift */; };
+		933EFF912C99CC9000856EE1 /* FetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933EFF902C99CC9000856EE1 /* FetchRequest.swift */; };
+		933EFF942C9B06F500856EE1 /* SwiftfulLoadingIndicators in Frameworks */ = {isa = PBXBuildFile; productRef = 933EFF932C9B06F500856EE1 /* SwiftfulLoadingIndicators */; };
+		933EFF962C9B130900856EE1 /* GestureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933EFF952C9B130900856EE1 /* GestureView.swift */; };
 		936D15DC2C88A68C00066274 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15DB2C88A68C00066274 /* AppRouter.swift */; };
 		936D15E32C88A9DD00066274 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15E22C88A9DD00066274 /* HomeView.swift */; };
 		936D15E52C88AA2500066274 /* CatagoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15E42C88AA2500066274 /* CatagoryView.swift */; };
@@ -82,6 +85,8 @@
 		930BDA8C2C8B3AE5008672C5 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		930BDA8E2C8B4FB5008672C5 /* DeviceCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceCard.swift; sourceTree = "<group>"; };
 		930BDA912C8C436E008672C5 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
+		933EFF902C99CC9000856EE1 /* FetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchRequest.swift; sourceTree = "<group>"; };
+		933EFF952C9B130900856EE1 /* GestureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureView.swift; sourceTree = "<group>"; };
 		936D15DB2C88A68C00066274 /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		936D15E22C88A9DD00066274 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		936D15E42C88AA2500066274 /* CatagoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatagoryView.swift; sourceTree = "<group>"; };
@@ -115,6 +120,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				933EFF942C9B06F500856EE1 /* SwiftfulLoadingIndicators in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,6 +310,7 @@
 		93F292452C95CC7B00ECCE35 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				933EFF902C99CC9000856EE1 /* FetchRequest.swift */,
 				93F292462C95CD9F00ECCE35 /* Model */,
 				9301E7FB2C87489800381CA7 /* eink.xcdatamodeld */,
 			);
@@ -327,6 +334,7 @@
 				93F292532C96945300ECCE35 /* FavoriteButton.swift */,
 				93F292572C96C4CF00ECCE35 /* OperationButton.swift */,
 				93F2925A2C98629100ECCE35 /* TriangleView.swift */,
+				933EFF952C9B130900856EE1 /* GestureView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -375,6 +383,9 @@
 			dependencies = (
 			);
 			name = eink;
+			packageProductDependencies = (
+				933EFF932C9B06F500856EE1 /* SwiftfulLoadingIndicators */,
+			);
 			productName = eink;
 			productReference = 9301E7ED2C87489700381CA7 /* eink.app */;
 			productType = "com.apple.product-type.application";
@@ -447,6 +458,9 @@
 				Base,
 			);
 			mainGroup = 9301E7E42C87489700381CA7;
+			packageReferences = (
+				933EFF922C9B06F500856EE1 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */,
+			);
 			productRefGroup = 9301E7EE2C87489700381CA7 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -491,6 +505,7 @@
 			files = (
 				9301E7FD2C87489800381CA7 /* eink.xcdatamodeld in Sources */,
 				93F2924E2C96671400ECCE35 /* StringExtension.swift in Sources */,
+				933EFF962C9B130900856EE1 /* GestureView.swift in Sources */,
 				9301E7FA2C87489800381CA7 /* Persistence.swift in Sources */,
 				936D15EB2C88AAA500066274 /* ProfileView.swift in Sources */,
 				930BDA8D2C8B3AE5008672C5 /* OnboardingView.swift in Sources */,
@@ -514,6 +529,7 @@
 				93F332C92C8F3F2100C01091 /* PresetView.swift in Sources */,
 				936D15DC2C88A68C00066274 /* AppRouter.swift in Sources */,
 				93F2923E2C91E4B300ECCE35 /* TriangleGrid.swift in Sources */,
+				933EFF912C99CC9000856EE1 /* FetchRequest.swift in Sources */,
 				9301E7F12C87489700381CA7 /* einkApp.swift in Sources */,
 				93F292502C96751800ECCE35 /* DIYView.swift in Sources */,
 				936D15EF2C89D91600066274 /* GuideView.swift in Sources */,
@@ -854,6 +870,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		933EFF922C9B06F500856EE1 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulLoadingIndicators.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		933EFF932C9B06F500856EE1 /* SwiftfulLoadingIndicators */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 933EFF922C9B06F500856EE1 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */;
+			productName = SwiftfulLoadingIndicators;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		9301E7FB2C87489800381CA7 /* eink.xcdatamodeld */ = {

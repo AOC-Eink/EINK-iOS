@@ -18,44 +18,58 @@ struct TabbarView: View {
         deviceManager.devices[deviceIndex]
     }
     
+    var testColors:[String] {
+        device.deviceType.presetDesigns["Cube"]!.components(separatedBy: ",")
+    }
+    
+    
     @State private var selectedTab: Router = .home(nil)
     
     var body: some View {
-        TabView(selection: $selectedTab){
+        ZStack(alignment: .bottom) {
+            TabView(selection: $selectedTab){
+                
+                HomeView(device:device)
+                    .tabItem {
+                        Label("home", systemImage: "house")}
+                    .tag(Router.home(nil))
+                
+                CatagoryView()
+                    .tabItem {
+                        Label("catagory", systemImage: "list.bullet")}
+                    .tag(Router.catagory(nil))
+                
+                Color.clear
+                    .tabItem {
+                        
+                    }
+                    .tag(Router.addDevice(nil))
+                
+                
+                FavoriteView()
+                    .tabItem {
+                        Label("favorites", systemImage: "heart")}
+                    .tag(Router.favorites(nil))
+                
+                ProfileView()
+                    .tabItem {
+                        Label("profile", systemImage: "person")}
+                    .tag(Router.profile(nil))
+                
+            }
             
-            HomeView(device:device)
-                .tabItem {
-                Label("home", systemImage: "house")}
-                .tag(Router.home(nil))
-
-            CatagoryView()
-                .tabItem {
-                Label("catagory", systemImage: "list.bullet")}
-                .tag(Router.catagory(nil))
-
-            DIYView(device: device) // 占位用的透明视图
-                .tabItem {
-                    Image(systemName: "plus.circle.fill")
-                        .resizable()
-                        .frame(width: 44, height: 44)
-                        .foregroundColor(.blue)
-                }
-                .tag(Router.addDevice(nil))
-
-
-            FavoriteView()
-                .tabItem {
-                Label("favorites", systemImage: "heart")}
-                .tag(Router.favorites(nil))
-
-            ProfileView()
-                .tabItem {
-                Label("profile", systemImage: "person")}
-                .tag(Router.profile(nil))
-
+            Button(action: {
+                onAddTouch = true
+            }) {
+                Image(systemName: "plus.circle.fill")
+                    .resizable()
+                    .frame(width: 60, height: 60)
+                    .foregroundColor(.blue)
+            }
+            .offset(y: -30)
         }
         .fullScreenCover(isPresented: $onAddTouch , content: {
-            DIYView(device: device)
+            DIYView(device: device, isPresented: $onAddTouch)
         })
         
     }

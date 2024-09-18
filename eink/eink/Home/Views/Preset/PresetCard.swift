@@ -33,5 +33,5 @@ struct PresetCard: View {
 }
 
 #Preview {
-    PresetCard(title: "Clock", presetView: PresetView(image: "preset.clock.club.b"))
+    PresetCard(title: "Clock", presetView: nil)
 }

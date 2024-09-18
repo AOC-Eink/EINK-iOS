@@ -62,19 +62,56 @@ enum DeviceType {
         }
     }
     
-    var presetDesigns:Array<String> {
+    var presetDesigns:Dictionary<String,String> {
         switch self {
         case .clock:
             return [
-                "device.clock.slide.guide",
-                "device.case.slide.guide",
+                "Clock": """
+                    DFBE24,3F384A,497A64,A45942,2B78B9,DFBE24,A45942,
+                    2B78B9,497A64,A45942,3F384A,DFBE24,A45942,3F384A,
+                    A45942,3F384A,2B78B9,497A64,A45942,DFBE24,497A64,
+                    497A64,DFBE24,3F384A,A45942,2B78B9,DFBE24,A45942,
+                    DFBE24,2B78B9,497A64,DFBE24,A45942,3F384A,2B78B9,
+                    A45942,DFBE24,3F384A,2B78B9,497A64,2B78B9,DFBE24,
+                    497A64,A45942,3F384A,DFBE24,A45942,2B78B9,497A64
+                    """,
+                "Digtal": """
+                    3F384A,497A64,A45942,DFBE24,2B78B9,A45942,3F384A,
+                    DFBE24,A45942,3F384A,497A64,DFBE24,2B78B9,A45942,
+                    2B78B9,497A64,DFBE24,3F384A,A45942,2B78B9,497A64,
+                    A45942,2B78B9,DFBE24,497A64,3F384A,DFBE24,A45942,
+                    DFBE24,3F384A,497A64,A45942,2B78B9,DFBE24,3F384A,
+                    497A64,A45942,DFBE24,2B78B9,3F384A,A45942,2B78B9,
+                    A45942,DFBE24,2B78B9,497A64,3F384A,A45942,497A64
+                    """
             ]
             
         case .phoneCase:
             return [
-                "device.case.slide.guide",
-                "device.clock.slide.guide",
+                "Letter E": """
+                    DFBE24,DFBE24,DFBE24,DFBE24,3F384A,3F384A,3F384A,3F384A,DFBE24,DFBE24,DFBE24,DFBE24,3F384A,3F384A,3F384A,3F384A,
+                    DFBE24,DFBE24,DFBE24,DFBE24,3F384A,3F384A,3F384A,3F384A,DFBE24,DFBE24,DFBE24,DFBE24,3F384A,3F384A,3F384A,3F384A,
+                    DFBE24,DFBE24,DFBE24,DFBE24,3F384A,3F384A,3F384A,3F384A,DFBE24,DFBE24,DFBE24,DFBE24,3F384A,3F384A,3F384A,3F384A,
+                    DFBE24,DFBE24,DFBE24,DFBE24,3F384A,3F384A,3F384A,3F384A,DFBE24,DFBE24,DFBE24,DFBE24,3F384A,3F384A,3F384A,3F384A
+                    """,
+                "Cube": """
+                    3F384A,3F384A,3F384A,3F384A,3F384A,3F384A,497A64,497A64,3F384A,3F384A,497A64,497A64,3F384A,3F384A,3F384A,3F384A,
+                    3F384A,3F384A,3F384A,497A64,497A64,497A64,497A64,497A64,497A64,497A64,497A64,497A64,497A64,497A64,3F384A,3F384A,
+                    3F384A,3F384A,497A64,497A64,497A64,497A64,A45942,A45942,497A64,497A64,497A64,497A64,497A64,497A64,3F384A,3F384A,
+                    3F384A,3F384A,3F384A,3F384A,3F384A,3F384A,497A64,497A64,3F384A,3F384A,3F384A,3F384A,3F384A,3F384A,3F384A,3F384A
+                    """
             ]
+        }
+        
+    }
+    
+    var shape:Array<Int> {
+        switch self {
+        case .clock:
+            return [6,9]
+            
+        case .phoneCase:
+            return [4,16]
         }
     }
     
@@ -82,7 +119,7 @@ enum DeviceType {
 
 struct Device: Equatable, Hashable {
     
-    let indendify:String
+    let indentify:String
     let deviceName:String
     
     
@@ -135,12 +172,12 @@ struct Device: Equatable, Hashable {
     func createModalDevices() -> [Device] {
 
         return [
-            Device(indendify: UUID().uuidString, 
+            Device(indentify: "AA:BB:CC:DD",
                    deviceName: "E-INK Phone Case",
                    status: "Unconected",
                    deviceImage: "eink.case.device"),
             
-            Device(indendify: UUID().uuidString,
+            Device(indentify: "EE:FF:GG:HH",
                    deviceName: "E-INK Clock",
                    status: "Unconected",
                    deviceImage: "eink.clock.device")

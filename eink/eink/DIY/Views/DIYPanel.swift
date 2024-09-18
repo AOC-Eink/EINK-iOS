@@ -11,6 +11,8 @@ struct DIYPanel: View {
     
     let colors: [(name: String, hex: String)]
     let onTouch:((String)->Void)
+    let onSave:()->Void
+    let onEmploy:()->Void
     
     @State private var selectColor:String?
     
@@ -53,11 +55,11 @@ struct DIYPanel: View {
             HStack(spacing:50) {
                 
                 CustomButton(title: "Save") {
-                    
+                    onSave()
                 }
                 
                 CustomButton(title: "Employ") {
-                    
+                    onEmploy()
                 }
             }
             .padding(.bottom, 10)
@@ -71,9 +73,15 @@ struct DIYPanel: View {
         .cornerRadius(50, corners: [.topLeft, .topRight])
         .shadow(color: .deviceItemShadow, radius: 5, x: 1, y: -5)
         .aspectRatio(3/2, contentMode: .fit)
-        
+        .toolbar {
+            ToolbarItem(placement: .bottomBar) {
+                // 隐藏 TabBar 的占位符
+                Color.clear.frame(height: 0)
+            }
+        }
         
     }
+    
 }
 
 #Preview {
@@ -83,5 +91,5 @@ struct DIYPanel: View {
             ("blue", "2B78B9"),
             ("black", "3F384A"),
             ("red", "A45942")
-        ], onTouch: {_ in})
+    ], onTouch: {_ in}, onSave: {}, onEmploy: {})
 }

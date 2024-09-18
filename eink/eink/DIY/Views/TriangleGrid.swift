@@ -139,7 +139,7 @@ struct TriangleGridView: View {
                             .onTapGesture {
                                 
                                 selectedTriangle = column*rows + row
-                                print("selectedTriangle : \(selectedTriangle ?? 0)")
+                                //print("selectedTriangle : \(selectedTriangle ?? 0)")
                                 onTouch(column*rows + row)
                                 
                             }
@@ -153,14 +153,33 @@ struct TriangleGridView: View {
             .padding(.leading, -1.0)
             .background(.gray)
             .frame(width: CGFloat(columns) * triangleSize)
+            .gesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged { value in
+                        let position = value.location
+                        // 计算手指划过的方形行列
+                        let row = Int(position.y / triangleSize)
+                        let column = Int(position.x / triangleHeight)
+                        
+                        selectedTriangle = column*rows + row
+                        print("selectedTriangle : \(selectedTriangle ?? 0)")
+
+                        // 确保行列在矩阵范围内
+                        if row >= 0 && row < rows && column >= 0 && column < columns {
+                            //selectedSquares.insert((row, column))
+                            print("selectedTriangle onTouch: \(selectedTriangle ?? 0)")
+                            onTouch(column*rows + row)// 标记被划过的方形
+                        }
+                    }
+            )
         }
-        .frame(height: totalHeight - triangleHeight)
+        .frame(height: totalHeight - triangleHeight*0.725)
         .clipped()
         
     }
     
     func isLeft(row: Int, column: Int) -> Bool {
-        return (row + column) % 2 != 0
+        return (row + column) % 2 == 0
     }
 }
 
