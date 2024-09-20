@@ -100,7 +100,33 @@ struct TriangleGridView: View {
     let triangleSize: CGFloat
     let  onTouch:((Int)->Void)
     @State private var selectedTriangle: Int?
+    @GestureState private var dragLocation: CGPoint = .zero
+    @GestureState private var isDragging: Bool = false
+    @State private var lastValidTriangleIndex: Int?
     
+    var dragGesture: some Gesture {
+        DragGesture(minimumDistance: 0, coordinateSpace: .local)
+//            .updating($dragLocation) { value, state, _ in
+//                state = value.location
+//            }
+            .updating($isDragging) { _, state, _ in
+               state = true
+            }
+            .onChanged { value in
+                if let triangleIndex = triangleAt(location: value.location) {
+                    if triangleIndex != lastValidTriangleIndex {
+                        lastValidTriangleIndex = triangleIndex
+                        onTouch(triangleIndex)
+                    }
+                }
+            }
+            .onEnded { _ in
+                if let lastValid = lastValidTriangleIndex {
+                    onTouch(lastValid)
+                }
+                lastValidTriangleIndex = nil
+            }
+    }
     
     
     var offsetY:CGFloat {
@@ -139,7 +165,7 @@ struct TriangleGridView: View {
                             .onTapGesture {
                                 
                                 selectedTriangle = column*rows + row
-                                //print("selectedTriangle : \(selectedTriangle ?? 0)")
+                                print("onTapGesture : \(selectedTriangle ?? 0)")
                                 onTouch(column*rows + row)
                                 
                             }
@@ -152,34 +178,45 @@ struct TriangleGridView: View {
             }
             .padding(.leading, -1.0)
             .background(.gray)
-            .frame(width: CGFloat(columns) * triangleSize)
-            .gesture(
-                DragGesture(minimumDistance: 0)
-                    .onChanged { value in
-                        let position = value.location
-                        // 计算手指划过的方形行列
-                        let row = Int(position.y / triangleSize)
-                        let column = Int(position.x / triangleHeight)
-                        
-                        selectedTriangle = column*rows + row
-                        print("selectedTriangle : \(selectedTriangle ?? 0)")
-
-                        // 确保行列在矩阵范围内
-                        if row >= 0 && row < rows && column >= 0 && column < columns {
-                            //selectedSquares.insert((row, column))
-                            print("selectedTriangle onTouch: \(selectedTriangle ?? 0)")
-                            onTouch(column*rows + row)// 标记被划过的方形
-                        }
-                    }
-            )
+            //.frame(width: CGFloat(columns) * triangleSize)
+            
         }
-        .frame(height: totalHeight - triangleHeight*0.725)
+        .frame(height: totalHeight - triangleHeight)//*0.725
         .clipped()
+        .simultaneousGesture(dragGesture)
+        .onChange(of: dragLocation) {oldValue, newValue in
+            if oldValue == newValue {
+                return
+            }
+            if let triangleIndex = triangleAt(location: newValue) {
+                if triangleIndex != selectedTriangle {
+                    selectedTriangle = triangleIndex
+                    print("triangleAt: \(triangleIndex)")
+                    onTouch(triangleIndex)
+                }
+            }
+        }
         
     }
     
     func isLeft(row: Int, column: Int) -> Bool {
         return (row + column) % 2 == 0
+    }
+    
+//    func triangleAt(location: CGPoint) -> Int? {
+//        let column = Int(location.x / triangleSize)
+//        let row = Int(location.y / (triangleHeight - offsetY))
+//        
+//        if column >= 0 && column < columns && row >= 0 && row < rows {
+//            return column * rows + row
+//        }
+//        return nil
+//    }
+    
+    func triangleAt(location: CGPoint) -> Int? {
+        let column = max(0, min(columns - 1, Int(location.x / triangleSize)))
+        let row = max(0, min(rows - 1, Int(location.y / (triangleHeight - offsetY))))
+        return column * rows + row
     }
 }
 

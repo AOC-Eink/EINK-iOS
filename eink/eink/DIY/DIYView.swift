@@ -11,7 +11,7 @@ struct DIYView: View {
     
     let device:Device
     
-    @State var colors:[String] = Array(repeating: "FFFFFF", count: 63)
+    @State var colors:[String] = Array(repeating: "FFFFFF", count: 64)
     
     @State private var selectIndex:Int?
     
@@ -42,14 +42,15 @@ struct DIYView: View {
             Spacer()
             TriangleGridView(colors: colors, columns: hGirds, rows: vGirds, triangleSize: 50, onTouch: {index in
                 selectIndex = index
+                print("selectIndex : \(index)")
                 if let color = currentColor {
-                    print("color : \(color)")
+                    print("TriangleGridView color : \(color)")
                     colors[index] = color
                     
                 }
                 
             })
-            .clipShape(Circle())
+            .clipCornerRadius(20)
 
 //            .overlay(
 //                RoundedRectangle(cornerRadius: 20)
@@ -66,10 +67,11 @@ struct DIYView: View {
                 ("red", "A45942")
             ], onTouch: { color in
                 print("color : \(color)")
-                if (selectIndex != nil) {
-                    currentColor = color
-                    colors[selectIndex ?? 0] = color
-                    
+                currentColor = color
+                    if let index = selectIndex {
+                        
+                        colors[index] = color
+                        
                     }
                 }
                 ,onSave: {
@@ -97,5 +99,5 @@ struct DIYView: View {
 }
 
 #Preview {
-    DIYView(device: DeviceManager().devices.last!, isPresented: .constant(false))
+    DIYView(device: DeviceManager().devices.first!, isPresented: .constant(false))
 }
