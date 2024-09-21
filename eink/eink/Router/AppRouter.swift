@@ -23,7 +23,7 @@ enum Router: Hashable {
     
     case home(HomeRoute?)
     case catagory(CatagoryRoute?)
-    case addDevice(AddRouter?)
+    case addDIY(AddRouter?)
     case favorites(FavoritesRoute?)
     case profile(ProfileRoute?)
     

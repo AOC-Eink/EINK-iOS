@@ -10,14 +10,19 @@ import SwiftUI
 struct DIYView: View {
     
     let device:Device
+    let model:Model = Model()
     
-    @State var colors:[String] = Array(repeating: "FFFFFF", count: 64)
+    @EnvironmentObject var alertManager: AlertManager
+    @Environment(\.appRouter) var appRouter
+    
+    @State var colors:[String] = Array(repeating: "DBDBDB", count: 64)
     
     @State private var selectIndex:Int?
     
     @Binding var isPresented:Bool
     
     @State var currentColor:String?
+    
     
     var hGirds:Int {
         device.deviceType.shape[0]
@@ -39,19 +44,54 @@ struct DIYView: View {
     
     var body: some View {
         VStack{
+            HStack {
+                Button(action: {
+                    isPresented = false
+                }) {
+                    Image(systemName: "chevron.down")
+                        .foregroundColor(.plusbutton)
+                }
+                Spacer()
+                Button(action: {
+                    alertManager.showAlert(
+                        message: "Are you sure to clear current design?",
+                        confirmAction: {
+                            colors = Array(repeating: "DBDBDB", count: 64)
+                        }
+                    )
+                }) {
+                    Image(systemName: "arrow.clockwise")
+                        .foregroundColor(.plusbutton)
+                }
+            }
+            .padding(.horizontal)
             Spacer()
-            TriangleGridView(colors: colors, columns: hGirds, rows: vGirds, triangleSize: 50, onTouch: {index in
+            TriangleGridView(colors: colors, columns: hGirds, rows: vGirds, triangleSize: 50, onTouch: {index, isRepeat, preColor in
+                
+                guard let touchIndex = index else { return }
+                guard currentColor != nil else {
+                    alertManager.showAlert(
+                        message: "Please select a paint color."
+                    )
+                    return
+                }
+                
                 selectIndex = index
-                print("selectIndex : \(index)")
-                if let color = currentColor {
-                    print("TriangleGridView color : \(color)")
-                    colors[index] = color
+                print("selectIndex : \(touchIndex)")
+                
+                if let color = currentColor{
+                    if isRepeat && preColor == currentColor {
+                        colors[touchIndex] = "DBDBDB"
+                        print("repeat reset color : DBDBDB")
+                    } else {
+                        print("TriangleGridView color : \(color)")
+                        colors[touchIndex] = color
+                    }
                     
                 }
                 
             })
             .clipCornerRadius(20)
-
 //            .overlay(
 //                RoundedRectangle(cornerRadius: 20)
 //                    .stroke(.deviceItemShadow, lineWidth: 1)
@@ -59,6 +99,7 @@ struct DIYView: View {
             .shadow(color: .deviceItemShadow, radius: 5, x: 2, y: 2)
 
             Spacer()
+            
             DIYPanel(colors:  [
                 ("green", "497A64"),
                 ("yellow", "DFBE24"),
@@ -66,15 +107,17 @@ struct DIYView: View {
                 ("black", "3F384A"),
                 ("red", "A45942")
             ], onTouch: { color in
-                print("color : \(color)")
-                currentColor = color
-                    if let index = selectIndex {
-                        
-                        colors[index] = color
-                        
+                    currentColor = color
+                    guard let touchColor = color else {
+                        selectIndex = nil
+                        return
                     }
-                }
-                ,onSave: {
+                    print("color : \(touchColor)")
+                    if let index = selectIndex {
+                    colors[index] = touchColor
+                    }
+                },
+                onSave: {
                 
                     CoreDataStack.shared.insetOrUpdateDesign(
                         name: randonName,
@@ -87,8 +130,8 @@ struct DIYView: View {
                     )
                     
                     isPresented = false
-                }
-                ,onEmploy: {
+                },
+                onEmploy: {
                     
                 }
             )

@@ -18,7 +18,7 @@ struct PresetView: View {
     
     var body: some View {
         VStack {
-            TriangleGridView(colors: hexColors, columns: hGrids, rows: vGrides, triangleSize: 25, onTouch: {index in
+            TriangleGridView(colors: hexColors, columns: hGrids, rows: vGrides, triangleSize: 25, onTouch: {index, isRepeat, color in
             })
             .clipCornerRadius(10)
             .overlay(

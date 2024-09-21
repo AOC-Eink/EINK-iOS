@@ -10,18 +10,27 @@ import CoreData
 
 struct ContentView: View {
     
+    @EnvironmentObject var alertManager: AlertManager
+    @Environment(\.presentFullScreen) var presentFullScreen
+    @Environment(\.dismissFullScreen) var dismissFullScreen
+    
     @EnvironmentObject var appConfig:AppConfiguration
     @State var deviceManager = DeviceManager()
     
     @Environment(\.appRouter) var appRouter
     @State var selectIndex:Int = 0
-
-    var isConnected: Binding<Bool> {
-        Binding<Bool>(
-            get: { self.appRouter.isConnected ?? false },
-            set: { newValue in self.appRouter.isConnected = newValue }
-        )
+    
+    var activeDevice:Device {
+        deviceManager.devices[selectIndex]
     }
+
+    var isConnected: Bool {self.appRouter.isConnected ?? false}
+//    Binding<Bool> {
+//        Binding<Bool>(
+//            get: { self.appRouter.isConnected ?? false },
+//            set: { newValue in self.appRouter.isConnected = newValue }
+//        )
+//    }
     
     var showOnboarding: Binding<Bool> {
         Binding<Bool>(
@@ -31,18 +40,22 @@ struct ContentView: View {
     }
 
     var body: some View {
-        
-        DiscoverView(selectIndex: $selectIndex)
-            .environment(deviceManager)
-            .fullScreenCover(isPresented: showOnboarding, content: {
-                GuideView()
-            })
-            .fullScreenCover(isPresented: isConnected, content: {
-                TabbarView(deviceIndex: selectIndex)
-                    .environment(deviceManager)
-            })
+        ZStack {
+            DiscoverView(selectIndex: $selectIndex)
+                .environment(deviceManager)
+                .zIndex(0)
             
-        
+            if isConnected {
+                TabbarView(device: activeDevice)
+                .transition(.move(edge: .bottom))
+                .zIndex(1)
+            }
+        }
+        .withAlertManager()
+        .animation(.easeInOut, value: isConnected)
+        .fullScreenCover(isPresented: showOnboarding) {
+            GuideView()
+        }
     }
 }
 

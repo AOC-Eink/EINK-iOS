@@ -10,71 +10,74 @@ import SwiftUI
 struct TabbarView: View {
     
     @Environment(\.appRouter) var appRouter
-    @Environment(DeviceManager.self) var deviceManager
     @State private var onAddTouch:Bool = false
-    let deviceIndex:Int
     
-    var device:Device {
-        deviceManager.devices[deviceIndex]
-    }
-    
-    var testColors:[String] {
-        device.deviceType.presetDesigns["Cube"]!.components(separatedBy: ",")
-    }
-    
+    let device:Device
     
     @State private var selectedTab: Router = .home(nil)
     
     var body: some View {
-        ZStack(alignment: .bottom) {
-            TabView(selection: $selectedTab){
+        ZStack {
+            ZStack(alignment: .bottom) {
+                TabView(selection: $selectedTab){
+                    
+                    HomeView(device:device)
+                        .tabItem {
+                            Label("Home", systemImage: "house")}
+                        .tag(Router.home(nil))
+                    
+                    CatagoryView()
+                        .tabItem {
+                            Label("Category", systemImage: "list.bullet")}
+                        .tag(Router.catagory(nil))
+                    
+                    Color.clear
+                        .tabItem {}
+                        .tag(Router.addDIY(nil))
+                    
+                    FavoriteView()
+                        .tabItem {
+                            Label("Favorites", systemImage: "heart")}
+                        .tag(Router.favorites(nil))
+                    
+                    ProfileView()
+                        .tabItem {
+                            Label("Profile", systemImage: "person")}
+                        .tag(Router.profile(nil))
+                    
+                }
+                .tint(.opButton)
                 
-                HomeView(device:device)
-                    .tabItem {
-                        Label("home", systemImage: "house")}
-                    .tag(Router.home(nil))
-                
-                CatagoryView()
-                    .tabItem {
-                        Label("catagory", systemImage: "list.bullet")}
-                    .tag(Router.catagory(nil))
-                
-                Color.clear
-                    .tabItem {
-                        
-                    }
-                    .tag(Router.addDevice(nil))
-                
-                
-                FavoriteView()
-                    .tabItem {
-                        Label("favorites", systemImage: "heart")}
-                    .tag(Router.favorites(nil))
-                
-                ProfileView()
-                    .tabItem {
-                        Label("profile", systemImage: "person")}
-                    .tag(Router.profile(nil))
-                
+                Button(action: {
+                    onAddTouch = true
+                }) {
+                    Image(systemName: "plus.app.fill")
+                        .resizable()
+                        .frame(width: 40, height: 40)
+                        .foregroundColor(.opButton)
+                }
+                .offset(y:-5)
             }
+            .zIndex(0)
             
-            Button(action: {
-                onAddTouch = true
-            }) {
-                Image(systemName: "plus.circle.fill")
-                    .resizable()
-                    .frame(width: 60, height: 60)
-                    .foregroundColor(.blue)
+            if onAddTouch {
+                DIYView(device: device, isPresented: $onAddTouch)
+                    .transition(.move(edge: .bottom))
+                    .zIndex(1)
             }
-            .offset(y: -30)
+
+            
         }
-        .fullScreenCover(isPresented: $onAddTouch , content: {
-            DIYView(device: device, isPresented: $onAddTouch)
-        })
-        
+        .animation(.easeInOut, value: onAddTouch)
     }
 }
 
 #Preview {
-    TabbarView(deviceIndex: 0)
+    TabbarView(device: Device(indentify: "EE:FF:GG:HH",
+                                   deviceName: "E-INK Clock",
+                                   status: "Unconected",
+                                   deviceImage: "eink.clock.device"))
 }
+//            .fullScreenCover(isPresented: $onAddTouch , content: {
+//                DIYView(device: device, isPresented: $onAddTouch)
+//            })

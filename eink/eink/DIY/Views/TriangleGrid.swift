@@ -98,17 +98,14 @@ struct TriangleGridView: View {
     let columns: Int
     let rows: Int
     let triangleSize: CGFloat
-    let  onTouch:((Int)->Void)
+    let onTouch:((Int?, Bool, String?)->Void)
     @State private var selectedTriangle: Int?
-    @GestureState private var dragLocation: CGPoint = .zero
+    //@GestureState private var dragLocation: CGPoint = .zero
     @GestureState private var isDragging: Bool = false
     @State private var lastValidTriangleIndex: Int?
     
     var dragGesture: some Gesture {
-        DragGesture(minimumDistance: 0, coordinateSpace: .local)
-//            .updating($dragLocation) { value, state, _ in
-//                state = value.location
-//            }
+        DragGesture(minimumDistance: 5)//, coordinateSpace: .local
             .updating($isDragging) { _, state, _ in
                state = true
             }
@@ -116,13 +113,16 @@ struct TriangleGridView: View {
                 if let triangleIndex = triangleAt(location: value.location) {
                     if triangleIndex != lastValidTriangleIndex {
                         lastValidTriangleIndex = triangleIndex
-                        onTouch(triangleIndex)
+                        print("triangleAt: \(triangleIndex)")
+                        onTouch(triangleIndex, false, nil)
                     }
                 }
             }
             .onEnded { _ in
                 if let lastValid = lastValidTriangleIndex {
-                    onTouch(lastValid)
+                    print("lastValid: \(lastValid)")
+                    onTouch(lastValid, false, nil)
+                    onTouch(nil, false, nil)
                 }
                 lastValidTriangleIndex = nil
             }
@@ -148,26 +148,27 @@ struct TriangleGridView: View {
                     VStack(spacing: 0) {
                         ForEach(0..<rows, id: \.self) { row in
                             
-                            
-                            
                             TriangleView(
                                 isLeft: isLeft(row: row, column: column),
-                                fillColor: Color.init(hex: column*rows + row < colors.count ? colors[column*rows + row] : "FFFFFF"), isSelected:
-                                    selectedTriangle == column*rows + row)
-                                
-                            
-                            
+                                fillColor: Color.init(hex: column*rows + row < colors.count ? colors[column*rows + row] : "DBDBDB"),
+                                isSelected:
+                                    selectedTriangle == column*rows + row
+                            )
                             .frame(width: triangleSize, height: triangleHeight)
-//
-
                             .offset(y: row == 0 ? 0 : -offsetY*CGFloat(row))
                             .offset(x: isLeft(row: row, column: column) ? 0 : 0.3)
                             .onTapGesture {
                                 
-                                selectedTriangle = column*rows + row
-                                print("onTapGesture : \(selectedTriangle ?? 0)")
-                                onTouch(column*rows + row)
+                                if selectedTriangle == column*rows + row {
+                                    onTouch(column*rows + row, true, colors[column*rows + row])
+                                } else {
+                                    onTouch(column*rows + row, false, colors[column*rows + row])
+                                }
                                 
+                                selectedTriangle = column*rows + row
+                                
+                                print("onTapGesture : \(selectedTriangle ?? 0)")
+
                             }
                         }
                     }
@@ -178,24 +179,25 @@ struct TriangleGridView: View {
             }
             .padding(.leading, -1.0)
             .background(.gray)
-            //.frame(width: CGFloat(columns) * triangleSize)
+            .simultaneousGesture(dragGesture)
+            //.frame(width: CGFloat(columns) * triangleSize)highPriorityGesture
             
         }
         .frame(height: totalHeight - triangleHeight)//*0.725
         .clipped()
-        .simultaneousGesture(dragGesture)
-        .onChange(of: dragLocation) {oldValue, newValue in
-            if oldValue == newValue {
-                return
-            }
-            if let triangleIndex = triangleAt(location: newValue) {
-                if triangleIndex != selectedTriangle {
-                    selectedTriangle = triangleIndex
-                    print("triangleAt: \(triangleIndex)")
-                    onTouch(triangleIndex)
-                }
-            }
-        }
+        //.simultaneousGesture(dragGesture)
+//        .onChange(of: dragLocation) {oldValue, newValue in
+//            if oldValue == newValue {
+//                return
+//            }
+//            if let triangleIndex = triangleAt(location: newValue) {
+//                if triangleIndex != selectedTriangle {
+//                    selectedTriangle = triangleIndex
+//                    print("triangleAt: \(triangleIndex)")
+//                    onTouch(triangleIndex)
+//                }
+//            }
+//        }
         
     }
     
@@ -232,5 +234,5 @@ struct Triangle: Shape {
 }
 
 #Preview {
-    TriangleGridView(colors: Array(repeating: "FFFFFF", count: 31), columns: 4, rows: 8, triangleSize: 50, onTouch: {_ in})
+    TriangleGridView(colors: Array(repeating: "FFFFFF", count: 31), columns: 4, rows: 8, triangleSize: 50, onTouch: {_,_,_ in})
 }

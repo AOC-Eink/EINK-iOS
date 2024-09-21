@@ -18,9 +18,11 @@ struct einkApp: App {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
                 .environmentObject(appConfiguration)
+                
         }
     }
 }
+
 
 
 final class AppConfiguration: ObservableObject {
