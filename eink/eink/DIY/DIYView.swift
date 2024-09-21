@@ -80,9 +80,15 @@ struct DIYView: View {
                 print("selectIndex : \(touchIndex)")
                 
                 if let color = currentColor{
-                    if isRepeat && preColor == currentColor {
-                        colors[touchIndex] = "DBDBDB"
+                    if isRepeat || preColor == color {
+                        if preColor == "DBDBDB" {
+                            colors[touchIndex] = color
+                        } else {
+                            colors[touchIndex] = "DBDBDB"
+                        }
+                        
                         print("repeat reset color : DBDBDB")
+                        
                     } else {
                         print("TriangleGridView color : \(color)")
                         colors[touchIndex] = color

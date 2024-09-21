@@ -122,7 +122,7 @@ struct TriangleGridView: View {
                 if let lastValid = lastValidTriangleIndex {
                     print("lastValid: \(lastValid)")
                     onTouch(lastValid, false, nil)
-                    onTouch(nil, false, nil)
+                    onTouch(nil, false, colors[lastValid])
                 }
                 lastValidTriangleIndex = nil
             }
@@ -158,16 +158,17 @@ struct TriangleGridView: View {
                             .offset(y: row == 0 ? 0 : -offsetY*CGFloat(row))
                             .offset(x: isLeft(row: row, column: column) ? 0 : 0.3)
                             .onTapGesture {
-                                
+                                let index = column*rows + row
+                                let curColor = colors[index]
+                                print("onTapGesture : \(index), color: \(curColor)")
                                 if selectedTriangle == column*rows + row {
-                                    onTouch(column*rows + row, true, colors[column*rows + row])
+                                    onTouch(index, true, curColor)
                                 } else {
-                                    onTouch(column*rows + row, false, colors[column*rows + row])
+                                    onTouch(index, false, curColor)
                                 }
                                 
-                                selectedTriangle = column*rows + row
+                                selectedTriangle = index
                                 
-                                print("onTapGesture : \(selectedTriangle ?? 0)")
 
                             }
                         }
