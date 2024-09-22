@@ -123,7 +123,7 @@ struct DIYView: View {
                     colors[index] = touchColor
                     }
                 },
-                onSave: {
+                onSave: { isFavorite in
                 
                     CoreDataStack.shared.insetOrUpdateDesign(
                         name: randonName,
@@ -132,7 +132,7 @@ struct DIYView: View {
                                      hGrids: hGirds,
                                      name: randonName,
                                      colors: hexString,
-                                     favorite: false)
+                                     favorite: isFavorite)
                     )
                     
                     isPresented = false

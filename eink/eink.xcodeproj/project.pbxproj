@@ -22,7 +22,6 @@
 		930BDA922C8C436E008672C5 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930BDA912C8C436E008672C5 /* ColorExtension.swift */; };
 		933EFF912C99CC9000856EE1 /* FetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933EFF902C99CC9000856EE1 /* FetchRequest.swift */; };
 		933EFF942C9B06F500856EE1 /* SwiftfulLoadingIndicators in Frameworks */ = {isa = PBXBuildFile; productRef = 933EFF932C9B06F500856EE1 /* SwiftfulLoadingIndicators */; };
-		933EFF962C9B130900856EE1 /* GestureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933EFF952C9B130900856EE1 /* GestureView.swift */; };
 		933EFF982C9E559100856EE1 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933EFF972C9E559000856EE1 /* AlertManager.swift */; };
 		936D15DC2C88A68C00066274 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15DB2C88A68C00066274 /* AppRouter.swift */; };
 		936D15E32C88A9DD00066274 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15E22C88A9DD00066274 /* HomeView.swift */; };
@@ -35,9 +34,10 @@
 		93C898D82C9EAFAD0001E331 /* AlertModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898D72C9EAFAD0001E331 /* AlertModifier.swift */; };
 		93C898DA2C9EB7490001E331 /* DIYView.Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898D92C9EB7490001E331 /* DIYView.Model.swift */; };
 		93C898DC2C9EC3F00001E331 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898DB2C9EC3F00001E331 /* RootViewController.swift */; };
+		93C898DE2C9F94E30001E331 /* CostomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898DD2C9F94E30001E331 /* CostomTextField.swift */; };
 		93E4B4FC2C8C4EA10094DEDD /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E4B4FB2C8C4EA10094DEDD /* FontExtension.swift */; };
 		93F292382C91E07800ECCE35 /* LanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F292372C91E07800ECCE35 /* LanguageView.swift */; };
-		93F2923E2C91E4B300ECCE35 /* TriangleGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F2923D2C91E4B300ECCE35 /* TriangleGrid.swift */; };
+		93F2923E2C91E4B300ECCE35 /* TriangleGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F2923D2C91E4B300ECCE35 /* TriangleGridView.swift */; };
 		93F292442C947C3A00ECCE35 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F292432C947C3A00ECCE35 /* ViewExtension.swift */; };
 		93F2924A2C95D1ED00ECCE35 /* DiscoverView.Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F292492C95D1ED00ECCE35 /* DiscoverView.Model.swift */; };
 		93F2924C2C95D6E900ECCE35 /* Design.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F2924B2C95D6E900ECCE35 /* Design.swift */; };
@@ -90,7 +90,6 @@
 		930BDA8E2C8B4FB5008672C5 /* DeviceCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceCard.swift; sourceTree = "<group>"; };
 		930BDA912C8C436E008672C5 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		933EFF902C99CC9000856EE1 /* FetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchRequest.swift; sourceTree = "<group>"; };
-		933EFF952C9B130900856EE1 /* GestureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureView.swift; sourceTree = "<group>"; };
 		933EFF972C9E559000856EE1 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		936D15DB2C88A68C00066274 /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		936D15E22C88A9DD00066274 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -103,9 +102,10 @@
 		93C898D72C9EAFAD0001E331 /* AlertModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModifier.swift; sourceTree = "<group>"; };
 		93C898D92C9EB7490001E331 /* DIYView.Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIYView.Model.swift; sourceTree = "<group>"; };
 		93C898DB2C9EC3F00001E331 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		93C898DD2C9F94E30001E331 /* CostomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostomTextField.swift; sourceTree = "<group>"; };
 		93E4B4FB2C8C4EA10094DEDD /* FontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontExtension.swift; sourceTree = "<group>"; };
 		93F292372C91E07800ECCE35 /* LanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageView.swift; sourceTree = "<group>"; };
-		93F2923D2C91E4B300ECCE35 /* TriangleGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleGrid.swift; sourceTree = "<group>"; };
+		93F2923D2C91E4B300ECCE35 /* TriangleGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleGridView.swift; sourceTree = "<group>"; };
 		93F292432C947C3A00ECCE35 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		93F292492C95D1ED00ECCE35 /* DiscoverView.Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.Model.swift; sourceTree = "<group>"; };
 		93F2924B2C95D6E900ECCE35 /* Design.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Design.swift; sourceTree = "<group>"; };
@@ -340,13 +340,13 @@
 		93F292592C985F8B00ECCE35 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				93F2923D2C91E4B300ECCE35 /* TriangleGrid.swift */,
-				93F292552C96AC3800ECCE35 /* ColorGrid.swift */,
+				93F2923D2C91E4B300ECCE35 /* TriangleGridView.swift */,
+				93F2925A2C98629100ECCE35 /* TriangleView.swift */,
 				93F292512C96916300ECCE35 /* DIYPanel.swift */,
+				93F292552C96AC3800ECCE35 /* ColorGrid.swift */,
 				93F292532C96945300ECCE35 /* FavoriteButton.swift */,
 				93F292572C96C4CF00ECCE35 /* OperationButton.swift */,
-				93F2925A2C98629100ECCE35 /* TriangleView.swift */,
-				933EFF952C9B130900856EE1 /* GestureView.swift */,
+				93C898DD2C9F94E30001E331 /* CostomTextField.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -517,7 +517,6 @@
 			files = (
 				9301E7FD2C87489800381CA7 /* eink.xcdatamodeld in Sources */,
 				93F2924E2C96671400ECCE35 /* StringExtension.swift in Sources */,
-				933EFF962C9B130900856EE1 /* GestureView.swift in Sources */,
 				9301E7FA2C87489800381CA7 /* Persistence.swift in Sources */,
 				936D15EB2C88AAA500066274 /* ProfileView.swift in Sources */,
 				930BDA8D2C8B3AE5008672C5 /* OnboardingView.swift in Sources */,
@@ -543,7 +542,8 @@
 				930BDA8B2C8B32F1008672C5 /* Device.swift in Sources */,
 				93F332C92C8F3F2100C01091 /* PresetView.swift in Sources */,
 				936D15DC2C88A68C00066274 /* AppRouter.swift in Sources */,
-				93F2923E2C91E4B300ECCE35 /* TriangleGrid.swift in Sources */,
+				93F2923E2C91E4B300ECCE35 /* TriangleGridView.swift in Sources */,
+				93C898DE2C9F94E30001E331 /* CostomTextField.swift in Sources */,
 				933EFF912C99CC9000856EE1 /* FetchRequest.swift in Sources */,
 				93C898DC2C9EC3F00001E331 /* RootViewController.swift in Sources */,
 				9301E7F12C87489700381CA7 /* einkApp.swift in Sources */,

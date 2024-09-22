@@ -11,20 +11,27 @@ struct DIYPanel: View {
     
     let colors: [(name: String, hex: String)]
     let onTouch:((String?)->Void)
-    let onSave:()->Void
+    let onSave:(Bool)->Void
     let onEmploy:()->Void
+    
+    @State private var inputText = ""
     
     @State private var selectColor:String?
     
+    @State private var isFavorite:Bool = false
+    
     var body: some View {
         VStack(alignment:.leading) {
-            HStack {
-                Spacer()
-                FavoriteButton()
-            }.padding(.horizontal)
-            
+            HStack(alignment:.top) {
+                CustomTextField(placeholder: "Name your design ", text: $inputText)
+                    .padding(.top)
+                    .padding(.leading)
+                FavoriteButton(isSelect: $isFavorite)
+            }
+            .padding(.bottom, 5)
+         
             Text("DIY Color")
-                .font(.sectionTitle)
+                .font(.sectionBoldTitle)
                 .foregroundStyle(.sectionTitle)
             
             HStack(spacing:1) {
@@ -55,7 +62,7 @@ struct DIYPanel: View {
             HStack(spacing:50) {
                 
                 CustomButton(title: "Save") {
-                    onSave()
+                    onSave(isFavorite)
                 }
                 
                 CustomButton(title: "Employ") {
@@ -91,5 +98,5 @@ struct DIYPanel: View {
             ("blue", "2B78B9"),
             ("black", "3F384A"),
             ("red", "A45942")
-    ], onTouch: {_ in}, onSave: {}, onEmploy: {})
+    ], onTouch: {_ in}, onSave: { _ in}, onEmploy: {})
 }

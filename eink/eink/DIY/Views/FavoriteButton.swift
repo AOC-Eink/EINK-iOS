@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FavoriteButton: View {
     
-    @State private var isSelect:Bool = false
+    @Binding var isSelect:Bool
     var onTouch:((Bool)->Void)?
     
     var bgImage:String {
@@ -43,5 +43,5 @@ struct FavoriteButton: View {
 }
 
 #Preview {
-    FavoriteButton()
+    FavoriteButton(isSelect: .constant(false))
 }

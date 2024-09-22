@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TriangleView: View {
     let isLeft:Bool
-    let fillColor:Color
+    let fillColor:Color?
     let isSelected:Bool
     
     var direction:Directions {
@@ -23,7 +23,7 @@ struct TriangleView: View {
     var body: some View {
         VStack {
             CustomTriangle(showBorder: isSelected, direction:direction)
-                .fillAndBorder(fillColor)
+                .fillAndBorder(fillColor ?? .designOff)
         }
         
         
@@ -91,31 +91,3 @@ enum Directions {
 
 
 
-//extension RightRotatedTriangle {
-//    func fill<Fill: ShapeStyle>(_ fillStyle: Fill) -> some View {
-//        self.fill(fillStyle)
-//            .overlay(
-//                self.stroke(Color.white, lineWidth: 2)
-//                    .opacity(showBorder ? 1 : 0)
-//            )
-//    }
-//}
-
-struct RightRotatedTriangle: Shape {
-    var showBorder: Bool
-    init(showBorder: Bool = false) {
-        self.showBorder = showBorder
-        
-    }
-    func path(in rect: CGRect) -> Path {
-        pathRightRotated(in: rect)
-    }
-    
-    func fillAndBorder<Fill: ShapeStyle>(_ fillStyle: Fill) -> some View {
-        ZStack {
-            if showBorder {
-                self.stroke(fillStyle, lineWidth: 4)
-            }
-        }
-    }
-}
