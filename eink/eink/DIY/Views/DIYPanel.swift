@@ -79,7 +79,10 @@ struct DIYPanel: View {
         .background(.white)
         .cornerRadius(50, corners: [.topLeft, .topRight])
         .shadow(color: .deviceItemShadow, radius: 5, x: 1, y: -5)
-        .aspectRatio(3/2, contentMode: .fit)
+//        .aspectRatio(3/2, contentMode: .fit)
+//        .ignoresSafeArea(.keyboard)
+        .frame(height: 260)
+        
 //        .toolbar {
 //            ToolbarItem(placement: .bottomBar) {
 //                // 隐藏 TabBar 的占位符

@@ -44,7 +44,7 @@ struct TriangleGridView: View {
     
     
     var offsetY:CGFloat {
-        (triangleSize/2.0) + 3.0
+        (triangleHeight/2.0) - 0.8
     }
     
     var triangleHeight:CGFloat {
@@ -82,7 +82,7 @@ struct TriangleGridView: View {
                             )
                             .frame(width: triangleSize, height: triangleHeight)
                             .offset(y: row == 0 ? 0 : -offsetY*CGFloat(row))
-                            .offset(x: isLeft(row: row, column: column) ? 0 : 0.3)
+                            //.offset(x: isLeft(row: row, column: column) ? 0 : 0.8)
                             .onTapGesture {
                                 let index = column*rows + row
                                 let curColor = colors[index]
@@ -99,11 +99,14 @@ struct TriangleGridView: View {
                         }
                     }
                     .offset(y:(offsetY/2.0*CGFloat((rows-1))))
+                    .offset(x: CGFloat(column) * 0.8)
                     .frame(height: totalHeight)
                 }
+                
+                
             }
             .padding(.leading, -1.0)
-            .background(.gray)
+            //.background(.gray)
             .simultaneousGesture(dragGesture)//highPriorityGesture
             .frame(width: CGFloat(columns) * triangleSize)
             
@@ -126,5 +129,5 @@ struct TriangleGridView: View {
 
 
 #Preview {
-    TriangleGridView(colors: Array(repeating: "DBDBDB", count: 31), columns: 4, rows: 8, triangleSize: 50, onTouch: {_,_,_ in})
+    TriangleGridView(colors: Array(repeating: "DBDBDB", count: 31), columns: 6, rows: 9, triangleSize: 50, onTouch: {_,_,_ in})
 }
