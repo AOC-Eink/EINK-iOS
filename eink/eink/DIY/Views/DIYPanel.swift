@@ -11,8 +11,16 @@ struct DIYPanel: View {
     
     let colors: [(name: String, hex: String)]
     let onTouch:((String?)->Void)
-    let onSave:(Bool)->Void
+    let onSave:(Bool, String)->Void
     let onEmploy:()->Void
+    
+    var diyColors:[(name: String, hex: String)] {
+        Array(colors.prefix(upTo: colors.count - 1))
+    }
+    
+    var offColor:(name: String, hex: String) {
+        colors.last ?? (name:"off", hex:"DBDBDB")
+    }
     
     @State private var inputText = ""
     
@@ -35,8 +43,8 @@ struct DIYPanel: View {
                 .foregroundStyle(.sectionTitle)
             
             HStack(spacing:1) {
-                ForEach(colors.indices, id: \.self) { index in
-                    ColorGrid(name: colors[index].name, 
+                ForEach(diyColors.indices, id: \.self) { index in
+                    ColorGrid(name: colors[index].name,
                               color: colors[index].hex,
                               selectColor: selectColor ?? "",
                               onTouch: {
@@ -47,8 +55,8 @@ struct DIYPanel: View {
                 }
                 Color.white
                     .frame(width: 30)
-                ColorGrid(name: "off", 
-                          color: "DBDBDB",
+                ColorGrid(name: offColor.name,
+                          color: offColor.hex,
                           selectColor: selectColor ?? "",
                           onTouch:  {
                     color in
@@ -62,7 +70,7 @@ struct DIYPanel: View {
             HStack(spacing:50) {
                 
                 CustomButton(title: "Save") {
-                    onSave(isFavorite)
+                    onSave(isFavorite, inputText)
                 }
                 
                 CustomButton(title: "Employ") {
@@ -100,6 +108,7 @@ struct DIYPanel: View {
             ("yellow", "DFBE24"),
             ("blue", "2B78B9"),
             ("black", "3F384A"),
-            ("red", "A45942")
-    ], onTouch: {_ in}, onSave: { _ in}, onEmploy: {})
+            ("red", "A45942"),
+            ("off", "DBDBDB")
+    ], onTouch: {_ in}, onSave: {_,_ in}, onEmploy: {})
 }

@@ -6,13 +6,28 @@
 //
 
 import SwiftUI
-
+import CoreData
 struct TabbarView: View {
     
     @Environment(\.appRouter) var appRouter
     @State private var onAddTouch:Bool = false
+    @FetchRequest var designs: FetchedResults<InkDesign>
     
     let device:Device
+    
+    init(device: Device) {
+        self.device = device
+        let request: NSFetchRequest<InkDesign> = InkDesign.designRequest(forDeviceId: device.indentify)
+        _designs = FetchRequest(fetchRequest: request)
+    }
+    
+    var favoriteDesigns: [InkDesign] {
+        designs.filter { $0.favorite }
+    }
+    
+    var categroyDesigns:[InkDesign] {
+        designs.filter { !$0.favorite }
+    }
     
     @State private var selectedTab: Router = .home(nil)
     
@@ -21,12 +36,12 @@ struct TabbarView: View {
             ZStack(alignment: .bottom) {
                 TabView(selection: $selectedTab){
                     
-                    HomeView(device:device)
+                    HomeView(device:device, desgins: designs.map { $0 })
                         .tabItem {
                             Label("Home", systemImage: "house")}
                         .tag(Router.home(nil))
                     
-                    CatagoryView()
+                    CatagoryView(device: device, designs: categroyDesigns)
                         .tabItem {
                             Label("Category", systemImage: "list.bullet")}
                         .tag(Router.catagory(nil))
@@ -35,7 +50,7 @@ struct TabbarView: View {
                         .tabItem {}
                         .tag(Router.addDIY(nil))
                     
-                    FavoriteView()
+                    FavoriteView(device: device, designs:favoriteDesigns)
                         .tabItem {
                             Label("Favorites", systemImage: "heart")}
                         .tag(Router.favorites(nil))
@@ -61,7 +76,7 @@ struct TabbarView: View {
             .zIndex(0)
             
             if onAddTouch {
-                DIYView(device: device, isPresented: $onAddTouch)
+                DIYView(model: DIYView.Model(device), isPresented: $onAddTouch)
                     .transition(.move(edge: .bottom))
                     .zIndex(1)
             }

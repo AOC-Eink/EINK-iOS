@@ -11,8 +11,6 @@ import CoreData
 struct ContentView: View {
     
     @EnvironmentObject var alertManager: AlertManager
-    @Environment(\.presentFullScreen) var presentFullScreen
-    @Environment(\.dismissFullScreen) var dismissFullScreen
     
     @EnvironmentObject var appConfig:AppConfiguration
     @State var deviceManager = DeviceManager()

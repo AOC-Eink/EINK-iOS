@@ -33,8 +33,9 @@
 		936D15F52C89F74100066274 /* TabbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15F42C89F74100066274 /* TabbarView.swift */; };
 		93C898D82C9EAFAD0001E331 /* AlertModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898D72C9EAFAD0001E331 /* AlertModifier.swift */; };
 		93C898DA2C9EB7490001E331 /* DIYView.Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898D92C9EB7490001E331 /* DIYView.Model.swift */; };
-		93C898DC2C9EC3F00001E331 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898DB2C9EC3F00001E331 /* RootViewController.swift */; };
 		93C898DE2C9F94E30001E331 /* CostomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898DD2C9F94E30001E331 /* CostomTextField.swift */; };
+		93C898E02C9FFCC30001E331 /* RoundedBorderModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898DF2C9FFCC30001E331 /* RoundedBorderModifier.swift */; };
+		93C898E32C9FFDFB0001E331 /* InkStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898E22C9FFDFB0001E331 /* InkStruct.swift */; };
 		93E4B4FC2C8C4EA10094DEDD /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E4B4FB2C8C4EA10094DEDD /* FontExtension.swift */; };
 		93F292382C91E07800ECCE35 /* LanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F292372C91E07800ECCE35 /* LanguageView.swift */; };
 		93F2923E2C91E4B300ECCE35 /* TriangleGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F2923D2C91E4B300ECCE35 /* TriangleGridView.swift */; };
@@ -101,8 +102,9 @@
 		936D15F42C89F74100066274 /* TabbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarView.swift; sourceTree = "<group>"; };
 		93C898D72C9EAFAD0001E331 /* AlertModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModifier.swift; sourceTree = "<group>"; };
 		93C898D92C9EB7490001E331 /* DIYView.Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIYView.Model.swift; sourceTree = "<group>"; };
-		93C898DB2C9EC3F00001E331 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		93C898DD2C9F94E30001E331 /* CostomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostomTextField.swift; sourceTree = "<group>"; };
+		93C898DF2C9FFCC30001E331 /* RoundedBorderModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedBorderModifier.swift; sourceTree = "<group>"; };
+		93C898E22C9FFDFB0001E331 /* InkStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InkStruct.swift; sourceTree = "<group>"; };
 		93E4B4FB2C8C4EA10094DEDD /* FontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontExtension.swift; sourceTree = "<group>"; };
 		93F292372C91E07800ECCE35 /* LanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageView.swift; sourceTree = "<group>"; };
 		93F2923D2C91E4B300ECCE35 /* TriangleGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleGridView.swift; sourceTree = "<group>"; };
@@ -229,13 +231,14 @@
 		930BDA902C8C4331008672C5 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				93C898E12C9FFDB00001E331 /* Model */,
 				930BDA912C8C436E008672C5 /* ColorExtension.swift */,
 				93E4B4FB2C8C4EA10094DEDD /* FontExtension.swift */,
 				93F292432C947C3A00ECCE35 /* ViewExtension.swift */,
 				93F2924D2C96671400ECCE35 /* StringExtension.swift */,
 				933EFF972C9E559000856EE1 /* AlertManager.swift */,
 				93C898D72C9EAFAD0001E331 /* AlertModifier.swift */,
-				93C898DB2C9EC3F00001E331 /* RootViewController.swift */,
+				93C898DF2C9FFCC30001E331 /* RoundedBorderModifier.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -317,6 +320,14 @@
 				936D15F42C89F74100066274 /* TabbarView.swift */,
 			);
 			path = Tabbar;
+			sourceTree = "<group>";
+		};
+		93C898E12C9FFDB00001E331 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				93C898E22C9FFDFB0001E331 /* InkStruct.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		93F292452C95CC7B00ECCE35 /* CoreData */ = {
@@ -522,10 +533,12 @@
 				930BDA8D2C8B3AE5008672C5 /* OnboardingView.swift in Sources */,
 				93F292382C91E07800ECCE35 /* LanguageView.swift in Sources */,
 				93F2925B2C98629100ECCE35 /* TriangleView.swift in Sources */,
+				93C898E32C9FFDFB0001E331 /* InkStruct.swift in Sources */,
 				9301E7F32C87489700381CA7 /* ContentView.swift in Sources */,
 				93F332C52C8F36FD00C01091 /* PresetCard.swift in Sources */,
 				93F292582C96C4CF00ECCE35 /* OperationButton.swift in Sources */,
 				93F2924A2C95D1ED00ECCE35 /* DiscoverView.Model.swift in Sources */,
+				93C898E02C9FFCC30001E331 /* RoundedBorderModifier.swift in Sources */,
 				933EFF982C9E559100856EE1 /* AlertManager.swift in Sources */,
 				93C898DA2C9EB7490001E331 /* DIYView.Model.swift in Sources */,
 				93F292542C96945300ECCE35 /* FavoriteButton.swift in Sources */,
@@ -545,7 +558,6 @@
 				93F2923E2C91E4B300ECCE35 /* TriangleGridView.swift in Sources */,
 				93C898DE2C9F94E30001E331 /* CostomTextField.swift in Sources */,
 				933EFF912C99CC9000856EE1 /* FetchRequest.swift in Sources */,
-				93C898DC2C9EC3F00001E331 /* RootViewController.swift in Sources */,
 				9301E7F12C87489700381CA7 /* einkApp.swift in Sources */,
 				93F292502C96751800ECCE35 /* DIYView.swift in Sources */,
 				936D15EF2C89D91600066274 /* GuideView.swift in Sources */,

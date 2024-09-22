@@ -18,6 +18,7 @@ struct HomeView: View {
 //    private var items: FetchedResults<Item>
     
     let device:Device
+    let desgins:[InkDesign]
     
     var body: some View {
         home
@@ -60,7 +61,7 @@ struct HomeView: View {
             ScrollView {
                 VStack{
                     SliderView(images: device.deviceType.guideImage)
-                    PresetGridView(device: device)
+                    PresetGridView(device: device, designs: desgins, pageType: .preset)
                 }
             }
             .navigationTitle(device.deviceName)
@@ -80,13 +81,12 @@ struct HomeView: View {
 //                        
 //                }
             }
-            .ignoresSafeArea(edges: .bottom)
         }
     }
 }
 
 #Preview {
-    HomeView(device: DeviceManager().devices.first!)
+    HomeView(device: DeviceManager().devices.first!, desgins: [])
 }
 
 //private let itemFormatter: DateFormatter = {

@@ -15,20 +15,18 @@ struct PresetCard: View {
 
     
     var body: some View {
-        
         VStack(alignment:.center, spacing: 10){
-            
+                
             if (presetView != nil) {
                 presetView
+                    .allowsHitTesting(false)
             }
             
             Text(title)
                 .font(.deviceCount)
                 .foregroundStyle(.sectionTitle)
         }
-        //.padding()
         .background(Color.white) // 设置背景色
-        //.padding(.all, 5)
     }
 }
 

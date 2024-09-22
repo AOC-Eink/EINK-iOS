@@ -14,11 +14,12 @@ struct AlertModifier: ViewModifier {
         content
             .environmentObject(alertManager)
             .alert(alertManager.title, isPresented: $alertManager.isPresented) {
-                Button("确认", role: .destructive) {
+                Button("OK", role: alertManager.cancelAction == nil ? .none : .destructive) {
                     alertManager.confirmAction?() ?? {}()
                 }
-                if alertManager.cancelAction != nil {
-                    Button("取消", role: .cancel) {
+                
+               if alertManager.cancelAction != nil {
+                    Button("Cancel", role: .cancel) {
                         alertManager.cancelAction?()
                     }
                 }

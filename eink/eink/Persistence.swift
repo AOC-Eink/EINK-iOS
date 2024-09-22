@@ -71,6 +71,7 @@ extension CoreDataStack {
                 }
                 hasDesign.name = newDesign.name
                 hasDesign.colors = newDesign.colors
+                hasDesign.favorite = newDesign.favorite
                 try? context.save()
             } else {
                 guard let newDesign = item else {
@@ -83,6 +84,7 @@ extension CoreDataStack {
                 desgin.colors = newDesign.colors
                 desgin.hGrids = Int64(newDesign.hGrids)
                 desgin.vGrids = Int64(newDesign.vGrids)
+                desgin.favorite = newDesign.favorite
                 try? context.save()
             }
         }

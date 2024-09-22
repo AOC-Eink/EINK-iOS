@@ -12,6 +12,7 @@ struct TriangleGridView: View {
     let columns: Int
     let rows: Int
     let triangleSize: CGFloat
+    let heightRatio: CGFloat
     let onTouch:((Int?, Bool, String?)->Void)
     
     @State private var selectedTriangle: Int?
@@ -44,7 +45,7 @@ struct TriangleGridView: View {
     
     
     var offsetY:CGFloat {
-        (triangleHeight/2.0) - 0.8
+        (triangleHeight/2.0) - 0.7
     }
     
     var triangleHeight:CGFloat {
@@ -99,7 +100,7 @@ struct TriangleGridView: View {
                         }
                     }
                     .offset(y:(offsetY/2.0*CGFloat((rows-1))))
-                    .offset(x: CGFloat(column) * 0.8)
+                    .offset(x: CGFloat(column) * 0.7)
                     .frame(height: totalHeight)
                 }
                 
@@ -111,7 +112,7 @@ struct TriangleGridView: View {
             .frame(width: CGFloat(columns) * triangleSize)
             
         }
-        .frame(height: totalHeight - triangleHeight)//*0.725
+        .frame(height: totalHeight - triangleHeight*heightRatio)//
         .clipped()
         
     }
@@ -129,5 +130,10 @@ struct TriangleGridView: View {
 
 
 #Preview {
-    TriangleGridView(colors: Array(repeating: "DBDBDB", count: 31), columns: 6, rows: 9, triangleSize: 50, onTouch: {_,_,_ in})
+    TriangleGridView(colors: Array(repeating: "DBDBDB", count: 54),
+                     columns: 6,
+                     rows: 9,
+                     triangleSize: 50,
+                     heightRatio: 0.725,
+                     onTouch: {_,_,_ in})
 }
