@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -483,6 +483,7 @@
 			mainGroup = 9301E7E42C87489700381CA7;
 			packageReferences = (
 				933EFF922C9B06F500856EE1 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */,
+				93C898E42CA30DE30001E331 /* XCLocalSwiftPackageReference "../BLECommunicator" */,
 			);
 			productRefGroup = 9301E7EE2C87489700381CA7 /* Products */;
 			projectDirPath = "";
@@ -898,6 +899,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		93C898E42CA30DE30001E331 /* XCLocalSwiftPackageReference "../BLECommunicator" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../BLECommunicator;
+		};
+/* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
 		933EFF922C9B06F500856EE1 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */ = {
