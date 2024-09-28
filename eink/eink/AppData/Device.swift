@@ -117,16 +117,30 @@ enum DeviceType {
     
 }
 
-struct Device: Equatable, Hashable {
-    
-    
+struct Device:Hashable, Equatable {
     let indentify:String
     let deviceName:String
-    init(indentify: String, deviceName: String, status: String, deviceImage: String) {
+    let deviceFuction: BLEDataService
+    init(indentify: String, deviceName: String, status: String, deviceImage: String, deviceFunction: BLEDataService) {
         self.indentify = indentify
         self.deviceName = deviceName
         self.status = status
         self.deviceImage = deviceImage
+        self.deviceFuction = deviceFunction
+    }
+    
+    func hash(into hasher: inout Hasher) {
+            hasher.combine(indentify)
+            hasher.combine(deviceName)
+            hasher.combine(status)
+            hasher.combine(deviceImage)
+        }
+    
+    static func == (lhs: Device, rhs: Device) -> Bool {
+        return lhs.indentify == rhs.indentify &&
+               lhs.deviceName == rhs.deviceName &&
+               lhs.status == rhs.status &&
+               lhs.deviceImage == rhs.deviceImage
     }
     
     var dbDesigns: [InkDesign] = []
@@ -220,34 +234,6 @@ struct Device: Equatable, Hashable {
     
 }
 
-@Observable class DeviceManager {
 
-    var devices:Array<Device> = []
-    
-    
-    
-    
-    init() {
-        devices = createModalDevices()
-    }
-    
-    
-    func createModalDevices() -> [Device] {
-
-        return [
-            Device(indentify: "AA:BB:CC:DD",
-                   deviceName: "E-INK Phone Case",
-                   status: "Unconected",
-                   deviceImage: "eink.case.device"),
-            
-            Device(indentify: "EE:FF:GG:HH",
-                   deviceName: "E-INK Clock",
-                   status: "Unconected",
-                   deviceImage: "eink.clock.device")
-        ]
-        
-    }
-    
-}
 
 

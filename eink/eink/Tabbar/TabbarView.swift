@@ -88,10 +88,7 @@ struct TabbarView: View {
 }
 
 #Preview {
-    TabbarView(device: Device(indentify: "EE:FF:GG:HH",
-                                   deviceName: "E-INK Clock",
-                                   status: "Unconected",
-                                   deviceImage: "eink.clock.device"))
+    TabbarView(device: DeviceManager().devices.first!)
 }
 //            .fullScreenCover(isPresented: $onAddTouch , content: {
 //                DIYView(device: device, isPresented: $onAddTouch)

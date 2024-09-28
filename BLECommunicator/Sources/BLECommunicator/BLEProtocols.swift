@@ -20,8 +20,8 @@ public protocol BLECommunicatorProtocol: AnyObject {
 }
 
 public protocol BLECommunicatorDelegate: AnyObject {
-    func bleCommunicator(_ communicator: BLECommunicatorProtocol, didDiscoverDevice device: BLEDevice)
-    func bleCommunicator(_ communicator: BLECommunicatorProtocol, didConnectDevice device: BLEDevice)
+    func bleCommunicator(_ communicator: BLECommunicatorProtocol, didDiscoverDevice device: [UUID:BLEDevice])
+    func bleCommunicator(_ communicator: BLECommunicatorProtocol, didConnectDevice device: [UUID:CBPeripheral])
     func bleCommunicator(_ communicator: BLECommunicatorProtocol, didDisconnectDevice device: BLEDevice)
     func bleCommunicator(_ communicator: BLECommunicatorProtocol, didReceiveData data: Data, fromDevice device: BLEDevice)
 }

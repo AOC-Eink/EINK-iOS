@@ -13,6 +13,7 @@ struct DiscoverView: View {
     @Environment(DeviceManager.self) var deviceManager
     
     @Binding var selectIndex:Int
+    @State private var showAddView:Bool = false
 
 //    let columns = [
 //            GridItem(.adaptive(minimum: 150))
@@ -80,7 +81,9 @@ struct DiscoverView: View {
 
                 ToolbarItem {
                     Button(action: {
-                        appConfig.showOnboarding = true
+                        withAnimation {
+                            showAddView = true
+                        }
                     }) {
                         Image(systemName: "plus")
                             .foregroundColor(.plusbutton)
@@ -88,7 +91,15 @@ struct DiscoverView: View {
                     }
                     
                 }
+            }
         }
+        .overlay {
+            if showAddView {
+                AddDeviceView(showAddView: $showAddView)
+                    .transition(.move(edge: .bottom))
+                    .animation(.spring(), value: showAddView)
+                
+            }
         }
     }
 }

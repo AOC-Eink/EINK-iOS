@@ -65,6 +65,7 @@ public class BLECommunicator: NSObject, BLECommunicatorProtocol {
 }
 
 extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
+    
     public func centralManagerDidUpdateState(_ central: CBCentralManager) {
         // 处理蓝牙状态更新
     }
@@ -72,15 +73,15 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
     public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         let device = BLEDevice(peripheral: peripheral, rssi: RSSI.intValue)
         discoveredDevices[peripheral.identifier] = device
-        delegate?.bleCommunicator(self, didDiscoverDevice: device)
+        delegate?.bleCommunicator(self, didDiscoverDevice: discoveredDevices)
     }
     
     public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         guard let device = discoveredDevices[peripheral.identifier] else { return }
         connectedDevices[peripheral.identifier] = peripheral
         peripheral.delegate = self
-        peripheral.discoverServices(nil)
-        delegate?.bleCommunicator(self, didConnectDevice: device)
+        peripheral.discoverServices(nil)//传入需要发现的服务ID
+        delegate?.bleCommunicator(self, didConnectDevice: connectedDevices)
     }
     
     public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
@@ -92,7 +93,7 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
     public func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         guard let services = peripheral.services else { return }
         for service in services {
-            peripheral.discoverCharacteristics(nil, for: service)
+            peripheral.discoverCharacteristics(nil, for: service) //传入需要发现的特征
         }
     }
     

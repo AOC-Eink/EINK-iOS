@@ -36,6 +36,11 @@
 		93C898DE2C9F94E30001E331 /* CostomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898DD2C9F94E30001E331 /* CostomTextField.swift */; };
 		93C898E02C9FFCC30001E331 /* RoundedBorderModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898DF2C9FFCC30001E331 /* RoundedBorderModifier.swift */; };
 		93C898E32C9FFDFB0001E331 /* InkStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898E22C9FFDFB0001E331 /* InkStruct.swift */; };
+		93C898E82CA448420001E331 /* BLEHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898E72CA448410001E331 /* BLEHandler.swift */; };
+		93C898EB2CA448690001E331 /* BLECommunicator in Frameworks */ = {isa = PBXBuildFile; productRef = 93C898EA2CA448690001E331 /* BLECommunicator */; };
+		93C898ED2CA44A120001E331 /* DeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898EC2CA44A120001E331 /* DeviceManager.swift */; };
+		93C898F42CA640880001E331 /* AddDeviceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898F32CA640880001E331 /* AddDeviceView.swift */; };
+		93C898F62CA648930001E331 /* AddDeviceView.Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898F52CA648920001E331 /* AddDeviceView.Model.swift */; };
 		93E4B4FC2C8C4EA10094DEDD /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E4B4FB2C8C4EA10094DEDD /* FontExtension.swift */; };
 		93F292382C91E07800ECCE35 /* LanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F292372C91E07800ECCE35 /* LanguageView.swift */; };
 		93F2923E2C91E4B300ECCE35 /* TriangleGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F2923D2C91E4B300ECCE35 /* TriangleGridView.swift */; };
@@ -105,6 +110,10 @@
 		93C898DD2C9F94E30001E331 /* CostomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostomTextField.swift; sourceTree = "<group>"; };
 		93C898DF2C9FFCC30001E331 /* RoundedBorderModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedBorderModifier.swift; sourceTree = "<group>"; };
 		93C898E22C9FFDFB0001E331 /* InkStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InkStruct.swift; sourceTree = "<group>"; };
+		93C898E72CA448410001E331 /* BLEHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEHandler.swift; sourceTree = "<group>"; };
+		93C898EC2CA44A120001E331 /* DeviceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceManager.swift; sourceTree = "<group>"; };
+		93C898F32CA640880001E331 /* AddDeviceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDeviceView.swift; sourceTree = "<group>"; };
+		93C898F52CA648920001E331 /* AddDeviceView.Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDeviceView.Model.swift; sourceTree = "<group>"; };
 		93E4B4FB2C8C4EA10094DEDD /* FontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontExtension.swift; sourceTree = "<group>"; };
 		93F292372C91E07800ECCE35 /* LanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageView.swift; sourceTree = "<group>"; };
 		93F2923D2C91E4B300ECCE35 /* TriangleGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleGridView.swift; sourceTree = "<group>"; };
@@ -131,6 +140,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				933EFF942C9B06F500856EE1 /* SwiftfulLoadingIndicators in Frameworks */,
+				93C898EB2CA448690001E331 /* BLECommunicator in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,6 +168,7 @@
 				9301E8052C87489900381CA7 /* einkTests */,
 				9301E80F2C87489900381CA7 /* einkUITests */,
 				9301E7EE2C87489700381CA7 /* Products */,
+				93C898E92CA448690001E331 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -174,6 +185,7 @@
 		9301E7EF2C87489700381CA7 /* eink */ = {
 			isa = PBXGroup;
 			children = (
+				93C898E52CA447320001E331 /* Repository */,
 				93F292452C95CC7B00ECCE35 /* CoreData */,
 				930BDA902C8C4331008672C5 /* Common */,
 				930BDA892C8B3297008672C5 /* AppData */,
@@ -224,6 +236,7 @@
 			isa = PBXGroup;
 			children = (
 				930BDA8A2C8B32F1008672C5 /* Device.swift */,
+				93C898EC2CA44A120001E331 /* DeviceManager.swift */,
 			);
 			path = AppData;
 			sourceTree = "<group>";
@@ -307,6 +320,7 @@
 		936D15F02C89DBDC00066274 /* Discover */ = {
 			isa = PBXGroup;
 			children = (
+				93C898F22CA6405D0001E331 /* AddDevice */,
 				936D15F12C89DC1F00066274 /* DiscoverView.swift */,
 				93F292492C95D1ED00ECCE35 /* DiscoverView.Model.swift */,
 				930BDA8E2C8B4FB5008672C5 /* DeviceCard.swift */,
@@ -328,6 +342,38 @@
 				93C898E22C9FFDFB0001E331 /* InkStruct.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		93C898E52CA447320001E331 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				93C898E62CA447DC0001E331 /* BLE */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		93C898E62CA447DC0001E331 /* BLE */ = {
+			isa = PBXGroup;
+			children = (
+				93C898E72CA448410001E331 /* BLEHandler.swift */,
+			);
+			path = BLE;
+			sourceTree = "<group>";
+		};
+		93C898E92CA448690001E331 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		93C898F22CA6405D0001E331 /* AddDevice */ = {
+			isa = PBXGroup;
+			children = (
+				93C898F32CA640880001E331 /* AddDeviceView.swift */,
+				93C898F52CA648920001E331 /* AddDeviceView.Model.swift */,
+			);
+			path = AddDevice;
 			sourceTree = "<group>";
 		};
 		93F292452C95CC7B00ECCE35 /* CoreData */ = {
@@ -408,6 +454,7 @@
 			name = eink;
 			packageProductDependencies = (
 				933EFF932C9B06F500856EE1 /* SwiftfulLoadingIndicators */,
+				93C898EA2CA448690001E331 /* BLECommunicator */,
 			);
 			productName = eink;
 			productReference = 9301E7ED2C87489700381CA7 /* eink.app */;
@@ -537,6 +584,7 @@
 				93C898E32C9FFDFB0001E331 /* InkStruct.swift in Sources */,
 				9301E7F32C87489700381CA7 /* ContentView.swift in Sources */,
 				93F332C52C8F36FD00C01091 /* PresetCard.swift in Sources */,
+				93C898E82CA448420001E331 /* BLEHandler.swift in Sources */,
 				93F292582C96C4CF00ECCE35 /* OperationButton.swift in Sources */,
 				93F2924A2C95D1ED00ECCE35 /* DiscoverView.Model.swift in Sources */,
 				93C898E02C9FFCC30001E331 /* RoundedBorderModifier.swift in Sources */,
@@ -549,9 +597,11 @@
 				93F332C72C8F3DF400C01091 /* PresetGridView.swift in Sources */,
 				93F332D12C91C52E00C01091 /* SliderView.swift in Sources */,
 				93F292442C947C3A00ECCE35 /* ViewExtension.swift in Sources */,
+				93C898F62CA648930001E331 /* AddDeviceView.Model.swift in Sources */,
 				93E4B4FC2C8C4EA10094DEDD /* FontExtension.swift in Sources */,
 				93C898D82C9EAFAD0001E331 /* AlertModifier.swift in Sources */,
 				930BDA922C8C436E008672C5 /* ColorExtension.swift in Sources */,
+				93C898ED2CA44A120001E331 /* DeviceManager.swift in Sources */,
 				936D15E32C88A9DD00066274 /* HomeView.swift in Sources */,
 				930BDA8B2C8B32F1008672C5 /* Device.swift in Sources */,
 				93F332C92C8F3F2100C01091 /* PresetView.swift in Sources */,
@@ -559,6 +609,7 @@
 				93F2923E2C91E4B300ECCE35 /* TriangleGridView.swift in Sources */,
 				93C898DE2C9F94E30001E331 /* CostomTextField.swift in Sources */,
 				933EFF912C99CC9000856EE1 /* FetchRequest.swift in Sources */,
+				93C898F42CA640880001E331 /* AddDeviceView.swift in Sources */,
 				9301E7F12C87489700381CA7 /* einkApp.swift in Sources */,
 				93F292502C96751800ECCE35 /* DIYView.swift in Sources */,
 				936D15EF2C89D91600066274 /* GuideView.swift in Sources */,
@@ -923,6 +974,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 933EFF922C9B06F500856EE1 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */;
 			productName = SwiftfulLoadingIndicators;
+		};
+		93C898EA2CA448690001E331 /* BLECommunicator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 93C898E42CA30DE30001E331 /* XCLocalSwiftPackageReference "../BLECommunicator" */;
+			productName = BLECommunicator;
 		};
 /* End XCSwiftPackageProductDependency section */
 
