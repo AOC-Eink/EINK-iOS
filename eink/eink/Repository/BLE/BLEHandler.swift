@@ -17,7 +17,11 @@ class BLEHandler {
         communicator.delegate = self
     }
     
-    func startScanning() async {
+    var discoverDevices:(([BLEDevice])->Void)?
+    
+    func startScanning(discover:@escaping (([BLEDevice])->Void)) async {
+        self.discoverDevices = nil
+        self.discoverDevices = discover
         await communicator.startScan(withServices: nil)
     }
     
@@ -46,7 +50,7 @@ class BLEHandler {
 
 extension BLEHandler: BLECommunicatorDelegate {
     func bleCommunicator(_ communicator: any BLECommunicatorProtocol, didDiscoverDevice device: [UUID:BLEDevice]) {
-        
+        discoverDevices?(device.map{$0.value})
     }
     
     func bleCommunicator(_ communicator: any BLECommunicatorProtocol, didConnectDevice device: [UUID:CBPeripheral]) {

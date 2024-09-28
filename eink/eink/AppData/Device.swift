@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import SwiftUI
+import BLECommunicator
 
 enum ConnectStatus {
     case unConnected
@@ -120,13 +121,22 @@ enum DeviceType {
 struct Device:Hashable, Equatable {
     let indentify:String
     let deviceName:String
-    let deviceFuction: BLEDataService
-    init(indentify: String, deviceName: String, status: String, deviceImage: String, deviceFunction: BLEDataService) {
+    var bleDevice:BLEDevice?
+    var deviceFuction: BLEDataService?
+    init(indentify: String,
+         deviceName: String,
+         bleDevice:BLEDevice? = nil,
+         deviceFunction: BLEDataService? = nil) {
         self.indentify = indentify
         self.deviceName = deviceName
-        self.status = status
-        self.deviceImage = deviceImage
-        self.deviceFuction = deviceFunction
+        
+        if (deviceFunction != nil) {
+            self.deviceFuction = deviceFunction
+        }
+        
+        if (bleDevice != nil) {
+            self.bleDevice = bleDevice
+        }
     }
     
     func hash(into hasher: inout Hasher) {
@@ -147,7 +157,15 @@ struct Device:Hashable, Equatable {
     
     
     var status:String = "Unconnected"
-    var deviceImage:String = ""
+    
+    var deviceImage:String {
+        switch deviceType {
+        case .clock:
+            return "eink.clock.device"
+        case .phoneCase:
+            return "eink.case.device"
+        }
+    }
     
     var favoriteDesigns: [InkDesign] {
         dbDesigns.filter { $0.favorite }
@@ -166,7 +184,7 @@ struct Device:Hashable, Equatable {
             return .clock
         }
         
-        return .phoneCase
+        return .clock
     }
     
     var gridLayout:[GridItem] {

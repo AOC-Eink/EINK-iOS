@@ -89,4 +89,30 @@ extension CoreDataStack {
             }
         }
     }
+    
+    func insetOrUpdateDevice(name:String, item: Device) {
+        container.performBackgroundTask { context in
+            let request = NSFetchRequest<InkDevice>(entityName: "InkDesign")
+            request.fetchLimit = 1
+            request.predicate = NSPredicate(format: "name = %@", name)
+            request.sortDescriptors = [NSSortDescriptor(key: "createTimestamp", ascending: true)]
+            let result = try? context.fetch(request).first
+            if let hasDesign = result {
+
+                hasDesign.name = item.deviceName
+                hasDesign.deviceImage = item.deviceImage
+                try? context.save()
+            } else {
+
+                
+                let desgin = InkDevice(context: context)
+                desgin.name = item.deviceName
+                desgin.mac = item.indentify
+                desgin.deviceImage = item.deviceImage
+                desgin.hGrids = Int64(item.deviceType.shape[0])
+                desgin.vGrids = Int64(item.deviceType.shape[1])
+                try? context.save()
+            }
+        }
+    }
 }

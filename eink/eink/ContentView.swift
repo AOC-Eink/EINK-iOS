@@ -14,12 +14,22 @@ struct ContentView: View {
     
     @EnvironmentObject var appConfig:AppConfiguration
     @State var deviceManager = DeviceManager()
+    @FetchRequest var savedDevices: FetchedResults<InkDevice>
     
     @Environment(\.appRouter) var appRouter
     @State var selectIndex:Int = 0
     
+    
+    init() {
+        let request: NSFetchRequest<InkDevice> = InkDevice.deviceRequest
+        _savedDevices = FetchRequest(fetchRequest: request)
+    }
+    
     var activeDevice:Device {
-        deviceManager.devices[selectIndex]
+        let saveDevice = savedDevices.map({$0})[selectIndex]
+        
+        return Device(indentify: saveDevice.mac ?? "", deviceName: saveDevice.name ?? "")
+        
     }
 
     var isConnected: Bool {self.appRouter.isConnected ?? false}
@@ -39,7 +49,8 @@ struct ContentView: View {
 
     var body: some View {
         ZStack {
-            DiscoverView(selectIndex: $selectIndex)
+            DiscoverView(selectIndex: $selectIndex, 
+                         model: DiscoverView.Model(savedDevices.map{$0}))
                 .environment(deviceManager)
                 .zIndex(0)
             

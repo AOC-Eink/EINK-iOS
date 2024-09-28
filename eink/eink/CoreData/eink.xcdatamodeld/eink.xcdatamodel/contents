@@ -12,6 +12,7 @@
     </entity>
     <entity name="InkDevice" representedClassName="InkDevice" syncable="YES" codeGenerationType="class">
         <attribute name="createTimestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="deviceImage" optional="YES" attributeType="String"/>
         <attribute name="deviceType" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="hGrids" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="mac" optional="YES" attributeType="String"/>

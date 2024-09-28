@@ -4,22 +4,23 @@
 //
 //  Created by Aaron on 2024/9/25.
 //
+import Foundation
 
 protocol BLEDataService {
     func write()
     func read()
 }
 
-import Foundation
-@Observable class DeviceManager:BLEDataService {
+@Observable 
+class DeviceManager:BLEDataService {
     
     var devices:Array<Device> = []
     
-    let belHandle:BLEHandler = BLEHandler()
+    let bleHandle:BLEHandler = BLEHandler()
     
     
     init() {
-        devices = createModalDevices()
+        //devices = createModalDevices()
     }
     
     
@@ -28,14 +29,10 @@ import Foundation
         return [
             Device(indentify: "AA:BB:CC:DD",
                    deviceName: "E-INK Phone Case",
-                   status: "Unconected",
-                   deviceImage: "eink.case.device", 
                    deviceFunction: self),
             
             Device(indentify: "EE:FF:GG:HH",
                    deviceName: "E-INK Clock",
-                   status: "Unconected",
-                   deviceImage: "eink.clock.device", 
                    deviceFunction: self)
         ]
         
@@ -44,8 +41,23 @@ import Foundation
     
     
     
-    func startScaning() {
-        
+    func startScaning() async {
+        await bleHandle.startScanning(discover: {
+            newDevices in
+            self.devices.removeAll()
+            self.devices = newDevices.map{ ble in
+                Device(indentify: ble.id.uuidString,
+                       deviceName: ble.name ?? "new device",
+                       bleDevice: ble,
+                       deviceFunction: self
+                )
+            }
+        })
+    }
+    
+    func stopScan() async {
+        await bleHandle.stopScan()
+        self.devices.removeAll()
     }
     
     func write() {

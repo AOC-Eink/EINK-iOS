@@ -6,18 +6,24 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct DiscoverView: View {
     @Environment(\.appRouter) var appRouter
     @EnvironmentObject var appConfig:AppConfiguration
-    @Environment(DeviceManager.self) var deviceManager
+    //@Environment(DeviceManager.self) var deviceManager
     
     @Binding var selectIndex:Int
     @State private var showAddView:Bool = false
 
-//    let columns = [
-//            GridItem(.adaptive(minimum: 150))
-//        ]
+    let model:Model
+    
+    init(selectIndex:Binding<Int>, model:Model) {
+        _selectIndex = selectIndex
+        self.model = model
+    }
+    
+    
     let columns = [GridItem(.flexible()),
                    GridItem(.flexible())]
     
@@ -42,7 +48,7 @@ struct DiscoverView: View {
                 }
                 
                 
-                Text("\(deviceManager.devices.count) Devies")
+                Text("\(model.savedDevices.count) Devies")
                     .font(.deviceCount)
                     .fontWeight(.light)
                     .foregroundColor(.ekSubtitle)
@@ -59,9 +65,9 @@ struct DiscoverView: View {
                 
                 ScrollView {
                     LazyVGrid(columns: columns) {
-                        ForEach(Array(deviceManager.devices.enumerated()), id: \.element) {index, item in
+                        ForEach(Array(model.deviceList.enumerated()), id: \.element) {index, item in
                             DeviceCard(name: item.deviceName,
-                                       status: item.status,
+                                       status: "unKnow",
                                        image: item.deviceImage)
                             .onTapGesture {
                                 selectIndex = index
@@ -105,6 +111,6 @@ struct DiscoverView: View {
 }
 
 #Preview {
-    DiscoverView(selectIndex: .constant(0))
+    DiscoverView(selectIndex: .constant(0), model: DiscoverView.Model([]))
         .environment(DeviceManager())
 }

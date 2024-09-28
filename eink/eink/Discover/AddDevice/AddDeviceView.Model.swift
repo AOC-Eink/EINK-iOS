@@ -6,11 +6,22 @@
 //
 
 import Foundation
+import SwiftUI
 
 extension AddDeviceView {
     
     @Observable
     class Model {
+        
+        var deviceManager:DeviceManager?
+        func setManager(_ deviceManager:DeviceManager) {
+            if self.deviceManager == nil {
+                self.deviceManager = deviceManager
+                print("new init model")
+            }
+            
+        }
+        
         
         enum AddStatus {
             case scan
@@ -22,11 +33,42 @@ extension AddDeviceView {
             case addFail
         }
         
-        var addStatus:AddStatus = .scanNone
+        var selectDevice:Device?
         
-        var discoverDevices:[String] {
-            ["E-INK Phone Case","E-INK Clock","E-INK Headphones","E-INK Speakers", "E-INK Monitor"]
+        var addStatus:AddStatus = .scanNone {
+            didSet{
+                print("new addStatus = \(addStatus)")
+            }
         }
+        
+        var discoverDevices:[Device] {
+            self.deviceManager?.devices ?? []
+        }
+        
+        
+        func startScan() async {
+            await deviceManager?.startScaning()
+        }
+        
+        func stopScan() async {
+            print("stopScan")
+            await deviceManager?.stopScan()
+        }
+        
+        func stopTask() async {
+            addStatus = .scan
+            await stopScan()
+        }
+        
+        func saveAdd() {
+            if let device = selectDevice {
+                CoreDataStack.shared.insetOrUpdateDevice(name: device.deviceName, item: device)
+            }
+        }
+        
+        
+        static let modaModel = Model()
+        
         
     }
 }

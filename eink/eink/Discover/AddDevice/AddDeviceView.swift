@@ -12,13 +12,52 @@ struct AddDeviceView: View {
     
     let model:Model = Model()
     @Binding var showAddView:Bool
+    @Environment(DeviceManager.self) var deviceManager
     
+    init(showAddView: Binding<Bool>) {
+        _showAddView = showAddView
+        print("new init")
+    }
     
     var body: some View {
         ZStack {
             VStack {
                 Spacer()
                 VStack(alignment:.center) {
+                    
+                    Color.black
+                        .frame(width: 80, height: 6)
+                        .cornerRadius(3)
+                        .onTapGesture {
+                            Task{
+                                model.addStatus = .scan
+                                await model.stopScan()
+                                withAnimation {
+                                    showAddView = false
+                                }
+                            }
+                            
+                        }
+                        .gesture(
+                            DragGesture(minimumDistance: 5, coordinateSpace: .local)
+                                    .onEnded { gesture in
+                                        let verticalMovement = gesture.translation.height
+                                        let threshold: CGFloat = 50 // 设置一个阈值来判断是否为有效的下滑
+
+                                        if verticalMovement > threshold {
+                                            Task{
+                                                model.addStatus = .scan
+                                                await model.stopScan()
+                                                withAnimation {
+                                                    showAddView = false
+                                                }
+                                            }
+                                            
+                                        }
+                                    }
+                        )
+                        
+                    Spacer()
                     switch model.addStatus {
                     case .scan, .scanNone, .descovered:
                         scanView
@@ -43,6 +82,30 @@ struct AddDeviceView: View {
         }
         .ignoresSafeArea()
         .contentShape(Rectangle())
+        .onChange(of: model.discoverDevices) { oldValue, newValue in
+            print("newValue \(newValue.count) model.addStatus = \(model.addStatus)")
+            if oldValue != newValue && newValue.count > 0 && model.addStatus == .scan {
+                print("model.addStatus = .descovered")
+                self.model.addStatus = .descovered
+            }
+        }
+        .onAppear{
+            print("onAppear")
+            model.setManager(deviceManager)
+            model.addStatus = .scan
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+                Task{
+                    await self.model.startScan()
+                }
+            })
+        }
+        .onChange(of: showAddView) { oldValue, newValue in
+            print("showAddView = \(showAddView)")
+            if newValue {
+                model.addStatus = .scan
+                model.setManager(deviceManager)
+            }
+        }
         
     }
     
@@ -81,6 +144,10 @@ struct AddDeviceView: View {
             
             Button(action: {
                 model.addStatus = .scan
+                Task{
+                    await model.startScan()
+                }
+                
             }, label: {
                 Text("ReScan")
                     .padding(.horizontal)
@@ -114,18 +181,21 @@ struct AddDeviceView: View {
             HStack{
                 Button(action: {
                     model.addStatus = .descovered
+                    Task{
+                        await model.startScan()
+                    }
                 },label: {
                     Image(systemName: "arrow.uturn.backward")
                         .foregroundStyle(.opButton)
                 })
                 Spacer()
             }
-            Image("eink.case.device")
+            Image(model.selectDevice?.deviceImage ?? "")
                 .resizable()
                 .scaledToFit()
                 .frame(height: 200)
             
-            Text("E-INK Phone Case")
+            Text(model.selectDevice?.deviceName ?? "")
                 .font(.sectionTitle)
                 .foregroundStyle(.sectionTitle)
             
@@ -134,6 +204,8 @@ struct AddDeviceView: View {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     model.addStatus = .addSuccess
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        model.saveAdd()
+                        model.addStatus = .scanNone
                         withAnimation {
                             showAddView = false
                         }
@@ -195,11 +267,15 @@ struct AddDeviceView: View {
                     Spacer()
                 }
                 List{
-                    ForEach(model.discoverDevices.indices, id: \.self) { index in
+                    ForEach(model.discoverDevices, id: \.indentify) { device in
                         Button(action: {
+                            Task{
+                                await model.stopScan()
+                            }
                             model.addStatus = .select
+                            model.selectDevice = device
                         }) {
-                            Text(model.discoverDevices[index])
+                            Text(device.deviceName)
                                 .font(.sectionTitle)
                                 .foregroundStyle(.sectionTitle)
                                 .frame(maxWidth: .infinity, alignment:.leading)
@@ -223,9 +299,17 @@ struct AddDeviceView: View {
                 Button {
                     if model.addStatus == .scanNone {
                         model.addStatus = .scan
+                        model.setManager(deviceManager)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+                            Task{
+                                await self.model.startScan()
+                            }
+                        })
+                        
                     } else {
                         model.addStatus = .descovered
                     }
+                    
                 } label: {
                     Text(model.addStatus == .scanNone ? "Scan":"Searching")
                         .foregroundStyle(model.addStatus == .scanNone ? .white : .opButton)
