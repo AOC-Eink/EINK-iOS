@@ -16,4 +16,5 @@ public enum BLEError: Error {
     case writeError
     case readError
     case deviceNotConnected
+    case noData
 }

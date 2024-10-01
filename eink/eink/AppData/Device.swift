@@ -180,7 +180,7 @@ struct Device:Hashable, Equatable {
             return .phoneCase
         }
         
-        if deviceName.contains("Clock") {
+        if deviceName.contains("Clock") || bleDevice?.pid == 0x4E61 {
             return .clock
         }
         
