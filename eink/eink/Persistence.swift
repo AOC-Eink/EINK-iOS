@@ -90,6 +90,22 @@ extension CoreDataStack {
         }
     }
     
+    func deleteDesignWithName(name: String) throws {
+        container.performBackgroundTask { context in
+            let request = NSFetchRequest<InkDesign>(entityName: "InkDesign")
+            request.predicate = NSPredicate(format: "name = %@", name)
+            do {
+                if let result = try context.fetch(request).first {
+                    context.delete(result)
+                    try context.save()
+                }
+            } catch let error as NSError {
+                print("Error in deleting object: \(error), \(error.userInfo)")
+            }
+        }
+    }
+    
+    
     func insetOrUpdateDevice(name:String, item: Device) {
         container.performBackgroundTask { context in
             let request = NSFetchRequest<InkDevice>(entityName: "InkDesign")
@@ -112,6 +128,21 @@ extension CoreDataStack {
                 desgin.hGrids = Int64(item.deviceType.shape[0])
                 desgin.vGrids = Int64(item.deviceType.shape[1])
                 try? context.save()
+            }
+        }
+    }
+    
+    func deleteDeviceWith(mac: String) throws {
+        container.performBackgroundTask { context in
+            let request = NSFetchRequest<InkDevice>(entityName: "InkDevice")
+            request.predicate = NSPredicate(format: "mac = %@", mac)
+            do {
+                if let result = try context.fetch(request).first {
+                    context.delete(result)
+                    try context.save()
+                }
+            } catch let error as NSError {
+                print("Error in deleting object: \(error), \(error.userInfo)")
             }
         }
     }

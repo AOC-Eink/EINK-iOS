@@ -9,15 +9,16 @@ import SwiftUI
 
 struct FavoriteButton: View {
     
+    let initState:Bool
     @Binding var isSelect:Bool
     var onTouch:((Bool)->Void)?
     
     var bgImage:String {
-        isSelect ? "favorite.bg.active":"favorite.bg.normal"
+        isSelect||initState ? "favorite.bg.active":"favorite.bg.normal"
     }
     
     var starImage:String {
-        isSelect ?  "favorite.star.active":"favorite.star.normal"
+        isSelect||initState ?  "favorite.star.active":"favorite.star.normal"
     }
     
     var body: some View {
@@ -43,5 +44,5 @@ struct FavoriteButton: View {
 }
 
 #Preview {
-    FavoriteButton(isSelect: .constant(false))
+    FavoriteButton(initState: true, isSelect: .constant(false))
 }

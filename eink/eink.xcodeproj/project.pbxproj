@@ -59,6 +59,9 @@
 		93F332C92C8F3F2100C01091 /* PresetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F332C82C8F3F2100C01091 /* PresetView.swift */; };
 		93F332CF2C91C4E000C01091 /* SliderCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F332CE2C91C4E000C01091 /* SliderCard.swift */; };
 		93F332D12C91C52E00C01091 /* SliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F332D02C91C52E00C01091 /* SliderView.swift */; };
+		93FBAC8F2CAD609800BB2B7B /* EditPopverMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FBAC8E2CAD609800BB2B7B /* EditPopverMenu.swift */; };
+		93FBAC922CAD7D3900BB2B7B /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 93FBAC912CAD7D3900BB2B7B /* AlertToast */; };
+		93FBAC942CAD825400BB2B7B /* EnvironmentKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FBAC932CAD825400BB2B7B /* EnvironmentKey.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -132,6 +135,8 @@
 		93F332C82C8F3F2100C01091 /* PresetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetView.swift; sourceTree = "<group>"; };
 		93F332CE2C91C4E000C01091 /* SliderCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderCard.swift; sourceTree = "<group>"; };
 		93F332D02C91C52E00C01091 /* SliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderView.swift; sourceTree = "<group>"; };
+		93FBAC8E2CAD609800BB2B7B /* EditPopverMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPopverMenu.swift; sourceTree = "<group>"; };
+		93FBAC932CAD825400BB2B7B /* EnvironmentKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentKey.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +144,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93FBAC922CAD7D3900BB2B7B /* AlertToast in Frameworks */,
 				933EFF942C9B06F500856EE1 /* SwiftfulLoadingIndicators in Frameworks */,
 				93C898EB2CA448690001E331 /* BLECommunicator in Frameworks */,
 			);
@@ -252,6 +258,7 @@
 				933EFF972C9E559000856EE1 /* AlertManager.swift */,
 				93C898D72C9EAFAD0001E331 /* AlertModifier.swift */,
 				93C898DF2C9FFCC30001E331 /* RoundedBorderModifier.swift */,
+				93FBAC932CAD825400BB2B7B /* EnvironmentKey.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -423,6 +430,7 @@
 				93F332C62C8F3DF400C01091 /* PresetGridView.swift */,
 				93F332C42C8F36FD00C01091 /* PresetCard.swift */,
 				93F332C82C8F3F2100C01091 /* PresetView.swift */,
+				93FBAC8E2CAD609800BB2B7B /* EditPopverMenu.swift */,
 			);
 			path = Preset;
 			sourceTree = "<group>";
@@ -455,6 +463,7 @@
 			packageProductDependencies = (
 				933EFF932C9B06F500856EE1 /* SwiftfulLoadingIndicators */,
 				93C898EA2CA448690001E331 /* BLECommunicator */,
+				93FBAC912CAD7D3900BB2B7B /* AlertToast */,
 			);
 			productName = eink;
 			productReference = 9301E7ED2C87489700381CA7 /* eink.app */;
@@ -531,6 +540,7 @@
 			packageReferences = (
 				933EFF922C9B06F500856EE1 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */,
 				93C898E42CA30DE30001E331 /* XCLocalSwiftPackageReference "../BLECommunicator" */,
+				93FBAC902CAD7D3900BB2B7B /* XCRemoteSwiftPackageReference "AlertToast" */,
 			);
 			productRefGroup = 9301E7EE2C87489700381CA7 /* Products */;
 			projectDirPath = "";
@@ -574,6 +584,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93FBAC8F2CAD609800BB2B7B /* EditPopverMenu.swift in Sources */,
 				9301E7FD2C87489800381CA7 /* eink.xcdatamodeld in Sources */,
 				93F2924E2C96671400ECCE35 /* StringExtension.swift in Sources */,
 				9301E7FA2C87489800381CA7 /* Persistence.swift in Sources */,
@@ -598,6 +609,7 @@
 				93F332D12C91C52E00C01091 /* SliderView.swift in Sources */,
 				93F292442C947C3A00ECCE35 /* ViewExtension.swift in Sources */,
 				93C898F62CA648930001E331 /* AddDeviceView.Model.swift in Sources */,
+				93FBAC942CAD825400BB2B7B /* EnvironmentKey.swift in Sources */,
 				93E4B4FC2C8C4EA10094DEDD /* FontExtension.swift in Sources */,
 				93C898D82C9EAFAD0001E331 /* AlertModifier.swift in Sources */,
 				930BDA922C8C436E008672C5 /* ColorExtension.swift in Sources */,
@@ -969,6 +981,14 @@
 				minimumVersion = 0.0.4;
 			};
 		};
+		93FBAC902CAD7D3900BB2B7B /* XCRemoteSwiftPackageReference "AlertToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/elai950/AlertToast.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.9;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -981,6 +1001,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 93C898E42CA30DE30001E331 /* XCLocalSwiftPackageReference "../BLECommunicator" */;
 			productName = BLECommunicator;
+		};
+		93FBAC912CAD7D3900BB2B7B /* AlertToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 93FBAC902CAD7D3900BB2B7B /* XCRemoteSwiftPackageReference "AlertToast" */;
+			productName = AlertToast;
 		};
 /* End XCSwiftPackageProductDependency section */
 

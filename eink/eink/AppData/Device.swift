@@ -142,21 +142,24 @@ struct Device:Hashable, Equatable {
     func hash(into hasher: inout Hasher) {
             hasher.combine(indentify)
             hasher.combine(deviceName)
-            hasher.combine(status)
+            hasher.combine(dbDesigns)
             hasher.combine(deviceImage)
         }
     
     static func == (lhs: Device, rhs: Device) -> Bool {
         return lhs.indentify == rhs.indentify &&
                lhs.deviceName == rhs.deviceName &&
-               lhs.status == rhs.status &&
+               lhs.dbDesigns == rhs.dbDesigns &&
                lhs.deviceImage == rhs.deviceImage
     }
     
     var dbDesigns: [InkDesign] = []
     
+    mutating func updateStatus(_ status:String) {
+        self.bleStatus = status
+    }
     
-    var status:String = "Unconnected"
+    var bleStatus:String = "Conneting"
     
     var deviceImage:String {
         switch deviceType {
@@ -188,20 +191,17 @@ struct Device:Hashable, Equatable {
     }
     
     var gridLayout:[GridItem] {
-        if deviceName.contains("Case") {
+        switch deviceType {
+            
+        case .clock:
+            return [GridItem(.flexible()),
+                    GridItem(.flexible())]
+            
+        case .phoneCase:
             return [GridItem(.flexible()),
                     GridItem(.flexible()),
                     GridItem(.flexible())]
         }
-        
-        if deviceName.contains("Clock") {
-            return [GridItem(.flexible()),
-                    GridItem(.flexible())]
-        }
-        
-        return [GridItem(.flexible()),
-                GridItem(.flexible()),
-                GridItem(.flexible())]
     }
     
     var inkStyle:InkStyle {

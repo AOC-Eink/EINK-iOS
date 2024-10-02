@@ -13,10 +13,15 @@ extension DIYView {
     class Model {
         
         let device:Device
+        var colors:[String]
+        let diyName:String
+        let initFavorite:Bool
         
-        init(_ device: Device) {
+        init(_ device: Device, name:String = "", colors:[String] = [], favorite:Bool = false) {
             self.device = device
-            self.colors = Array(repeating: "DBDBDB", count: device.inkCounts)
+            self.diyName = name
+            self.colors = colors == [] ? Array(repeating: "DBDBDB", count: device.inkCounts) : colors
+            self.initFavorite = favorite
         }
         
         let panelColors = [("green", "497A64"),
@@ -38,7 +43,7 @@ extension DIYView {
             colors.joined(separator: ",")
         }
         
-        var colors:[String] = []
+        
         
         func clearDesgin() {
             colors = Array(repeating: "DBDBDB", count: device.inkCounts)

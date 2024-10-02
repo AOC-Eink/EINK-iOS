@@ -42,6 +42,7 @@ enum CatagoryRoute: Hashable {
 
 enum AddRouter: Hashable {
     case new
+    case edit(InkDesign)
 }
 
 enum FavoritesRoute: Hashable {

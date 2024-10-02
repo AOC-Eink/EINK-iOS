@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CustomTextField: View {
     let placeholder: String
+    let initName: String
     @Binding var text: String
     @State private var isEditing = false
     

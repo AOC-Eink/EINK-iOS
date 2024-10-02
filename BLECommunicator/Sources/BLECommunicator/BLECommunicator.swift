@@ -83,11 +83,11 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
         }
         
         let mfData = MFData(adData)
-        if mfData.vid == AOCMF.vid {
+        //if mfData.vid == AOCMF.vid {
             let device = BLEDevice(peripheral: peripheral, pid: mfData.pid, mid: mfData.mid)
             discoveredDevices[peripheral.identifier] = device
             delegate?.bleCommunicator(self, didDiscoverDevice: discoveredDevices)
-        }
+        //}
         
     }
     

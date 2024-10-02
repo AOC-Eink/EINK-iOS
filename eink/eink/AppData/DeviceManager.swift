@@ -47,7 +47,7 @@ class DeviceManager:BLEDataService {
             self.devices.removeAll()
             self.devices = newDevices.map{ ble in
                 Device(indentify: ble.id.uuidString,
-                       deviceName: ble.name ?? "new device",
+                       deviceName: ble.name ?? "UnKnown",
                        bleDevice: ble,
                        deviceFunction: self
                 )

@@ -10,6 +10,8 @@ import SwiftUI
 struct DIYPanel: View {
     
     let colors: [(name: String, hex: String)]
+    let name:String
+    let initFavorite:Bool
     let onTouch:((String?)->Void)
     let onSave:(Bool, String)->Void
     let onEmploy:()->Void
@@ -28,13 +30,17 @@ struct DIYPanel: View {
     
     @State private var isFavorite:Bool = false
     
+    @EnvironmentObject var alertManager: AlertManager
+    
     var body: some View {
         VStack(alignment:.leading) {
             HStack(alignment:.top) {
-                CustomTextField(placeholder: "Name your design ", text: $inputText)
+                CustomTextField(placeholder: "Name your design ", 
+                                initName: name,
+                                text: $inputText)
                     .padding(.top)
                     .padding(.leading)
-                FavoriteButton(isSelect: $isFavorite)
+                FavoriteButton(initState: initFavorite, isSelect: $isFavorite)
             }
             .padding(.bottom, 5)
          
@@ -70,7 +76,14 @@ struct DIYPanel: View {
             HStack(spacing:50) {
                 
                 CustomButton(title: "Save") {
-                    onSave(isFavorite, inputText)
+                    if inputText.isEmpty {
+                        alertManager.showAlert(
+                            message: "Name should not be empty"
+                        )
+                    } else {
+                        onSave(isFavorite||initFavorite, inputText)
+                    }
+                    
                 }
                 
                 CustomButton(title: "Employ") {
@@ -90,6 +103,9 @@ struct DIYPanel: View {
 //        .aspectRatio(3/2, contentMode: .fit)
 //        .ignoresSafeArea(.keyboard)
         .frame(height: 260)
+        .onAppear{
+            inputText = name
+        }
         
 //        .toolbar {
 //            ToolbarItem(placement: .bottomBar) {
@@ -110,5 +126,5 @@ struct DIYPanel: View {
             ("black", "3F384A"),
             ("red", "A45942"),
             ("off", "DBDBDB")
-    ], onTouch: {_ in}, onSave: {_,_ in}, onEmploy: {})
+    ], name: "hello", initFavorite: true, onTouch: {_ in}, onSave: {_,_ in}, onEmploy: {})
 }

@@ -62,18 +62,41 @@ struct DiscoverView: View {
                     .foregroundColor(.sectionTitle)
                     .padding(.top, 60)
                     .padding(.leading, 5)
-                
-                ScrollView {
-                    LazyVGrid(columns: columns) {
-                        ForEach(Array(model.deviceList.enumerated()), id: \.element) {index, item in
-                            DeviceCard(name: item.deviceName,
-                                       status: "unKnow",
-                                       image: item.deviceImage)
-                            .onTapGesture {
-                                selectIndex = index
-                                appRouter.isConnected = true
+                if model.deviceList.isEmpty {
+                    VStack {
+                        Spacer()
+                        Button(action: {
+                            showAddView = true
+                        }) {
+                            Image(systemName: "plus.app.fill")
+                                .resizable()
+                                .frame(width: 60, height: 60)
+                                .foregroundColor(.gray)
+                                .clipShape(Circle())
+                        }
+                        .padding()
+                        
+                        
+                        Text("Please add a device")
+                            .padding()
+                        Spacer()
+                    }
+                    .frame(maxWidth: .infinity)
+                } else {
+                    ScrollView {
+                        
+                        LazyVGrid(columns: columns) {
+                            ForEach(Array(model.deviceList.enumerated()), id: \.element) {index, item in
+                                DeviceCard(name: item.deviceName,
+                                           status: item.bleStatus,
+                                           image: item.deviceImage)
+                                .onTapGesture {
+                                    selectIndex = index
+                                    appRouter.isConnected = true
+                                }
                             }
                         }
+                        
                     }
                 }
                 //.padding()

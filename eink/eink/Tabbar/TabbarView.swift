@@ -29,6 +29,23 @@ struct TabbarView: View {
         designs.filter { !$0.favorite }
     }
     
+    var newAddName: String {
+        var newName = "New Design"
+        var counter = 0
+        
+        while designs.contains(where: { $0.name == newName }) {
+            counter += 1
+            newName = "New Design \(counter)"
+        }
+        
+        return newName
+    }
+    
+    @State private var diyColors:[String] = []
+    @State private var diyName:String = ""
+    @State private var diyFavorite:Bool = false
+    
+    
     @State private var selectedTab: Router = .home(nil)
     
     var body: some View {
@@ -64,7 +81,8 @@ struct TabbarView: View {
                 .tint(.opButton)
                 
                 Button(action: {
-                    onAddTouch = true
+                    diyName = newAddName
+                    onAddTouch.toggle()
                 }) {
                     Image(systemName: "plus.app.fill")
                         .resizable()
@@ -76,7 +94,12 @@ struct TabbarView: View {
             .zIndex(0)
             
             if onAddTouch {
-                DIYView(model: DIYView.Model(device), isPresented: $onAddTouch)
+                DIYView(model: DIYView.Model(device,
+                                             name: diyName,
+                                             colors: diyColors,
+                                             favorite: diyFavorite
+                                            ),
+                        isPresented: $onAddTouch)
                     .transition(.move(edge: .bottom))
                     .zIndex(1)
             }
@@ -84,7 +107,21 @@ struct TabbarView: View {
             
         }
         .animation(.easeInOut, value: onAddTouch)
+        .environment(\.goDIYView) { colors, name, favorite in
+            self.diyColors = colors ?? []
+            self.diyName = name ?? ""
+            self.diyFavorite = favorite ?? false
+            if name == nil {
+                self.diyName = self.newAddName
+            }
+            onAddTouch = true
+        }
+        .onAppear{
+            
+        }
+        
     }
+    
 }
 
 #Preview {

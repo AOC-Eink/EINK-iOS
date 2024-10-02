@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 extension DiscoverView {
     
@@ -13,18 +14,24 @@ extension DiscoverView {
     class Model {
         
         let savedDevices:[InkDevice]
+        var testDevices:[Device]
         
-        init(_ savedDevices: [InkDevice]) {
+        init(_ savedDevices: [InkDevice], _ devices:[Device] = []) {
             self.savedDevices = savedDevices
+            self.testDevices = devices
         }
         
         var deviceList:[Device] {
-            savedDevices.map{ saveDevice in
+            let save = savedDevices.map{ saveDevice in
                 
                 Device(indentify: saveDevice.mac ?? "",
                        deviceName: saveDevice.name ?? "")
                 
             }
+            
+            testDevices.append(contentsOf: save)
+            
+            return testDevices
         }
         
     }

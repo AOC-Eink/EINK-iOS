@@ -26,12 +26,14 @@ struct ContentView: View {
     }
     
     var activeDevice:Device {
-        let saveDevice = savedDevices.map({$0})[selectIndex]
         
-        return Device(indentify: saveDevice.mac ?? "", deviceName: saveDevice.name ?? "")
+        let saveDevices:[Device] = savedDevices.map({Device(indentify: $0.mac ?? "", deviceName: $0.name ?? "")})
+        let testdevices:[Device] = deviceManager.createModalDevices()
+        let totalDevices:[Device] = testdevices + saveDevices
+        
+        return totalDevices[selectIndex]
         
     }
-
     var isConnected: Bool {self.appRouter.isConnected ?? false}
 //    Binding<Bool> {
 //        Binding<Bool>(
@@ -50,7 +52,7 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             DiscoverView(selectIndex: $selectIndex, 
-                         model: DiscoverView.Model(savedDevices.map{$0}))
+                         model: DiscoverView.Model(savedDevices.map{$0}, deviceManager.createModalDevices()))
                 .environment(deviceManager)
                 .zIndex(0)
             

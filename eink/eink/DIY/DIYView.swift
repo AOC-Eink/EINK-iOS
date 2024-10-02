@@ -108,6 +108,8 @@ struct DIYView: View {
     @ViewBuilder
     var colorPanel: some View {
         DIYPanel(colors: model.panelColors,
+                 name: model.diyName, 
+                 initFavorite: model.initFavorite,
                  onTouch: { color in
                 currentColor = color
                 guard let touchColor = color else {

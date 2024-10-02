@@ -306,8 +306,6 @@ struct AddDeviceView: View {
                             }
                         })
                         
-                    } else {
-                        model.addStatus = .descovered
                     }
                     
                 } label: {

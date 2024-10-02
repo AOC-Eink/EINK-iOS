@@ -12,7 +12,9 @@ struct PresetCard: View {
     let title:String
     let presetView: PresetView?
     let ratio:CGFloat = 1.0
-
+    @State var showPopover = false
+    
+    var onTouch:((EditAction)->Void)?
     
     var body: some View {
         VStack(alignment:.center, spacing: 10){
@@ -27,6 +29,13 @@ struct PresetCard: View {
                 .foregroundStyle(.sectionTitle)
         }
         .background(Color.white) // 设置背景色
+        .onTapGesture {
+            showPopover.toggle()
+        }
+        .popover(isPresented: $showPopover, content: {
+            EditPopverMenu(showPopover: $showPopover, onTouch: onTouch)
+                .presentationCompactAdaptation(.popover)
+        })
     }
 }
 

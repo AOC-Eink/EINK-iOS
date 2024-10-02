@@ -7,6 +7,13 @@
 
 import SwiftUI
 import CoreData
+import AlertToast
+
+enum EditAction {
+    case apply
+    case edit
+    case delete
+}
 
 struct PresetGridView: View {
     
@@ -18,6 +25,9 @@ struct PresetGridView: View {
     }
     
     @EnvironmentObject var alertManager: AlertManager
+    @Environment(\.appRouter) var appRouter
+    @Environment(\.goDIYView) var goDIYView
+    @State private var showToast = false
     
     let device:Device
     let designs:[InkDesign]
@@ -29,20 +39,25 @@ struct PresetGridView: View {
         self.pageType = pageType
     }
     
+    func deleteAlert(_ name:String) {
+        alertManager.showAlert(
+            message: "Are you sure to delete this design",
+            confirmAction: {
+                try? CoreDataStack.shared.deleteDesignWithName(name: name)
+            },
+            cancelAction: {
+                
+            }
+            )
+    }
     
-//    var designs:[InkDesign] {
-//        switch pageType {
-//        case .preset:
-//            return []
-//        case .custom:
-//            return []
-//        case .category:
-//            return device.favoriteDesigns
-//        case .favorite:
-//            return device.favoriteDesigns
-//        }
-//    }
+    func applay(_ colors:[String]) {
+        showToast.toggle()
+    }
     
+    func edit(_ design:InkDesign) {
+        goDIYView(design.colors?.components(separatedBy: ",") ,design.name, design.favorite)
+    }
     
     var body: some View {
         VStack(alignment:.leading){
@@ -63,22 +78,33 @@ struct PresetGridView: View {
                                                       vGrides: Int(item.vGrids),
                                                       heightRatio: device.inkStyle.heightRatio,
                                                       inkStyle: device.inkStyle
-                                                     ))
-                    .onTapGesture {
-                        alertManager.showAlert(
-                            message: "Are you sure to active this design",
-                            confirmAction: {
+                                                     ),
+                        onTouch:{ action in
+                                    
+                        switch action {
+                            
+                        case .apply:
+                            applay(item.colors?.components(separatedBy: ",") ?? [])
+                        case .edit:
+                            edit(item)
+                        case .delete:
+                            deleteAlert(item.name ?? "")
+                        }
                                 
-                            },
-                            cancelAction: {
-                                
-                            }
-                        )
-                    }
+                       }
+                        
+                               
+                    )
+                    
                 }
             }
             
-        }.padding()
+        }
+        .padding()
+        .toast(isPresenting: $showToast) {
+            AlertToast(type: .complete(.designGreen), title: "Apply Success")
+        }
+        
     }
 }
 
