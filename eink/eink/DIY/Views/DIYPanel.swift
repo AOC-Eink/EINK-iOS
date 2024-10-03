@@ -28,6 +28,8 @@ struct DIYPanel: View {
     
     @State private var selectColor:String?
     
+    @State private var previewColor:String?
+    
     @State private var isFavorite:Bool = false
     
     @EnvironmentObject var alertManager: AlertManager

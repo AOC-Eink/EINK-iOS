@@ -61,8 +61,11 @@ extension CoreDataStack {
     func insetOrUpdateDesign(name:String = "", item: Design? = nil) {
         container.performBackgroundTask { context in
             let request = NSFetchRequest<InkDesign>(entityName: "InkDesign")
+            let namePredicate = NSPredicate(format: "name = %@", name)
+            let deviceIdPredicate = NSPredicate(format: "deviceId = %@", item?.deviceId ?? "")
+            let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [namePredicate, deviceIdPredicate])
             request.fetchLimit = 1
-            request.predicate = NSPredicate(format: "name = %@", name)
+            request.predicate = compoundPredicate
             request.sortDescriptors = [NSSortDescriptor(key: "createTimestamp", ascending: true)]
             let result = try? context.fetch(request).first
             if let hasDesign = result {

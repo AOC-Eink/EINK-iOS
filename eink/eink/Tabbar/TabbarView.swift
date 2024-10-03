@@ -19,6 +19,7 @@ struct TabbarView: View {
         self.device = device
         let request: NSFetchRequest<InkDesign> = InkDesign.designRequest(forDeviceId: device.indentify)
         _designs = FetchRequest(fetchRequest: request)
+        
     }
     
     var favoriteDesigns: [InkDesign] {
@@ -117,7 +118,9 @@ struct TabbarView: View {
             onAddTouch = true
         }
         .onAppear{
-            
+            for item in designs {
+                print("\(item.name ?? "")")
+            }
         }
         
     }

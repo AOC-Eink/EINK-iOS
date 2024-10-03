@@ -30,8 +30,8 @@ struct AddDeviceView: View {
                         .cornerRadius(3)
                         .onTapGesture {
                             Task{
-                                model.addStatus = .scan
-                                await model.stopScan()
+                                
+                                await model.stopTask()
                                 withAnimation {
                                     showAddView = false
                                 }

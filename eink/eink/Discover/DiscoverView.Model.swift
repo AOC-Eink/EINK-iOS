@@ -14,11 +14,9 @@ extension DiscoverView {
     class Model {
         
         let savedDevices:[InkDevice]
-        var testDevices:[Device]
         
-        init(_ savedDevices: [InkDevice], _ devices:[Device] = []) {
+        init(_ savedDevices: [InkDevice]) {
             self.savedDevices = savedDevices
-            self.testDevices = devices
         }
         
         var deviceList:[Device] {
@@ -29,9 +27,7 @@ extension DiscoverView {
                 
             }
             
-            testDevices.append(contentsOf: save)
-            
-            return testDevices
+            return save
         }
         
     }

@@ -20,13 +20,13 @@ class DeviceManager:BLEDataService {
     
     
     init() {
-        //devices = createModalDevices()
+        createModalDevices()
     }
     
     
-    func createModalDevices() -> [Device] {
+    func createModalDevices() {
 
-        return [
+        let testDevies = [
             Device(indentify: "AA:BB:CC:DD",
                    deviceName: "E-INK Phone Case",
                    deviceFunction: self),
@@ -35,6 +35,10 @@ class DeviceManager:BLEDataService {
                    deviceName: "E-INK Clock",
                    deviceFunction: self)
         ]
+        
+        for device in testDevies {
+            CoreDataStack.shared.insetOrUpdateDevice(name: device.deviceName, item: device)
+        }
         
     }
     
