@@ -83,6 +83,8 @@ struct TabbarView: View {
                 
                 Button(action: {
                     diyName = newAddName
+                    diyColors = []
+                    diyFavorite = false
                     onAddTouch.toggle()
                 }) {
                     Image(systemName: "plus.app.fill")
@@ -103,6 +105,7 @@ struct TabbarView: View {
                         isPresented: $onAddTouch)
                     .transition(.move(edge: .bottom))
                     .zIndex(1)
+                    .id(UUID())
             }
 
             

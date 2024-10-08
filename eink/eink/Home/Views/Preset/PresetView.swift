@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PresetView: View {
+    @Environment(\.displayScale) var displayScale
     let colors:String
     let hGrids:Int
     let vGrides:Int
@@ -18,18 +19,33 @@ struct PresetView: View {
         colors.components(separatedBy: ",")
     }
     
+    var itemWidth: CGFloat {
+        let baseWidth: CGFloat = 25
+        
+        switch displayScale {
+        case 1:
+            return baseWidth*0.5
+        case 2:
+            return baseWidth*0.67
+        case 3:
+            return baseWidth
+        default:
+            return baseWidth
+        }
+    }
+    
     var body: some View {
         VStack {
             TriangleGridView(colors: hexColors,
                              columns: hGrids,
                              rows: vGrides,
-                             triangleSize: 25,
+                             triangleSize: itemWidth,
                              heightRatio: heightRatio,
                              onTouch: {index, isRepeat, color in
                 
             })
-            .roundedBorder(cornerRadius: inkStyle.cornerRadius,
-                           borderWidth: inkStyle.borderWidth,
+            .roundedBorder(cornerRadius: inkStyle.cornerRadius*0.5,
+                           borderWidth: inkStyle.borderWidth*0.5,
                            borderColor: inkStyle.borderColor,
                            isCircle: inkStyle.isCircle)
         }

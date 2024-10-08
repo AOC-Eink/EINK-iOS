@@ -86,7 +86,7 @@ struct DiscoverView: View {
                     ScrollView {
                         
                         LazyVGrid(columns: columns) {
-                            ForEach(Array(model.deviceList.enumerated()), id: \.element) {index, item in
+                            ForEach(Array(model.deviceList.enumerated()), id: \.offset) {index, item in
                                 DeviceCard(name: item.deviceName,
                                            status: item.bleStatus,
                                            image: item.deviceImage)
@@ -127,6 +127,7 @@ struct DiscoverView: View {
                 AddDeviceView(showAddView: $showAddView)
                     .transition(.move(edge: .bottom))
                     .animation(.spring(), value: showAddView)
+                    .id(UUID())
                 
             }
         }

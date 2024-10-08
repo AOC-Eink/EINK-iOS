@@ -110,29 +110,29 @@ extension CoreDataStack {
     
     
     func insetOrUpdateDevice(name:String, item: Device) {
-        container.performBackgroundTask { context in
-            let request = NSFetchRequest<InkDevice>(entityName: "InkDesign")
-            request.fetchLimit = 1
-            request.predicate = NSPredicate(format: "name = %@", name)
-            request.sortDescriptors = [NSSortDescriptor(key: "createTimestamp", ascending: true)]
-            let result = try? context.fetch(request).first
-            if let hasDesign = result {
-
-                hasDesign.name = item.deviceName
-                hasDesign.deviceImage = item.deviceImage
-                try? context.save()
-            } else {
-
-                
-                let desgin = InkDevice(context: context)
-                desgin.name = item.deviceName
-                desgin.mac = item.indentify
-                desgin.deviceImage = item.deviceImage
-                desgin.hGrids = Int64(item.deviceType.shape[0])
-                desgin.vGrids = Int64(item.deviceType.shape[1])
-                try? context.save()
-            }
-        }
+        let context = container.viewContext
+         let request = NSFetchRequest<InkDevice>(entityName: "InkDevice")
+         request.predicate = NSPredicate(format: "name = %@", name)
+         
+         do {
+             if let existingDevice = try context.fetch(request).first {
+                 // 更新现有设备
+                 existingDevice.name = item.deviceName
+                 existingDevice.deviceImage = item.deviceImage
+             } else {
+                 // 创建新设备
+                 let newDevice = InkDevice(context: context)
+                 newDevice.name = item.deviceName
+                 newDevice.mac = item.indentify
+                 newDevice.deviceImage = item.deviceImage
+                 newDevice.hGrids = Int64(item.deviceType.shape[0])
+                 newDevice.vGrids = Int64(item.deviceType.shape[1])
+             }
+             
+             try context.save()
+         } catch {
+             print("Error inserting or updating device: \(error)")
+         }
     }
     
     func deleteDeviceWith(mac: String) throws {

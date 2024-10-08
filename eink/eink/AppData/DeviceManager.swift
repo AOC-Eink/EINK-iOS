@@ -20,11 +20,11 @@ class DeviceManager:BLEDataService {
     
     
     init() {
-        createModalDevices()
+        createModaDevices()
     }
     
     
-    func createModalDevices() {
+    func createModaDevices() {
 
         let testDevies = [
             Device(indentify: "AA:BB:CC:DD",
@@ -33,6 +33,10 @@ class DeviceManager:BLEDataService {
             
             Device(indentify: "EE:FF:GG:HH",
                    deviceName: "E-INK Clock",
+                   deviceFunction: self),
+            
+            Device(indentify: "EE:FF:GG:AA",
+                   deviceName: "E-INK Speaker",
                    deviceFunction: self)
         ]
         

@@ -19,46 +19,24 @@ enum ConnectStatus {
 enum DeviceType {
     case clock
     case phoneCase
+    case speaker
     
-    
-    var presetImages:Array<String> {
-        switch self {
-        case .clock:
-            return [
-                "preset.clock.strips",
-                "preset.clock.cube",
-                "preset.clock.graphics",
-                "preset.clock.club.a",
-                "preset.clock.club.b"
-                
-            ]
-            
-        case .phoneCase:
-            return [
-                "preset.case.letter.o",
-                "preset.case.letter.e",
-                "preset.case.letter.q",
-                "preset.case.letter.f",
-                "preset.case.stripe.a",
-                "preset.case.geometry.b",
-                "preset.case.geometry.b"
-                
-            ]
-        }
-    }
+
     
     var guideImage:Array<String> {
         switch self {
         case .clock:
             return [
                 "device.clock.slide.guide",
-                "device.case.slide.guide",
             ]
             
         case .phoneCase:
             return [
                 "device.case.slide.guide",
-                "device.clock.slide.guide",
+            ]
+        case .speaker:
+            return [
+                "device.speaker.slide",
             ]
         }
     }
@@ -102,6 +80,8 @@ enum DeviceType {
                     3F384A,3F384A,3F384A,3F384A,3F384A,3F384A,497A64,497A64,3F384A,3F384A,3F384A,3F384A,3F384A,3F384A,3F384A,3F384A
                     """
             ]
+        case .speaker:
+            return [:]
         }
         
     }
@@ -113,12 +93,15 @@ enum DeviceType {
             
         case .phoneCase:
             return [4,16]
+        case .speaker:
+            return [6,17]
         }
     }
     
 }
 
 struct Device:Hashable, Equatable {
+    var id: String { indentify }
     let indentify:String
     let deviceName:String
     var bleDevice:BLEDevice?
@@ -167,6 +150,8 @@ struct Device:Hashable, Equatable {
             return "eink.clock.device"
         case .phoneCase:
             return "eink.case.device"
+        case .speaker:
+            return "eink.device.speaker"
         }
     }
     
@@ -187,6 +172,10 @@ struct Device:Hashable, Equatable {
             return .clock
         }
         
+        if deviceName.contains("Speaker") || bleDevice?.pid == 0x4E63 {
+            return .speaker
+        }
+        
         return .clock
     }
     
@@ -201,6 +190,10 @@ struct Device:Hashable, Equatable {
             return [GridItem(.flexible()),
                     GridItem(.flexible()),
                     GridItem(.flexible())]
+        case .speaker:
+            return [GridItem(.flexible()),
+                    GridItem(.flexible()),
+                    GridItem(.flexible())]
         }
     }
     
@@ -209,9 +202,9 @@ struct Device:Hashable, Equatable {
             case .phoneCase:
                 return InkStyle(itemWidth: 50,
                                 panelHeight: panelHeight(50,64),
-                                cornerRadius: 20,
-                                borderWidth: 0,
-                                borderColor: .clear,
+                                cornerRadius: 35,
+                                borderWidth: 5,
+                                borderColor: .caseBorderWhite,
                                 heightRatio: 1.0)
                 
             case .clock:
@@ -223,6 +216,13 @@ struct Device:Hashable, Equatable {
                                 heightRatio: 0.725,
                                 isCircle: true
                 )
+            case .speaker:
+                return InkStyle(itemWidth: 50,
+                            panelHeight: panelHeight(50,102),
+                            cornerRadius: 28,
+                            borderWidth: 5,
+                            borderColor: .caseBorderWhite,
+                            heightRatio: 1.0)
         }
     }
     
@@ -243,6 +243,8 @@ struct Device:Hashable, Equatable {
             
         case .clock:
             return 0.725
+        case .speaker:
+            return 1.0
         }
     }
     
