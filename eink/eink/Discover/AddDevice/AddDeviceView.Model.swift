@@ -22,6 +22,8 @@ extension AddDeviceView {
             
         }
         
+        var errorMessage:String?
+        
         
         enum AddStatus {
             case scan
@@ -50,6 +52,27 @@ extension AddDeviceView {
             await deviceManager?.startScaning()
         }
         
+        func startConnect() async {
+            
+            do {
+                guard let result = try await deviceManager?.startConnect(selectDevice) else {
+                    errorMessage = "Connect fail, please try again later"
+                    return
+                }
+                if result {
+                    saveAdd()
+                } else {
+                    errorMessage = "Connect failured"
+                }
+            } catch {
+                errorMessage = "Connect \(error)"
+            }
+        }
+        
+        private func stopConnect() {
+            
+        }
+        
         func stopScan() async {
             print("stopScan")
             await deviceManager?.stopScan()
@@ -61,6 +84,7 @@ extension AddDeviceView {
         }
         
         func saveAdd() {
+            selectDevice?.updateStatus("Connecting")
             if let device = selectDevice {
                 CoreDataStack.shared.insetOrUpdateDevice(name: device.deviceName, item: device)
             }

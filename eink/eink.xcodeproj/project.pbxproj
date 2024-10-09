@@ -23,6 +23,7 @@
 		933EFF912C99CC9000856EE1 /* FetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933EFF902C99CC9000856EE1 /* FetchRequest.swift */; };
 		933EFF942C9B06F500856EE1 /* SwiftfulLoadingIndicators in Frameworks */ = {isa = PBXBuildFile; productRef = 933EFF932C9B06F500856EE1 /* SwiftfulLoadingIndicators */; };
 		933EFF982C9E559100856EE1 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933EFF972C9E559000856EE1 /* AlertManager.swift */; };
+		936017C52CB697510021DE05 /* PacketFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936017C42CB697510021DE05 /* PacketFormat.swift */; };
 		936D15DC2C88A68C00066274 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15DB2C88A68C00066274 /* AppRouter.swift */; };
 		936D15E32C88A9DD00066274 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15E22C88A9DD00066274 /* HomeView.swift */; };
 		936D15E52C88AA2500066274 /* CatagoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15E42C88AA2500066274 /* CatagoryView.swift */; };
@@ -100,6 +101,7 @@
 		930BDA912C8C436E008672C5 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		933EFF902C99CC9000856EE1 /* FetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchRequest.swift; sourceTree = "<group>"; };
 		933EFF972C9E559000856EE1 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
+		936017C42CB697510021DE05 /* PacketFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PacketFormat.swift; sourceTree = "<group>"; };
 		936D15DB2C88A68C00066274 /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		936D15E22C88A9DD00066274 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		936D15E42C88AA2500066274 /* CatagoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatagoryView.swift; sourceTree = "<group>"; };
@@ -363,6 +365,7 @@
 			isa = PBXGroup;
 			children = (
 				93C898E72CA448410001E331 /* BLEHandler.swift */,
+				936017C42CB697510021DE05 /* PacketFormat.swift */,
 			);
 			path = BLE;
 			sourceTree = "<group>";
@@ -631,6 +634,7 @@
 				93F332CF2C91C4E000C01091 /* SliderCard.swift in Sources */,
 				936D15F52C89F74100066274 /* TabbarView.swift in Sources */,
 				93F292522C96916300ECCE35 /* DIYPanel.swift in Sources */,
+				936017C52CB697510021DE05 /* PacketFormat.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -791,10 +795,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"eink/Preview Content\"";
-				DEVELOPMENT_TEAM = LLMCPWTH2W;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = B3K28DD4HW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "AOC-EINK";
@@ -804,13 +810,16 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.aoc.eink;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aocgroup.eink;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "aoc-eink-app-provisioning-profile";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -826,10 +835,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"eink/Preview Content\"";
-				DEVELOPMENT_TEAM = LLMCPWTH2W;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = B3K28DD4HW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "AOC-EINK";
@@ -839,13 +850,16 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.aoc.eink;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aocgroup.eink;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "aoc-eink-app-test-profile";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

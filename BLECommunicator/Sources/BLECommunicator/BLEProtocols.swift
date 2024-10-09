@@ -13,8 +13,8 @@ public protocol BLECommunicatorProtocol: AnyObject {
     
     func startScan(withServices serviceUUIDs: [CBUUID]?) async
     func stopScan() async
-    func connect(to device: BLEDevice) async throws
-    func disconnect(from device: BLEDevice) async
+    func connect(to peripheral: CBPeripheral) async throws -> Bool
+    func disconnect(from peripheral: CBPeripheral) async
     func writeData(_ data: Data, to device: BLEDevice) async throws
     func readData(from device: BLEDevice) async throws -> Data
 }

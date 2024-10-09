@@ -7,6 +7,7 @@ public class BLECommunicator: NSObject, BLECommunicatorProtocol {
     private var connectedDevices: [UUID: CBPeripheral] = [:]
     private var readContinuation: CheckedContinuation<Data, Error>?
     private var writeContinuation: CheckedContinuation<Void, Error>?
+    private var pendingConnection: (UUID, CheckedContinuation<Bool, Error>)?
     
     public override init() {
         super.init()
@@ -27,16 +28,43 @@ public class BLECommunicator: NSObject, BLECommunicatorProtocol {
         }
     }
     
-    public func connect(to device: BLEDevice) async throws {
-        return try await withCheckedThrowingContinuation { continuation in
-            centralManager.connect(device.peripheral, options: nil)
-            // 在实际应用中，你可能需要设置一个超时机制
+    public func connect(to peripheral: CBPeripheral) async throws -> Bool {
+        return try await withThrowingTaskGroup(of: Bool.self) { group in
+            group.addTask {
+                try await withCheckedThrowingContinuation { continuation in
+                    self.pendingConnection = (peripheral.identifier, continuation)
+                    self.centralManager.connect(peripheral, options: nil)
+                }
+            }
+            
+            group.addTask {
+                try await Task.sleep(for: .seconds(10.0))
+                throw BLEError.connectionTimeout
+            }
+            
+            // Wait for the first task to complete
+            do {
+                let result = try await group.next()
+                // Cancel the remaining task
+                group.cancelAll()
+                return result ?? false
+            } catch {
+                // Cancel the remaining task
+                group.cancelAll()
+                // If the pending connection still exists, cancel it
+                if let (pendingUUID, pendingContinuation) = self.pendingConnection,
+                   pendingUUID == peripheral.identifier {
+                    pendingContinuation.resume(throwing: error)
+                    self.pendingConnection = nil
+                }
+                throw error
+            }
         }
     }
     
-    public func disconnect(from device: BLEDevice) async {
+    public func disconnect(from peripheral: CBPeripheral) async {
         await withCheckedContinuation { continuation in
-            centralManager.cancelPeripheralConnection(device.peripheral)
+            centralManager.cancelPeripheralConnection(peripheral)
             continuation.resume()
         }
     }
@@ -71,7 +99,7 @@ public class BLECommunicator: NSObject, BLECommunicatorProtocol {
 extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
     
     public func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        // 处理蓝牙状态更新
+        
     }
     
     public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
@@ -83,20 +111,19 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
         }
         
         let mfData = MFData(adData)
-        //if mfData.vid == AOCMF.vid {
+        if mfData.vid == AOCMF.vid {
             let device = BLEDevice(peripheral: peripheral, pid: mfData.pid, mid: mfData.mid)
-            discoveredDevices[peripheral.identifier] = device
-            delegate?.bleCommunicator(self, didDiscoverDevice: discoveredDevices)
-        //}
+                discoveredDevices[peripheral.identifier] = device
+                delegate?.bleCommunicator(self, didDiscoverDevice: discoveredDevices)
+        }
         
     }
     
     public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-        guard let device = discoveredDevices[peripheral.identifier] else { return }
-        connectedDevices[peripheral.identifier] = peripheral
+        
         peripheral.delegate = self
         peripheral.discoverServices([AOCMF.AocUUID])//传入需要发现的服务ID
-        delegate?.bleCommunicator(self, didConnectDevice: connectedDevices)
+        //delegate?.bleCommunicator(self, didConnectDevice: connectedDevices)
     }
     
     public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
@@ -123,6 +150,14 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
             }
             if characteristic.properties.contains(.notify) {
                 peripheral.setNotifyValue(true, for: characteristic)
+                //到这里先假设连接成功
+                guard let device = discoveredDevices[peripheral.identifier] else { return }
+                connectedDevices[peripheral.identifier] = peripheral
+                if let (pendingUUID, continuation) = pendingConnection, pendingUUID == peripheral.identifier {
+                    continuation.resume(returning: true)
+                    pendingConnection = nil
+                    break
+                }
             }
         }
     }

@@ -11,7 +11,7 @@ import CoreData
 struct DiscoverView: View {
     @Environment(\.appRouter) var appRouter
     @EnvironmentObject var appConfig:AppConfiguration
-    //@Environment(DeviceManager.self) var deviceManager
+    @Environment(DeviceManager.self) var deviceManager
     
     @Binding var selectIndex:Int
     @State private var showAddView:Bool = false
@@ -130,6 +130,14 @@ struct DiscoverView: View {
                     .id(UUID())
                 
             }
+        }
+        .onAppear{
+            model.setManager(deviceManager)
+        }
+        .onChange(of:model.disCoverDevices) { old, devices in
+            
+            
+            
         }
     }
 }

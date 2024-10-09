@@ -142,7 +142,7 @@ struct Device:Hashable, Equatable {
         self.bleStatus = status
     }
     
-    var bleStatus:String = "Conneting"
+    var bleStatus:String = "Disconneted"
     
     var deviceImage:String {
         switch deviceType {

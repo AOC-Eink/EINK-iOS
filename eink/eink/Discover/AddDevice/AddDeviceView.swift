@@ -13,6 +13,7 @@ struct AddDeviceView: View {
     let model:Model = Model()
     @Binding var showAddView:Bool
     @Environment(DeviceManager.self) var deviceManager
+    @EnvironmentObject var alertManager: AlertManager
     
     init(showAddView: Binding<Bool>) {
         _showAddView = showAddView
@@ -105,6 +106,12 @@ struct AddDeviceView: View {
                 model.addStatus = .scan
                 model.setManager(deviceManager)
             }
+        }
+        .onChange(of: model.errorMessage) { oldValue, newValue in
+            guard let error = model.errorMessage else {return}
+            alertManager.showAlert(message:error, confirmAction: {
+                model.addStatus = .scan
+            })
         }
         
     }

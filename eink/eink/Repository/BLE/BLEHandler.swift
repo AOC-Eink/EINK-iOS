@@ -12,12 +12,14 @@ import CoreBluetooth
 class BLEHandler {
     
     let communicator: BLECommunicatorProtocol = BLECommunicator()
+    private var pendingConnection: (UUID, CheckedContinuation<Bool, Error>)?
     
     init() {
         communicator.delegate = self
     }
     
     var discoverDevices:(([BLEDevice])->Void)?
+    var connectDevice:((BLEDevice)->Void)?
     
     func startScanning(discover:@escaping (([BLEDevice])->Void)) async {
         self.discoverDevices = nil
@@ -29,13 +31,14 @@ class BLEHandler {
         await communicator.stopScan()
     }
     
-    func connectToDevice(_ device: BLEDevice) async {
-        do {
-            try await communicator.connect(to: device)
-            print("Connected to device: \(device.name ?? "Unknown")")
-        } catch {
-            print("Failed to connect: \(error)")
-        }
+    func connectToDevice(_ device: BLEDevice) async throws -> Bool {
+//        do {
+//            let result = try await communicator.connect(to: device.peripheral)
+//            print("Connected to device: \(device.name ?? "Unknown")")
+//        } catch {
+//            print("Failed to connect: \(error)")
+//        }
+        return try await communicator.connect(to: device.peripheral)
     }
     
     func sendData(_ data: Data, to device: BLEDevice) async {

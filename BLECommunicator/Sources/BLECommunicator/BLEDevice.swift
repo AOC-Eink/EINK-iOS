@@ -13,7 +13,7 @@ public struct BLEDevice: Identifiable {
     public let pid: Int
     public let mid: Int?
     public let name: String?
-    let peripheral: CBPeripheral
+    public let peripheral: CBPeripheral
     var writeCharacteristic: CBCharacteristic?
     var readCharacteristic: CBCharacteristic?
     
