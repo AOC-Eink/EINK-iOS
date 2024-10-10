@@ -33,7 +33,9 @@ extension DiscoverView {
         
         
         func refreshDevicesStatus()  {
-             deviceManager.startScanning()
+            deviceManager.startScanning(stopHandle: {
+                
+            })
         }
         
         func stopScan()  {
@@ -53,6 +55,10 @@ extension DiscoverView {
             } catch {
                 errorMessage = "Connect \(error)"
             }
+        }
+        
+        func removeDevice(device:Device) {
+            deviceManager.removeDevice(device: device)
         }
         
         

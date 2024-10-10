@@ -57,6 +57,7 @@ class BLEHandler {
 
 extension BLEHandler: BLECommunicatorDelegate {
     func bleCommunicator(_ communicator: any BLECommunicatorProtocol, didDiscoverDevice device: [UUID:BLEDevice]) {
+        print("didDiscoverDevice count:\(device.count)")
         discoverDevices?(device.map{$0.value})
     }
     

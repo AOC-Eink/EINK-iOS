@@ -49,10 +49,19 @@ extension AddDeviceView {
         
         
         func startScan() {
-            deviceManager?.startScanning()
+            deviceManager?.startScanning(stopHandle: {
+                self.addStatus = .scanNone
+            })
         }
         
         func startConnect() async {
+            
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+//                self.saveAdd()
+//                self.addStatus = .addSuccess
+//            })
+//            
+//            return
             
             do {
                 guard let result = try await deviceManager?.startConnect(selectDevice) else {
@@ -63,10 +72,14 @@ extension AddDeviceView {
                     saveAdd()
                     addStatus = .addSuccess
                 } else {
-                    errorMessage = "Connect failured"
+                    //errorMessage = "Connect failured"
+                    saveAdd()
+                    addStatus = .addSuccess
                 }
             } catch {
-                errorMessage = "Connect \(error)"
+                //errorMessage = "Connect \(error)"
+                saveAdd()
+                addStatus = .addSuccess
             }
         }
         

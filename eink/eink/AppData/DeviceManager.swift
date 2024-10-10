@@ -88,6 +88,11 @@ class DeviceManager:BLEDataService {
         
     }
     
+    func removeDevice(device:Device) {
+        showDevices.removeAll(where: {$0.indentify == device.indentify})
+        try? CoreDataStack.shared.deleteDeviceWith(mac: device.indentify)
+    }
+    
     
     func updateDevicesByDiscovered(_ devices: [BLEDevice]) {
         for device in devices {
@@ -103,7 +108,7 @@ class DeviceManager:BLEDataService {
     
     
     
-    func startScanning() {
+    func startScanning(stopHandle:(()->Void)?) {
         // 取消之前的扫描任务（如果存在）
         scanTask?.cancel()
         cancellable?.cancel()
@@ -113,22 +118,22 @@ class DeviceManager:BLEDataService {
             await performScan()
         }
 
-        // 设置10秒后自动停止扫描
-        cancellable = Timer.publish(every: 10, on: .main, in: .common)
+        // 设置30秒后自动停止扫描
+        cancellable = Timer.publish(every: 30, on: .main, in: .common)
             .autoconnect()
             .sink { [weak self] _ in
+                stopHandle?()
                 self?.stopScanning()
             }
     }
     
     private func performScan() async {
-        print("performScan")
         await bleHandle.startScanning(discover: { [weak self] newDevices in
             guard let self = self else { return }
             self.discoveredDevices.removeAll()
             self.discoveredDevices = newDevices.map { ble in
                 Device(indentify: ble.id.uuidString,
-                       deviceName: ble.name ?? "UnKnown",
+                       deviceName: ble.name ?? ble.peripheral.identifier.uuidString,
                        bleDevice: ble,
                        deviceFunction: self)
             }

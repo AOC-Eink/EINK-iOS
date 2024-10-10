@@ -115,14 +115,15 @@ struct AddDeviceView: View {
             })
         }
         .onChange(of: model.addStatus) { oldValue, newValue in
-            if newValue == .addSuccess {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    model.addStatus = .scanNone
-                    withAnimation {
-                        showAddView = false
-                    }
-                }
-            }
+//            if newValue == .addSuccess {
+//                debugPrint("--addSuccess--")
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                    model.addStatus = .scanNone
+//                    withAnimation {
+//                        showAddView = false
+//                    }
+//                }
+//            }
         }
         
     }
@@ -220,20 +221,30 @@ struct AddDeviceView: View {
             Button(action: {
                 model.addStatus = .adding
                 Task {
-                    await model.startConnect()
+                    guard let device = model.selectDevice else {return}
+                    do {
+                        let result = try await deviceManager.startConnect(device)
+    
+                        if result {
+                            model.saveAdd()
+                            model.addStatus = .addSuccess
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                model.addStatus = .addSuccess
+                                withAnimation {
+                                    showAddView = false
+                                }
+                            }
+                            
+                        } else {
+                            model.errorMessage = "Connect failured"
+                        }
+                    } catch {
+                        model.errorMessage = "Connect \(error)"
+                    }
                 }
                 
                 
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//                    model.addStatus = .addSuccess
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                        model.saveAdd()
-//                        model.addStatus = .scanNone
-//                        withAnimation {
-//                            showAddView = false
-//                        }
-//                    }
-//                }
+
             }, label: {
                 Text("Add Device")
                     .padding(.horizontal)

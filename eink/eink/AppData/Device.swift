@@ -128,7 +128,7 @@ enum DeviceStatus {
         case .discovered:
             return .white
         case .connected:
-            return .opButton
+            return .deviceStatusConnected
         }
     }
 }
@@ -179,18 +179,19 @@ struct Device:Hashable, Equatable {
         guard let bleDevice = self.bleDevice else {
             return .disconnected
         }
+        
         switch bleDevice.peripheral.state {
             
         case .disconnected:
-            return .disconnected
+            return .discovered
         case .connecting:
-            return .connecting
+            return .discovered
         case .connected:
             return .connected
         case .disconnecting:
             return .disconnected
         @unknown default:
-            return .discovered
+            return .disconnected
         }
     }
     

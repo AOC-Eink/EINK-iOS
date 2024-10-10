@@ -114,6 +114,15 @@ struct DiscoverView: View {
                                     }
 
                                 }
+                                .contextMenu {
+                                    
+                                    Button {
+                                        let device = model.showDevices[index]
+                                        model.removeDevice(device: device)
+                                    } label: {
+                                        Label("Remove", systemImage: "trash.slash")
+                                    }
+                                }
                             }
                         }
                         
@@ -152,7 +161,7 @@ struct DiscoverView: View {
             }
         }
         .onAppear{
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                 model.refreshDevicesStatus()
             }
         }
