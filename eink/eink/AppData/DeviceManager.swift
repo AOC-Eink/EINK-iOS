@@ -6,6 +6,7 @@
 //
 import Foundation
 import BLECommunicator
+import Combine
 
 protocol BLEDataService {
 //    func write()
@@ -17,28 +18,59 @@ protocol BLEDataService {
 @Observable 
 class DeviceManager:BLEDataService {
     
+    private var scanTask: Task<Void, Never>?
+    private var cancellable: AnyCancellable?
     
-    var devices:Array<Device> = []
+    
+    var discoveredDevices:Array<Device> = []
+    //var saveDevices:Array<InkDevice> = []
+    var showDevices:Array<Device> = []
+    //var dbShowDevices:Array<Device> = []
     
     let bleHandle:BLEHandler = BLEHandler()
     
     
     init() {
         createModaDevices()
+        disconnectedListener()
+    }
+    
+    
+    func disconnectedListener() {
+        bleHandle.disconnectNotify = { [self] device in
+            if let index = self.showDevices.firstIndex(where: { $0.id == device.id.uuidString }) {
+                self.showDevices[index].bleDevice = device
+            }
+        }
+    }
+    
+    func updateSaveDevices(_ devices:[InkDevice]) {
+//        saveDevices.removeAll()
+//        saveDevices = devices;
+        
+        showDevices = devices.map{Device(indentify: $0.mac ?? "", deviceName: $0.name ?? "")}
+        
+    }
+    
+    func addNewDevice(device:Device) {
+        
+        showDevices.append(device)
+        
+        CoreDataStack.shared.insetOrUpdateDevice(name: device.deviceName, item: device)
     }
     
     
     func createModaDevices() {
 
         let testDevies = [
-            Device(indentify: "AA:BB:CC:DD",
-                   deviceName: "E-INK Phone Case"),
+//            Device(indentify: "AA:BB:CC:DD",
+//                   deviceName: "E-INK Phone Case"),
             
             Device(indentify: "EE:FF:GG:HH",
                    deviceName: "E-INK Clock"),
             
-            Device(indentify: "EE:FF:GG:AA",
-                   deviceName: "E-INK Speaker")
+//            Device(indentify: "EE:FF:GG:AA",
+//                   deviceName: "E-INK Speaker")
         ]
         
         for device in testDevies {
@@ -48,21 +80,55 @@ class DeviceManager:BLEDataService {
     }
     
     
+    func updateDevicesByDiscovered(_ devices: [BLEDevice]) {
+        for device in devices {
+            if let index = showDevices.firstIndex(where: { $0.id == device.id.uuidString }) {
+                showDevices[index].bleDevice = device
+            }
+//            else {
+//                 await connectFirstDevice(device: device)
+//            }
+        }
+    }
     
     
-    func startScaning() async {
-        await bleHandle.startScanning(discover: {
-            newDevices in
-            self.devices.removeAll()
-            self.devices = newDevices.map{ ble in
+    
+    
+    func startScanning() {
+        // 取消之前的扫描任务（如果存在）
+        scanTask?.cancel()
+        cancellable?.cancel()
+
+        // 创建新的扫描任务
+        scanTask = Task {
+            await performScan()
+        }
+
+        // 设置10秒后自动停止扫描
+        cancellable = Timer.publish(every: 10, on: .main, in: .common)
+            .autoconnect()
+            .sink { [weak self] _ in
+                self?.stopScanning()
+            }
+    }
+    
+    private func performScan() async {
+        print("performScan")
+        await bleHandle.startScanning(discover: { [weak self] newDevices in
+            guard let self = self else { return }
+            self.discoveredDevices.removeAll()
+            self.discoveredDevices = newDevices.map { ble in
                 Device(indentify: ble.id.uuidString,
                        deviceName: ble.name ?? "UnKnown",
                        bleDevice: ble,
-                       deviceFunction: self
-                )
+                       deviceFunction: self)
             }
+            
+            self.updateDevicesByDiscovered(newDevices)
         })
     }
+    
+    
     
     func startConnect(_ device:Device?) async throws -> Bool {
         guard let bleDevice = device?.bleDevice else {
@@ -73,9 +139,14 @@ class DeviceManager:BLEDataService {
     
     
     
-    func stopScan() async {
-        await bleHandle.stopScan()
-        self.devices.removeAll()
+    func stopScanning() {
+        print("stopScanning")
+        scanTask?.cancel()
+        cancellable?.cancel()
+        Task {
+            await bleHandle.stopScan()
+        }
+        self.discoveredDevices.removeAll()
     }
     
     

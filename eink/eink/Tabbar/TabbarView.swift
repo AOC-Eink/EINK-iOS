@@ -125,13 +125,18 @@ struct TabbarView: View {
                 print("\(item.name ?? "")")
             }
         }
+        .onChange(of: device.bleStatus) { oldValue, newValue in
+            if newValue == .disconnected {
+                appRouter.isConnected = false
+            }
+        }
         
     }
     
 }
 
 #Preview {
-    TabbarView(device: DeviceManager().devices.first!)
+    TabbarView(device: DeviceManager().showDevices.first!)
 }
 //            .fullScreenCover(isPresented: $onAddTouch , content: {
 //                DIYView(device: device, isPresented: $onAddTouch)

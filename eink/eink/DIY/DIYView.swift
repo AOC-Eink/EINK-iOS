@@ -153,5 +153,5 @@ struct DIYView: View {
 }
 
 #Preview {
-    DIYView(model: DIYView.Model(DeviceManager().devices.last!), isPresented: .constant(false))
+    DIYView(model: DIYView.Model(DeviceManager().showDevices.last!), isPresented: .constant(false))
 }

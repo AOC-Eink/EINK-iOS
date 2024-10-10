@@ -27,6 +27,7 @@ struct PresetGridView: View {
     @EnvironmentObject var alertManager: AlertManager
     @Environment(\.appRouter) var appRouter
     @Environment(\.goDIYView) var goDIYView
+    @Environment(DeviceManager.self) var deviceManager
     @State private var showToast = false
     
     let device:Device
@@ -51,8 +52,12 @@ struct PresetGridView: View {
             )
     }
     
-    func applay(_ colors:[String]) {
-        showToast.toggle()
+    func applay(_ colors:[String]) async {
+        //showToast.toggle()
+        guard let device =  device.bleDevice else {
+            return
+        }
+        await deviceManager.sendColors(device, colors: colors)
     }
     
     func edit(_ design:InkDesign) {
@@ -84,7 +89,10 @@ struct PresetGridView: View {
                         switch action {
                             
                         case .apply:
-                            applay(item.colors?.components(separatedBy: ",") ?? [])
+                            Task{
+                                await applay(item.colors?.components(separatedBy: ",") ?? [])
+                            }
+                            
                         case .edit:
                             edit(item)
                         case .delete:
@@ -109,5 +117,5 @@ struct PresetGridView: View {
 }
 
 #Preview {
-    PresetGridView(device: DeviceManager().devices.first!)
+    PresetGridView(device: DeviceManager().showDevices.first!)
 }

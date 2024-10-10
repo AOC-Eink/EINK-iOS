@@ -86,7 +86,7 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView(device: DeviceManager().devices.first!, desgins: [])
+    HomeView(device: DeviceManager().showDevices.first!, desgins: [])
 }
 
 //private let itemFormatter: DateFormatter = {

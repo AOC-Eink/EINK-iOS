@@ -14,6 +14,8 @@ class BLEHandler {
     let communicator: BLECommunicatorProtocol = BLECommunicator()
     private var pendingConnection: (UUID, CheckedContinuation<Bool, Error>)?
     
+    var disconnectNotify:((BLEDevice)->Void)?
+    
     init() {
         communicator.delegate = self
     }
@@ -61,7 +63,7 @@ extension BLEHandler: BLECommunicatorDelegate {
     }
     
     func bleCommunicator(_ communicator: any BLECommunicatorProtocol, didDisconnectDevice device: BLEDevice) {
-        
+        disconnectNotify?(device)
     }
     
     func bleCommunicator(_ communicator: any BLECommunicatorProtocol, didReceiveData data: Data, fromDevice device: BLEDevice) {

@@ -13,9 +13,9 @@ struct ContentView: View {
     @EnvironmentObject var alertManager: AlertManager
     
     @EnvironmentObject var appConfig:AppConfiguration
-    @State var deviceManager = DeviceManager()
-    @FetchRequest var savedDevices: FetchedResults<InkDevice>
     
+    @FetchRequest var savedDevices: FetchedResults<InkDevice>
+    @Environment(DeviceManager.self) var deviceManager
     @Environment(\.appRouter) var appRouter
     @State var selectIndex:Int = 0
     
@@ -25,8 +25,12 @@ struct ContentView: View {
         _savedDevices = FetchRequest(fetchRequest: request)
     }
     
+    var saveCVDevices:[InkDevice] {
+        savedDevices.map{$0}
+    }
+    
     var activeDevice:Device {
-        let saveDevices:[Device] = savedDevices.map({Device(indentify: $0.mac ?? "", deviceName: $0.name ?? "")})
+        let saveDevices:[Device] = deviceManager.showDevices
         return saveDevices[selectIndex]
         
     }
@@ -48,8 +52,8 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             DiscoverView(selectIndex: $selectIndex, 
-                         model: DiscoverView.Model(savedDevices.map{$0}))
-                .environment(deviceManager)
+                         model: DiscoverView.Model(deviceManager))
+                //.environment(deviceManager)
                 .zIndex(0)
             
             if isConnected {
@@ -63,6 +67,13 @@ struct ContentView: View {
         .fullScreenCover(isPresented: showOnboarding) {
             GuideView()
         }
+        .onAppear{
+            deviceManager.updateSaveDevices(saveCVDevices)
+        }
+//        .onChange(of: saveCVDevices) { oldValue, newValue in
+//            deviceManager.updateSaveDevices(newValue)
+//        }
+        
     }
 }
 

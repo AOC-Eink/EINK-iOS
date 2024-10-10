@@ -12,6 +12,7 @@ struct DeviceCard: View {
     let name:String
     let status:String
     let image:String
+    let color:Color
     
     
     var body: some View {
@@ -31,6 +32,7 @@ struct DeviceCard: View {
                 Image(image)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
+                    .colorMultiply(color == .deviceStatusDisconnected ? color:.white)
                     //.padding()
                 Spacer()
             }
@@ -38,7 +40,7 @@ struct DeviceCard: View {
             .padding(.top, 1)
         }
         .padding()
-        .background(Color.white) // 设置背景色
+        .background(color) // 设置背景色
         .cornerRadius(10) // 设置圆角
         .shadow(color: .deviceItemShadow, radius: 5, x: 0, y: 0)
         .padding(.all, 5)
@@ -52,5 +54,6 @@ struct DeviceCard: View {
 #Preview {
     DeviceCard(name: "E-INK Phone Case",
                status: "Unconnected",
-               image: "eink.case.device")
+               image: "eink.case.device",
+               color: .deviceStatusDisconnected)
 }

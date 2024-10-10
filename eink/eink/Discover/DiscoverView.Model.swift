@@ -13,63 +13,47 @@ extension DiscoverView {
     @Observable
     class Model {
         
-        let savedDevices:[InkDevice]
-        var deviceManager:DeviceManager?
-        func setManager(_ deviceManager:DeviceManager) {
-            if self.deviceManager == nil {
-                self.deviceManager = deviceManager
-                print("new init model")
-            }
-            
+        var errorMessage:String?
+        let deviceManager:DeviceManager
+//        func setManager(_ deviceManager:DeviceManager) {
+//            if self.deviceManager == nil {
+//                self.deviceManager = deviceManager
+//                print("new init model")
+//            }
+//            
+//        }
+        
+        init(_ deviceManager:DeviceManager) {
+            self.deviceManager = deviceManager
         }
         
-        init(_ savedDevices: [InkDevice]) {
-            self.savedDevices = savedDevices
+        var showDevices:[Device] {
+            deviceManager.showDevices
         }
         
-        var deviceList:[Device] {
-            var save = savedDevices.map{ saveDevice in
-                
-                Device(indentify: saveDevice.mac ?? "",
-                       deviceName: saveDevice.name ?? "")
-                
-            }
-            
-            
-            
-            return save
+        
+        func refreshDevicesStatus()  {
+             deviceManager.startScanning()
         }
         
-        var disCoverDevices:[Device] {
-            self.deviceManager?.devices ?? []
+        func stopScan()  {
+             deviceManager.stopScanning()
         }
         
-        func connectFirstDevice(device:Device) async {
-
+        
+        func connectDevice(device:Device) async {
+            
             do {
-                guard let result = try await deviceManager?.startConnect(device) else {
-
-                    return
-                }
+                let result = try await deviceManager.startConnect(device)
                 if result {
-                    
+                    errorMessage = "success"
                 } else {
-
+                    errorMessage = "Connect failured"
                 }
             } catch {
-                
+                errorMessage = "Connect \(error)"
             }
         }
-        
-        
-        func refreshDevicesStatus() async {
-            await deviceManager?.startScaning()
-        }
-        
-        func stopScan() async {
-            await deviceManager?.stopScan()
-        }
-        
         
         
     }

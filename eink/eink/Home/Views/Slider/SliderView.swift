@@ -31,5 +31,5 @@ struct SliderView: View {
 }
 
 #Preview {
-    SliderView(images: DeviceManager().devices.first?.deviceType.guideImage ?? [])
+    SliderView(images: DeviceManager().showDevices.first?.deviceType.guideImage ?? [])
 }

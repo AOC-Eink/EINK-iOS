@@ -11,13 +11,14 @@ import SwiftUI
 struct einkApp: App {
     let persistenceController = CoreDataStack.shared
     @State var appConfiguration = AppConfiguration()
-    
+    @State var deviceManager = DeviceManager()
 
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
                 .environmentObject(appConfiguration)
+                .environment(deviceManager)
                 
         }
     }

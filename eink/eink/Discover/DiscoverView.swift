@@ -7,14 +7,17 @@
 
 import SwiftUI
 import CoreData
+import SwiftfulLoadingIndicators
 
 struct DiscoverView: View {
     @Environment(\.appRouter) var appRouter
     @EnvironmentObject var appConfig:AppConfiguration
     @Environment(DeviceManager.self) var deviceManager
+    @EnvironmentObject var alertManager: AlertManager
     
     @Binding var selectIndex:Int
     @State private var showAddView:Bool = false
+    @State private var isShowingPopup:Bool = false
 
     let model:Model
     
@@ -48,7 +51,7 @@ struct DiscoverView: View {
                 }
                 
                 
-                Text("\(model.savedDevices.count) Devies")
+                Text("\(model.showDevices.count) Devies")
                     .font(.deviceCount)
                     .fontWeight(.light)
                     .foregroundColor(.ekSubtitle)
@@ -62,7 +65,7 @@ struct DiscoverView: View {
                     .foregroundColor(.sectionTitle)
                     .padding(.top, 60)
                     .padding(.leading, 5)
-                if model.deviceList.isEmpty {
+                if model.showDevices.isEmpty {
                     VStack {
                         Spacer()
                         Button(action: {
@@ -86,13 +89,30 @@ struct DiscoverView: View {
                     ScrollView {
                         
                         LazyVGrid(columns: columns) {
-                            ForEach(Array(model.deviceList.enumerated()), id: \.offset) {index, item in
+                            ForEach(Array(model.showDevices.enumerated()), id: \.offset) {index, item in
                                 DeviceCard(name: item.deviceName,
-                                           status: item.bleStatus,
-                                           image: item.deviceImage)
+                                           status: item.bleStatus.statusName,
+                                           image: item.deviceImage,
+                                           color: item.bleStatus.statusBg
+                                )
                                 .onTapGesture {
-                                    selectIndex = index
-                                    appRouter.isConnected = true
+                                    model.stopScan()
+                                    let device = model.showDevices[index]
+                                    if device.bleStatus == .connected {
+                                        selectIndex = index
+                                        appRouter.isConnected = true
+                                        return
+                                    }
+                                    
+                                    if device.bleStatus == .discovered  {
+                                        selectIndex = index
+                                        isShowingPopup = true
+                                        Task {
+                                            await model.connectDevice(device: device)
+                                        }
+                                        
+                                    }
+
                                 }
                             }
                         }
@@ -132,17 +152,67 @@ struct DiscoverView: View {
             }
         }
         .onAppear{
-            model.setManager(deviceManager)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                model.refreshDevicesStatus()
+            }
         }
-        .onChange(of:model.disCoverDevices) { old, devices in
+        .onChange(of: model.errorMessage) { oldValue, newValue in
+            guard let error = newValue else {return}
+            isShowingPopup = false
+            if error == "successs" {
+                
+                appRouter.isConnected = true
+                return
+            }
             
-            
-            
+            alertManager.showAlert(message:error, confirmAction: {
+                model.refreshDevicesStatus()
+            })
         }
+        .onChange(of: appRouter.isConnected) { oldValue, newValue in
+            
+            if (oldValue ?? false) && !(newValue ?? true) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    model.refreshDevicesStatus()
+                }
+            }
+        }
+        .overlay(
+            Group {
+                if isShowingPopup {
+                    Color.black.opacity(0.4)
+                        .edgesIgnoringSafeArea(.all)
+//                        .onTapGesture {
+//                            isShowingPopup = false
+//                        }
+                    
+                    VStack {
+                        connectingView
+                            .frame(width: 300, height: 200)
+                            .background(Color.white)
+                            .cornerRadius(20)
+                            .shadow(radius: 10)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
+            }
+        )
+        
+    }
+    
+    @ViewBuilder
+    var connectingView:some View {
+        VStack(spacing:30) {
+            LoadingIndicator(animation: .circleTrim, color: .opButton, size: .large)
+            Text("Connecting...")
+                .font(.sectionBigTitle)
+                .foregroundStyle(.sectionTitle)
+        }
+        .padding(.vertical, 80)
     }
 }
 
 #Preview {
-    DiscoverView(selectIndex: .constant(0), model: DiscoverView.Model([]))
+    DiscoverView(selectIndex: .constant(0), model: DiscoverView.Model(DeviceManager()))
         .environment(DeviceManager())
 }

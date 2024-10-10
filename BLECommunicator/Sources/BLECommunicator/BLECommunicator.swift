@@ -15,7 +15,9 @@ public class BLECommunicator: NSObject, BLECommunicatorProtocol {
     }
     
     public func startScan(withServices serviceUUIDs: [CBUUID]?) async {
+        print("startScan")
         await withCheckedContinuation { continuation in
+            print("scanForPeripherals")
             centralManager.scanForPeripherals(withServices: serviceUUIDs, options: nil)
             continuation.resume()
         }
@@ -104,7 +106,7 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
     
     public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         
-        print("didDiscover: \(peripheral.identifier) name: \(peripheral.name)")
+        print("didDiscover: \(peripheral.identifier) name: \(peripheral.name ?? "")")
         
         guard let adData = advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data else {
             return
@@ -165,7 +167,7 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
     public func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         guard let device = discoveredDevices[peripheral.identifier],
               let data = characteristic.value else { return }
-        print("peripheral didUpdateValueFor : \(peripheral.name) data: \(data)")
+        print("peripheral didUpdateValueFor : \(peripheral.name ?? "") data: \(data)")
         if let error = error {
             readContinuation?.resume(throwing: error)
         } else if let value = characteristic.value {

@@ -44,12 +44,12 @@ extension AddDeviceView {
         }
         
         var discoverDevices:[Device] {
-            self.deviceManager?.devices ?? []
+            self.deviceManager?.discoveredDevices ?? []
         }
         
         
-        func startScan() async {
-            await deviceManager?.startScaning()
+        func startScan() {
+            deviceManager?.startScanning()
         }
         
         func startConnect() async {
@@ -61,6 +61,7 @@ extension AddDeviceView {
                 }
                 if result {
                     saveAdd()
+                    addStatus = .addSuccess
                 } else {
                     errorMessage = "Connect failured"
                 }
@@ -73,20 +74,19 @@ extension AddDeviceView {
             
         }
         
-        func stopScan() async {
+        func stopScan() {
             print("stopScan")
-            await deviceManager?.stopScan()
+            deviceManager?.stopScanning()
         }
         
-        func stopTask() async {
+        func stopTask() {
             addStatus = .scan
-            await stopScan()
+            stopScan()
         }
         
         func saveAdd() {
-            selectDevice?.updateStatus("Connecting")
             if let device = selectDevice {
-                CoreDataStack.shared.insetOrUpdateDevice(name: device.deviceName, item: device)
+                deviceManager?.addNewDevice(device: device)
             }
         }
         

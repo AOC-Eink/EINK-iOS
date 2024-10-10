@@ -41,5 +41,5 @@ struct CatagoryView: View {
 }
 
 #Preview {
-    CatagoryView(device: DeviceManager().devices.first!, designs: [])
+    CatagoryView(device: DeviceManager().showDevices.first!, designs: [])
 }

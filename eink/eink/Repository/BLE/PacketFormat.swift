@@ -18,7 +18,7 @@ class PacketFormat {
     static let Identifier = 0xAD
     
     static func readDeviceInfoPacket() -> Data {
-        var temp: [UInt8] = [
+        let temp: [UInt8] = [
             UInt8(Identifier),    // identifier
             UInt8(CommandType.readDeviceInfo.rawValue), // Command-id
             0x00                    // Payload len
@@ -29,7 +29,7 @@ class PacketFormat {
     static func sendColors(colors: [UInt8]) -> [Data] {
         var packages: [Data] = []
         
-        let packagesCount = (colors.count + 19) / 20 // Ceiling division
+        _ = (colors.count + 19) / 20 // Ceiling division
         
         let headCommand: [UInt8] = [
             UInt8(Identifier),    // identifier

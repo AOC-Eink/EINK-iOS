@@ -41,5 +41,5 @@ struct FavoriteView: View {
 }
 
 #Preview {
-    FavoriteView(device: DeviceManager().devices.first!, designs: [])
+    FavoriteView(device: DeviceManager().showDevices.first!, designs: [])
 }

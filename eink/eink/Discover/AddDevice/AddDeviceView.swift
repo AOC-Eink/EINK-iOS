@@ -32,7 +32,7 @@ struct AddDeviceView: View {
                         .onTapGesture {
                             Task{
                                 
-                                await model.stopTask()
+                                model.stopTask()
                                 withAnimation {
                                     showAddView = false
                                 }
@@ -48,7 +48,7 @@ struct AddDeviceView: View {
                                         if verticalMovement > threshold {
                                             Task{
                                                 model.addStatus = .scan
-                                                await model.stopScan()
+                                                model.stopScan()
                                                 withAnimation {
                                                     showAddView = false
                                                 }
@@ -96,7 +96,7 @@ struct AddDeviceView: View {
             model.addStatus = .scan
             DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
                 Task{
-                    await self.model.startScan()
+                    self.model.startScan()
                 }
             })
         }
@@ -111,7 +111,18 @@ struct AddDeviceView: View {
             guard let error = model.errorMessage else {return}
             alertManager.showAlert(message:error, confirmAction: {
                 model.addStatus = .scan
+                model.startScan()
             })
+        }
+        .onChange(of: model.addStatus) { oldValue, newValue in
+            if newValue == .addSuccess {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    model.addStatus = .scanNone
+                    withAnimation {
+                        showAddView = false
+                    }
+                }
+            }
         }
         
     }
@@ -152,7 +163,7 @@ struct AddDeviceView: View {
             Button(action: {
                 model.addStatus = .scan
                 Task{
-                    await model.startScan()
+                    model.startScan()
                 }
                 
             }, label: {
@@ -189,7 +200,7 @@ struct AddDeviceView: View {
                 Button(action: {
                     model.addStatus = .descovered
                     Task{
-                        await model.startScan()
+                        model.startScan()
                     }
                 },label: {
                     Image(systemName: "arrow.uturn.backward")
@@ -208,16 +219,21 @@ struct AddDeviceView: View {
             
             Button(action: {
                 model.addStatus = .adding
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    model.addStatus = .addSuccess
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        model.saveAdd()
-                        model.addStatus = .scanNone
-                        withAnimation {
-                            showAddView = false
-                        }
-                    }
+                Task {
+                    await model.startConnect()
                 }
+                
+                
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//                    model.addStatus = .addSuccess
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                        model.saveAdd()
+//                        model.addStatus = .scanNone
+//                        withAnimation {
+//                            showAddView = false
+//                        }
+//                    }
+//                }
             }, label: {
                 Text("Add Device")
                     .padding(.horizontal)
@@ -277,7 +293,7 @@ struct AddDeviceView: View {
                     ForEach(model.discoverDevices, id: \.indentify) { device in
                         Button(action: {
                             Task{
-                                await model.stopScan()
+                                 model.stopScan()
                             }
                             model.addStatus = .select
                             model.selectDevice = device
@@ -309,7 +325,7 @@ struct AddDeviceView: View {
                         model.setManager(deviceManager)
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
                             Task{
-                                await self.model.startScan()
+                                 self.model.startScan()
                             }
                         })
                         

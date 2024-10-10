@@ -100,6 +100,39 @@ enum DeviceType {
     
 }
 
+enum DeviceStatus {
+    case disconnected
+    case connecting
+    case discovered
+    case connected
+    
+    var statusName:String {
+        switch self {
+        case .connecting:
+            return "Connecting"
+        case .disconnected:
+            return "Disconnected"
+        case .discovered:
+            return "Discovered"
+        case .connected:
+            return "Connected"
+        }
+    }
+    
+    var statusBg:Color {
+        switch self {
+        case .connecting:
+            return .opButton
+        case .disconnected:
+            return .deviceStatusDisconnected
+        case .discovered:
+            return .white
+        case .connected:
+            return .opButton
+        }
+    }
+}
+
 struct Device:Hashable, Equatable {
     var id: String { indentify }
     let indentify:String
@@ -138,11 +171,28 @@ struct Device:Hashable, Equatable {
     
     var dbDesigns: [InkDesign] = []
     
-    mutating func updateStatus(_ status:String) {
-        self.bleStatus = status
-    }
+//    mutating func updateStatus(_ status:String) {
+//        self.bleStatus = status
+//    }
     
-    var bleStatus:String = "Disconneted"
+    var bleStatus:DeviceStatus {
+        guard let bleDevice = self.bleDevice else {
+            return .disconnected
+        }
+        switch bleDevice.peripheral.state {
+            
+        case .disconnected:
+            return .disconnected
+        case .connecting:
+            return .connecting
+        case .connected:
+            return .connected
+        case .disconnecting:
+            return .disconnected
+        @unknown default:
+            return .discovered
+        }
+    }
     
     var deviceImage:String {
         switch deviceType {
