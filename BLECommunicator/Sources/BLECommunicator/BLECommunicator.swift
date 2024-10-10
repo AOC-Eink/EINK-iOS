@@ -153,7 +153,8 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
             if characteristic.properties.contains(.notify) {
                 peripheral.setNotifyValue(true, for: characteristic)
                 //到这里先假设连接成功
-                guard let device = discoveredDevices[peripheral.identifier] else { return }
+                //guard let device = discoveredDevices[peripheral.identifier] else { return }
+                delegate?.bleCommunicator(self, didConnectDevice: peripheral)
                 connectedDevices[peripheral.identifier] = peripheral
                 if let (pendingUUID, continuation) = pendingConnection, pendingUUID == peripheral.identifier {
                     continuation.resume(returning: true)

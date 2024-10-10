@@ -33,6 +33,7 @@ class DeviceManager:BLEDataService {
     init() {
         createModaDevices()
         disconnectedListener()
+        didConnectedListener()
     }
     
     
@@ -41,6 +42,14 @@ class DeviceManager:BLEDataService {
             if let index = self.showDevices.firstIndex(where: { $0.id == device.id.uuidString }) {
                 self.showDevices[index].bleDevice = device
             }
+        }
+    }
+    
+    func didConnectedListener() {
+        bleHandle.didConnectNotify = { [self] device in
+//            if let index = self.showDevices.firstIndex(where: { $0.id == device.identifier.uuidString }) {
+//                self.showDevices[index].bleDevice = device
+//            }
         }
     }
     

@@ -15,6 +15,7 @@ class BLEHandler {
     private var pendingConnection: (UUID, CheckedContinuation<Bool, Error>)?
     
     var disconnectNotify:((BLEDevice)->Void)?
+    var didConnectNotify:((CBPeripheral)->Void)?
     
     init() {
         communicator.delegate = self
@@ -22,6 +23,7 @@ class BLEHandler {
     
     var discoverDevices:(([BLEDevice])->Void)?
     var connectDevice:((BLEDevice)->Void)?
+    
     
     func startScanning(discover:@escaping (([BLEDevice])->Void)) async {
         self.discoverDevices = nil
@@ -58,7 +60,7 @@ extension BLEHandler: BLECommunicatorDelegate {
         discoverDevices?(device.map{$0.value})
     }
     
-    func bleCommunicator(_ communicator: any BLECommunicatorProtocol, didConnectDevice device: [UUID:CBPeripheral]) {
+    func bleCommunicator(_ communicator: any BLECommunicatorProtocol, didConnectDevice device: CBPeripheral) {
         
     }
     
