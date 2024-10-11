@@ -54,15 +54,14 @@ struct PresetGridView: View {
     
     func applay(_ colors:[String]) async {
         //showToast.toggle()
-        guard let device =  device.bleDevice else {
-            return
-        }
+        
         await deviceManager.sendColors(device, colors: colors)
     }
     
     func edit(_ design:InkDesign) {
         goDIYView(design.colors?.components(separatedBy: ",") ,design.name, design.favorite)
     }
+    
     
     var body: some View {
         VStack(alignment:.leading){
@@ -82,7 +81,8 @@ struct PresetGridView: View {
                                                       hGrids: Int(item.hGrids),
                                                       vGrides: Int(item.vGrids),
                                                       heightRatio: device.inkStyle.heightRatio,
-                                                      inkStyle: device.inkStyle
+                                                      inkStyle: device.inkStyle, 
+                                                      itemWidth:device.inkStyle.presetSize
                                                      ),
                         onTouch:{ action in
                                     

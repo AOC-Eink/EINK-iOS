@@ -12,7 +12,7 @@ protocol BLEDataService {
 //    func write()
 //    func read()
     func readDeviceInfo(_ device:BLEDevice) async
-    func sendColors(_ device:BLEDevice, colors:[String]) async
+    func sendColors(_ device:Device, colors:[String]) async
 }
 
 @Observable 
@@ -29,11 +29,14 @@ class DeviceManager:BLEDataService {
     
     let bleHandle:BLEHandler = BLEHandler()
     
+    var discoverInfo:[String] = []
+    
     
     init() {
         createModaDevices()
         disconnectedListener()
         didConnectedListener()
+        dicoverLogListener()
     }
     
     
@@ -42,6 +45,12 @@ class DeviceManager:BLEDataService {
             if let index = self.showDevices.firstIndex(where: { $0.id == device.id.uuidString }) {
                 self.showDevices[index].bleDevice = device
             }
+        }
+    }
+    
+    func dicoverLogListener() {
+        bleHandle.discoverDeviceInfo = { [self] log in
+            discoverInfo.append(log)
         }
     }
     
@@ -72,14 +81,14 @@ class DeviceManager:BLEDataService {
     func createModaDevices() {
 
         let testDevies = [
-//            Device(indentify: "AA:BB:CC:DD",
-//                   deviceName: "E-INK Phone Case"),
+            Device(indentify: "AA:BB:CC:DD",
+                   deviceName: "E-INK Phone Case"),
             
             Device(indentify: "EE:FF:GG:HH",
-                   deviceName: "E-INK Clock"),
+                   deviceName: "E-INK Clock fake"),
             
-//            Device(indentify: "EE:FF:GG:AA",
-//                   deviceName: "E-INK Speaker")
+            Device(indentify: "EE:FF:GG:AA",
+                   deviceName: "E-INK Speaker fake")
         ]
         
         for device in testDevies {
@@ -109,6 +118,7 @@ class DeviceManager:BLEDataService {
     
     
     func startScanning(stopHandle:(()->Void)?) {
+        discoverInfo.removeAll()
         // 取消之前的扫描任务（如果存在）
         scanTask?.cancel()
         cancellable?.cancel()
@@ -119,7 +129,7 @@ class DeviceManager:BLEDataService {
         }
 
         // 设置30秒后自动停止扫描
-        cancellable = Timer.publish(every: 30, on: .main, in: .common)
+        cancellable = Timer.publish(every: 15, on: .main, in: .common)
             .autoconnect()
             .sink { [weak self] _ in
                 stopHandle?()
@@ -168,13 +178,15 @@ class DeviceManager:BLEDataService {
         await bleHandle.sendData(PacketFormat.readDeviceInfoPacket(), to: device)
     }
     
-    func sendColors(_ device: BLEDevice, colors: [String]) async {
+    func sendColors(_ device: Device, colors: [String]) async {
+        
+        guard let bleDevice = device.bleDevice else { return }
         
         let colorInts = colors.map{getUInt8Color($0)}
-        let datas = PacketFormat.sendColors(colors: colorInts)
+        let datas = PacketFormat.sendColors(header: device.commandHeader, colors: colorInts)
         
         for data in datas {
-            await bleHandle.sendData(data, to: device)
+            await bleHandle.sendData(data, to: bleDevice)
         }
         
     }

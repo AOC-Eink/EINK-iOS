@@ -106,11 +106,12 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
     
     public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         
-        print("didDiscover: \(peripheral.identifier) name: \(peripheral.name ?? "")")
-        
         guard let adData = advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data else {
             return
         }
+        let log = "didDiscover: \(peripheral.identifier) name: \(peripheral.name ?? "UnKown") adData:\(adData.map { String(format: "%02X", $0) }.joined())"
+        delegate?.bleCommunicator(self, didDiscoverDeviceInfo: log)
+        print(log)
         
         let mfData = MFData(adData)
         if mfData.vid == AOCMF.vid {

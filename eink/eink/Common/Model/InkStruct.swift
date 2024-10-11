@@ -16,6 +16,7 @@ struct InkStyle {
     let borderColor: Color
     let heightRatio: CGFloat
     let isCircle: Bool
+    let presetSize: CGFloat
     
     init(itemWidth: CGFloat, 
          panelHeight: CGFloat,
@@ -23,6 +24,7 @@ struct InkStyle {
          borderWidth: CGFloat,
          borderColor: Color,
          heightRatio: CGFloat,
+         presetSize: CGFloat,
          isCircle: Bool = false
          
     ) {
@@ -33,5 +35,6 @@ struct InkStyle {
         self.borderColor = borderColor
         self.heightRatio = heightRatio
         self.isCircle = isCircle
+        self.presetSize = presetSize
     }
 }

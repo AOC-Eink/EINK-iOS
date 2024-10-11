@@ -215,7 +215,7 @@ struct Device:Hashable, Equatable {
     }
     
     var deviceType:DeviceType {
-        if deviceName.contains("Case") {
+        if deviceName.contains("Case") || bleDevice?.pid == 0x4E61 {
             return .phoneCase
         }
         
@@ -228,6 +228,20 @@ struct Device:Hashable, Equatable {
         }
         
         return .clock
+    }
+    
+    var commandHeader:UInt8 {
+        switch deviceType {
+            
+        case .clock:
+            return 0xC5
+            
+        case .phoneCase:
+            return 0xAA
+            
+        case .speaker:
+            return 0xCC
+        }
     }
     
     var gridLayout:[GridItem] {
@@ -256,7 +270,7 @@ struct Device:Hashable, Equatable {
                                 cornerRadius: 35,
                                 borderWidth: 5,
                                 borderColor: .caseBorderWhite,
-                                heightRatio: 1.0)
+                                heightRatio: 1.0, presetSize: 25)
                 
             case .clock:
                 return InkStyle(itemWidth: 50,
@@ -264,16 +278,16 @@ struct Device:Hashable, Equatable {
                                 cornerRadius: panelHeight(50,54) * 0.5,
                                 borderWidth: 4,
                                 borderColor: .white,
-                                heightRatio: 0.725,
+                                heightRatio: 0.725, presetSize: 25,
                                 isCircle: true
                 )
             case .speaker:
-                return InkStyle(itemWidth: 50,
-                            panelHeight: panelHeight(50,102),
+                return InkStyle(itemWidth: 40,
+                            panelHeight: panelHeight(40,102),
                             cornerRadius: 28,
                             borderWidth: 5,
                             borderColor: .caseBorderWhite,
-                            heightRatio: 1.0)
+                                heightRatio: 1.0, presetSize: 15)
         }
     }
     

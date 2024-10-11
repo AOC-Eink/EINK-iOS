@@ -39,6 +39,10 @@ extension DIYView {
             device.deviceType.shape[1]
         }
         
+        var itemWidth:CGFloat {
+            device.inkStyle.itemWidth
+        }
+        
         var hexString:String {
             colors.joined(separator: ",")
         }

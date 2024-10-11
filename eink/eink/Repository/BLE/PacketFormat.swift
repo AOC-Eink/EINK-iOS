@@ -9,8 +9,8 @@ import Foundation
 
 enum CommandType:UInt8 {
     case readDeviceInfo = 0x11
-    case sendColors = 0x12
-    case sendColorsEnd = 0x20
+    case writeCmd = 0xFE
+    case sendFlag = 0x21
 }
 
 class PacketFormat {
@@ -26,14 +26,14 @@ class PacketFormat {
         return Data(temp)
     }
     
-    static func sendColors(colors: [UInt8]) -> [Data] {
+    static func sendColors(header:UInt8, colors: [UInt8]) -> [Data] {
         var packages: [Data] = []
         
         _ = (colors.count + 19) / 20 // Ceiling division
         
         let headCommand: [UInt8] = [
-            UInt8(Identifier),    // identifier
-            UInt8(CommandType.sendColors.rawValue), // Command-id
+            UInt8(header),    // identifier
+            UInt8(CommandType.writeCmd.rawValue), // Command-id
             UInt8(colors.count)   // Payload len
         ]
         
@@ -51,7 +51,7 @@ class PacketFormat {
         
         let endCommand: [UInt8] = [
             UInt8(Identifier),    // identifier
-            UInt8(CommandType.sendColorsEnd.rawValue), // Command-id
+            UInt8(CommandType.sendFlag.rawValue), // Command-id
             UInt8(colors.count)
         ]
         

@@ -112,9 +112,9 @@ extension CoreDataStack {
     func insetOrUpdateDevice(name:String, item: Device) {
         let context = container.viewContext
         let request = NSFetchRequest<InkDevice>(entityName: "InkDevice")
-        let namePredicate = NSPredicate(format: "name = %@", name)
+        //let namePredicate = NSPredicate(format: "name = %@", name)
         let deviceIdPredicate = NSPredicate(format: "mac = %@", item.indentify)
-        let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [namePredicate, deviceIdPredicate])
+        let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [deviceIdPredicate])
         request.predicate = compoundPredicate
         request.fetchLimit = 1
         request.sortDescriptors = [NSSortDescriptor(key: "createTimestamp", ascending: true)]

@@ -16,6 +16,7 @@ class BLEHandler {
     
     var disconnectNotify:((BLEDevice)->Void)?
     var didConnectNotify:((CBPeripheral)->Void)?
+    var discoverDeviceInfo:((String)->Void)?
     
     init() {
         communicator.delegate = self
@@ -71,6 +72,10 @@ extension BLEHandler: BLECommunicatorDelegate {
     
     func bleCommunicator(_ communicator: any BLECommunicatorProtocol, didReceiveData data: Data, fromDevice device: BLEDevice) {
         
+    }
+    
+    func bleCommunicator(_ communicator: BLECommunicatorProtocol, didDiscoverDeviceInfo log: String) {
+        discoverDeviceInfo?(log)
     }
     
     

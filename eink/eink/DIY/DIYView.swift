@@ -24,7 +24,7 @@ struct DIYView: View {
     @Environment(\.displayScale) var displayScale
     
     var itemWidth: CGFloat {
-        let baseWidth: CGFloat = 50
+        let baseWidth: CGFloat = model.itemWidth
         
         switch displayScale {
         case 1:

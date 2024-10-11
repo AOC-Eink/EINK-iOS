@@ -63,6 +63,7 @@
 		93FBAC8F2CAD609800BB2B7B /* EditPopverMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FBAC8E2CAD609800BB2B7B /* EditPopverMenu.swift */; };
 		93FBAC922CAD7D3900BB2B7B /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 93FBAC912CAD7D3900BB2B7B /* AlertToast */; };
 		93FBAC942CAD825400BB2B7B /* EnvironmentKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FBAC932CAD825400BB2B7B /* EnvironmentKey.swift */; };
+		BE70110E2CB904D000729C8C /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE70110D2CB904D000729C8C /* LogView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -139,6 +140,8 @@
 		93F332D02C91C52E00C01091 /* SliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderView.swift; sourceTree = "<group>"; };
 		93FBAC8E2CAD609800BB2B7B /* EditPopverMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPopverMenu.swift; sourceTree = "<group>"; };
 		93FBAC932CAD825400BB2B7B /* EnvironmentKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentKey.swift; sourceTree = "<group>"; };
+		BE70110D2CB904D000729C8C /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
+		BE70110F2CB9173000729C8C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,6 +196,7 @@
 		9301E7EF2C87489700381CA7 /* eink */ = {
 			isa = PBXGroup;
 			children = (
+				BE70110F2CB9173000729C8C /* Info.plist */,
 				93C898E52CA447320001E331 /* Repository */,
 				93F292452C95CC7B00ECCE35 /* CoreData */,
 				930BDA902C8C4331008672C5 /* Common */,
@@ -381,6 +385,7 @@
 			isa = PBXGroup;
 			children = (
 				93C898F32CA640880001E331 /* AddDeviceView.swift */,
+				BE70110D2CB904D000729C8C /* LogView.swift */,
 				93C898F52CA648920001E331 /* AddDeviceView.Model.swift */,
 			);
 			path = AddDevice;
@@ -607,6 +612,7 @@
 				93F292542C96945300ECCE35 /* FavoriteButton.swift in Sources */,
 				930BDA8F2C8B4FB5008672C5 /* DeviceCard.swift in Sources */,
 				93F292562C96AC3800ECCE35 /* ColorGrid.swift in Sources */,
+				BE70110E2CB904D000729C8C /* LogView.swift in Sources */,
 				93F2924C2C95D6E900ECCE35 /* Design.swift in Sources */,
 				93F332C72C8F3DF400C01091 /* PresetGridView.swift in Sources */,
 				93F332D12C91C52E00C01091 /* SliderView.swift in Sources */,
@@ -797,14 +803,16 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"eink/Preview Content\"";
 				DEVELOPMENT_TEAM = Y3W3G6RN8D;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "AOC-EINK";
+				INFOPLIST_FILE = eink/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = EINK;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This will allow \"E-INK\" to connect to your accessories.";
+				INFOPLIST_KEY_NSDocumentsFolderUsageDescription = "We need access to save and share log files.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -837,15 +845,17 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"eink/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = B3K28DD4HW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "AOC-EINK";
+				INFOPLIST_FILE = eink/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = EINK;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This will allow \"E-INK\" to connect to your accessories.";
+				INFOPLIST_KEY_NSDocumentsFolderUsageDescription = "We need access to save and share log files.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -860,7 +870,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.aocgroup.eink;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "aoc-eink-app-provisioning-profile-release";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "eink-apple-Provisioning Profile";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

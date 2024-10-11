@@ -14,13 +14,14 @@ struct PresetView: View {
     let vGrides:Int
     let heightRatio:CGFloat
     let inkStyle:InkStyle
+    let itemWidth:CGFloat
     
     var hexColors:[String] {
         colors.components(separatedBy: ",")
     }
     
-    var itemWidth: CGFloat {
-        let baseWidth: CGFloat = 25
+    var triangleSize: CGFloat {
+        let baseWidth: CGFloat = itemWidth
         
         switch displayScale {
         case 1:
@@ -39,7 +40,7 @@ struct PresetView: View {
             TriangleGridView(colors: hexColors,
                              columns: hGrids,
                              rows: vGrides,
-                             triangleSize: itemWidth,
+                             triangleSize: triangleSize,
                              heightRatio: heightRatio,
                              onTouch: {index, isRepeat, color in
                 
