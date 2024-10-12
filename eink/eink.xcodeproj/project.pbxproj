@@ -24,6 +24,7 @@
 		930D91652CBA139200AA52BD /* PresetColors.json in Resources */ = {isa = PBXBuildFile; fileRef = 930D91642CBA139200AA52BD /* PresetColors.json */; };
 		930D91682CBA5E9400AA52BD /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 930D91672CBA5E9400AA52BD /* OrderedCollections */; };
 		930D916A2CBA869600AA52BD /* DeviceCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930D91692CBA869600AA52BD /* DeviceCommand.swift */; };
+		930F2EA72CBAB35F00C6A7F8 /* PlaybackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930F2EA62CBAB35F00C6A7F8 /* PlaybackView.swift */; };
 		933EFF912C99CC9000856EE1 /* FetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933EFF902C99CC9000856EE1 /* FetchRequest.swift */; };
 		933EFF942C9B06F500856EE1 /* SwiftfulLoadingIndicators in Frameworks */ = {isa = PBXBuildFile; productRef = 933EFF932C9B06F500856EE1 /* SwiftfulLoadingIndicators */; };
 		933EFF982C9E559100856EE1 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933EFF972C9E559000856EE1 /* AlertManager.swift */; };
@@ -107,6 +108,7 @@
 		930D91612CB96C4B00AA52BD /* DevicePresetExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicePresetExtension.swift; sourceTree = "<group>"; };
 		930D91642CBA139200AA52BD /* PresetColors.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PresetColors.json; sourceTree = "<group>"; };
 		930D91692CBA869600AA52BD /* DeviceCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceCommand.swift; sourceTree = "<group>"; };
+		930F2EA62CBAB35F00C6A7F8 /* PlaybackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackView.swift; sourceTree = "<group>"; };
 		933EFF902C99CC9000856EE1 /* FetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchRequest.swift; sourceTree = "<group>"; };
 		933EFF972C9E559000856EE1 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		936017C42CB697510021DE05 /* PacketFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PacketFormat.swift; sourceTree = "<group>"; };
@@ -319,6 +321,7 @@
 			isa = PBXGroup;
 			children = (
 				936D15E82C88AA8200066274 /* FavoriteView.swift */,
+				930F2EA62CBAB35F00C6A7F8 /* PlaybackView.swift */,
 			);
 			path = Favorite;
 			sourceTree = "<group>";
@@ -657,6 +660,7 @@
 				936D15F52C89F74100066274 /* TabbarView.swift in Sources */,
 				93F292522C96916300ECCE35 /* DIYPanel.swift in Sources */,
 				936017C52CB697510021DE05 /* PacketFormat.swift in Sources */,
+				930F2EA72CBAB35F00C6A7F8 /* PlaybackView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

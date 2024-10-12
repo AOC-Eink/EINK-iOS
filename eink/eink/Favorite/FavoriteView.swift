@@ -11,6 +11,7 @@ struct FavoriteView: View {
     
     let device:Device
     let designs:[Design]
+    @State private var showBottomSheet = false
     
     @Environment(\.appRouter) var appRouter
     
@@ -29,6 +30,14 @@ struct FavoriteView: View {
                             .foregroundColor(.plusbutton)
                     }
                 }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(action: {
+                        showBottomSheet.toggle()
+                    }) {
+                        Image(systemName: "ellipsis")
+                            .foregroundColor(.plusbutton)
+                    }
+                }
                 ToolbarItem(placement: .principal) {
                     Text("Favorite")
                         .font(.title)
@@ -36,6 +45,13 @@ struct FavoriteView: View {
 
                 }
             }
+        }
+        .sheet(isPresented: $showBottomSheet) {
+            PlaybackView(device: device, showBottomSheet: $showBottomSheet)
+                .presentationDetents([.height(400)])
+                .presentationDragIndicator(.visible)
+//                .cornerRadius(40, corners: [.topLeft, .topRight])
+//                .shadow(color: .deviceItemShadow, radius: 5, x: 1, y: -5)
         }
     }
 }

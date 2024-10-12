@@ -155,7 +155,7 @@ struct Device:Hashable, Equatable {
     
     var bleStatus:DeviceStatus {
         guard let bleDevice = self.bleDevice else {
-            return .disconnected
+            return .connected
         }
         
         switch bleDevice.peripheral.state {
