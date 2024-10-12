@@ -98,6 +98,20 @@ public class BLECommunicator: NSObject, BLECommunicatorProtocol {
     }
 }
 
+extension String {
+    func hexadecimal() -> Data? {
+        var data = Data(capacity: count / 2)
+        let regex = try! NSRegularExpression(pattern: "[0-9a-f]{1,2}", options: .caseInsensitive)
+        regex.enumerateMatches(in: self, range: NSMakeRange(0, utf16.count)) { match, _, _ in
+            let byteString = (self as NSString).substring(with: match!.range)
+            var num = UInt8(byteString, radix: 16)!
+            data.append(&num, count: 1)
+        }
+        guard data.count > 0 else { return nil }
+        return data
+    }
+}
+
 extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
     
     public func centralManagerDidUpdateState(_ central: CBCentralManager) {
@@ -114,6 +128,9 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
         print(log)
         
         let mfData = MFData(adData)
+        let log2 = "didDiscover mfData: vid\(mfData.vid) pid: \(mfData.pid)"
+        delegate?.bleCommunicator(self, didDiscoverDeviceInfo: log2)
+        
         if mfData.vid == AOCMF.vid {
             let device = BLEDevice(peripheral: peripheral, pid: mfData.pid, mid: mfData.mid)
             discoveredDevices[peripheral.identifier] = device

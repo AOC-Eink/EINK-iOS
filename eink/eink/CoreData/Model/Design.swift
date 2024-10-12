@@ -7,13 +7,14 @@
 
 import Foundation
 
-struct Design:Codable, Equatable, Hashable {
+struct Design: Equatable, Hashable {
     let deviceId:String
     let vGrids:Int
     let hGrids:Int
     let name:String
     let colors:String
     let favorite:Bool
+    let category:String
 }
 
 

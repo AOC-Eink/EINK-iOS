@@ -54,15 +54,25 @@ extension DIYView {
         }
         
         func saveDesgin(_ name:String, _ isFavorite:Bool) {
+            debugPrint("\(name)\":\"\(hexString)")
+            let design = Design(deviceId: device.indentify,
+                               vGrids: vGirds,
+                               hGrids: hGirds,
+                               name: name,
+                               colors: hexString,
+                               favorite: isFavorite,
+                               category: "custom")
+            
             CoreDataStack.shared.insetOrUpdateDesign(
                 name: name,
-                item: Design(deviceId: device.indentify,
-                             vGrids: vGirds,
-                             hGrids: hGirds,
-                             name: name,
-                             colors: hexString,
-                             favorite: isFavorite)
+                item: design
             )
+            
+            if isFavorite {
+                CoreDataStack.shared.insetFavoriteDesign(item: design)
+            } else {
+                try? CoreDataStack.shared.deleteDesignWithNameAndId(name: name, deviceId: device.indentify)
+            }
         }
         
         

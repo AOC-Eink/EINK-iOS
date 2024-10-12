@@ -183,7 +183,9 @@ class DeviceManager:BLEDataService {
         guard let bleDevice = device.bleDevice else { return }
         
         let colorInts = colors.map{getUInt8Color($0)}
-        let datas = PacketFormat.sendColors(header: device.commandHeader, colors: colorInts)
+        let mcuInts = device.formMCUCommand(colors: colorInts)
+        debugPrint("sendColors: \(mcuInts)")
+        let datas = PacketFormat.sendColors(header: device.commandHeader, colors: mcuInts)
         
         for data in datas {
             await bleHandle.sendData(data, to: bleDevice)
@@ -194,17 +196,17 @@ class DeviceManager:BLEDataService {
     func getUInt8Color(_ color:String) -> UInt8 {
         switch color {
         case "497A64":
-            return 0x05
+            return 0x05 //green
         case "DFBE24":
-            return 0x03
+            return 0x03 //yellow
         case "2B78B9":
-            return 0x04
+            return 0x04 //blue
         case "3F384A":
-            return 0x02
+            return 0x02 //black
         case "A45942":
-            return 0x01
+            return 0x01 // red
         case "DBDBDB":
-            return 0x00
+            return 0x00 // white
         default:
             return 0x33
         }

@@ -10,11 +10,25 @@ import SwiftUI
 struct PresetCard: View {
     
     let title:String
+    let pageType:PageType
     let presetView: PresetView?
     let ratio:CGFloat = 1.0
     @State var showPopover = false
     
     var onTouch:((EditAction)->Void)?
+    
+    var actions:[EditAction] {
+        switch pageType {
+        case .preset:
+            return [.apply, .edit, .favorite, .delete]
+        case .custom:
+            return [.apply, .edit, .favorite, .delete]
+        case .category:
+            return [.apply, .favorite]
+        case .favorite:
+            return [.apply, .favorite]
+        }
+    }
     
     var body: some View {
         VStack(alignment:.center, spacing: 10){
@@ -33,12 +47,12 @@ struct PresetCard: View {
             showPopover.toggle()
         }
         .popover(isPresented: $showPopover, content: {
-            EditPopverMenu(showPopover: $showPopover, onTouch: onTouch)
+            EditPopverMenu(showPopover: $showPopover, actions: actions, onTouch: onTouch)
                 .presentationCompactAdaptation(.popover)
         })
     }
 }
 
 #Preview {
-    PresetCard(title: "Clock", presetView: nil)
+    PresetCard(title: "Clock", pageType: .favorite, presetView: nil)
 }

@@ -41,50 +41,7 @@ enum DeviceType {
         }
     }
     
-    var presetDesigns:Dictionary<String,String> {
-        switch self {
-        case .clock:
-            return [
-                "Clock": """
-                    DFBE24,3F384A,497A64,A45942,2B78B9,DFBE24,A45942,
-                    2B78B9,497A64,A45942,3F384A,DFBE24,A45942,3F384A,
-                    A45942,3F384A,2B78B9,497A64,A45942,DFBE24,497A64,
-                    497A64,DFBE24,3F384A,A45942,2B78B9,DFBE24,A45942,
-                    DFBE24,2B78B9,497A64,DFBE24,A45942,3F384A,2B78B9,
-                    A45942,DFBE24,3F384A,2B78B9,497A64,2B78B9,DFBE24,
-                    497A64,A45942,3F384A,DFBE24,A45942,2B78B9,497A64
-                    """,
-                "Digtal": """
-                    3F384A,497A64,A45942,DFBE24,2B78B9,A45942,3F384A,
-                    DFBE24,A45942,3F384A,497A64,DFBE24,2B78B9,A45942,
-                    2B78B9,497A64,DFBE24,3F384A,A45942,2B78B9,497A64,
-                    A45942,2B78B9,DFBE24,497A64,3F384A,DFBE24,A45942,
-                    DFBE24,3F384A,497A64,A45942,2B78B9,DFBE24,3F384A,
-                    497A64,A45942,DFBE24,2B78B9,3F384A,A45942,2B78B9,
-                    A45942,DFBE24,2B78B9,497A64,3F384A,A45942,497A64
-                    """
-            ]
-            
-        case .phoneCase:
-            return [
-                "Letter E": """
-                    DFBE24,DFBE24,DFBE24,DFBE24,3F384A,3F384A,3F384A,3F384A,DFBE24,DFBE24,DFBE24,DFBE24,3F384A,3F384A,3F384A,3F384A,
-                    DFBE24,DFBE24,DFBE24,DFBE24,3F384A,3F384A,3F384A,3F384A,DFBE24,DFBE24,DFBE24,DFBE24,3F384A,3F384A,3F384A,3F384A,
-                    DFBE24,DFBE24,DFBE24,DFBE24,3F384A,3F384A,3F384A,3F384A,DFBE24,DFBE24,DFBE24,DFBE24,3F384A,3F384A,3F384A,3F384A,
-                    DFBE24,DFBE24,DFBE24,DFBE24,3F384A,3F384A,3F384A,3F384A,DFBE24,DFBE24,DFBE24,DFBE24,3F384A,3F384A,3F384A,3F384A
-                    """,
-                "Cube": """
-                    3F384A,3F384A,3F384A,3F384A,3F384A,3F384A,497A64,497A64,3F384A,3F384A,497A64,497A64,3F384A,3F384A,3F384A,3F384A,
-                    3F384A,3F384A,3F384A,497A64,497A64,497A64,497A64,497A64,497A64,497A64,497A64,497A64,497A64,497A64,3F384A,3F384A,
-                    3F384A,3F384A,497A64,497A64,497A64,497A64,A45942,A45942,497A64,497A64,497A64,497A64,497A64,497A64,3F384A,3F384A,
-                    3F384A,3F384A,3F384A,3F384A,3F384A,3F384A,497A64,497A64,3F384A,3F384A,3F384A,3F384A,3F384A,3F384A,3F384A,3F384A
-                    """
-            ]
-        case .speaker:
-            return [:]
-        }
-        
-    }
+
     
     var shape:Array<Int> {
         switch self {
@@ -132,6 +89,25 @@ enum DeviceStatus {
         }
     }
 }
+struct PresetDesign:Codable {
+    let name:String
+    let category:String
+    let colors:String
+    
+    enum CodingKeys: String, CodingKey {
+        case name
+        case category
+        case colors
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        name = try container.decodeIfPresent(String.self, forKey: .name) ?? "Untitled"
+        category = try container.decodeIfPresent(String.self, forKey: .category) ?? ""
+        colors = try container.decodeIfPresent(String.self, forKey: .colors) ?? ""
+    }
+    
+}
 
 struct Device:Hashable, Equatable {
     var id: String { indentify }
@@ -154,6 +130,8 @@ struct Device:Hashable, Equatable {
             self.bleDevice = bleDevice
         }
     }
+    
+    
     
     func hash(into hasher: inout Hasher) {
             hasher.combine(indentify)
@@ -214,12 +192,26 @@ struct Device:Hashable, Equatable {
         dbDesigns = designs
     }
     
+    var devicePidString:String {
+        switch deviceType {
+            
+        case .clock:
+            return "4E61"
+            
+        case .phoneCase:
+            return "4E62"
+            
+        case .speaker:
+            return "4E63"
+        }
+    }
+    
     var deviceType:DeviceType {
-        if deviceName.contains("Case") || bleDevice?.pid == 0x4E61 {
+        if deviceName.contains("Case") || bleDevice?.pid == 0x4E61 || bleDevice?.pid == 0x4E62 {
             return .phoneCase
         }
         
-        if deviceName.contains("Clock") || bleDevice?.pid == 0x4E61 {
+        if deviceName.contains("Clock") || bleDevice?.pid == 0x4E65 {
             return .clock
         }
         

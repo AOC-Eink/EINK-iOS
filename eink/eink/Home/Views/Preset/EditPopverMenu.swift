@@ -11,6 +11,7 @@ struct EditPopverMenu: View {
     @Binding var showPopover:Bool
     @State private var maxWidth:CGFloat = 0
     
+    let actions:[EditAction]
     
     
     var onTouch:((EditAction)->Void)?
@@ -19,22 +20,13 @@ struct EditPopverMenu: View {
     var body: some View {
             VStack(alignment: .leading) {
                 
-                CustomButton(title: "Apply",
-                             bgColor: .opButton) {
-                    onTouch?(.apply)
-                    showPopover = false
-                }
-                
-                CustomButton(title: "Edit",
-                             bgColor: .opButton) {
-                    onTouch?(.edit)
-                    showPopover = false
-                }
-                
-                CustomButton(title: "Delete",
-                             bgColor: .red) {
-                    onTouch?(.delete)
-                    showPopover = false
+                ForEach(actions, id: \.self) { action in
+                    CustomButton(title: "\(action.titleName)",
+                                 bgColor: .opButton) {
+                        onTouch?(action)
+                        showPopover = false
+                    }
+                    
                 }
 
             }
@@ -56,5 +48,5 @@ struct MaxWidthPreferenceKey: PreferenceKey {
 }
 
 #Preview {
-    EditPopverMenu(showPopover: .constant(true))
+    EditPopverMenu(showPopover: .constant(true), actions: [.apply])
 }

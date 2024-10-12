@@ -24,6 +24,30 @@ extension String {
     }
 }
 
+extension Data {
+    func toModel<T: Codable>(key:String) -> T? {
+        let decoder = JSONDecoder()
+        do {
+            
+            if let jsonObject = try JSONSerialization.jsonObject(with: self, options: []) as? [String: Any] {
+                if let jsonDict = jsonObject[key] {
+                    let sectionData = try JSONSerialization.data(withJSONObject: jsonDict, options: [])
+                    return  try decoder.decode(T.self, from: sectionData)
+                } else {
+                    return nil
+                }
+            } else {
+                return nil
+            }
+            
+            
+        } catch {
+            print("Failed to decode JSON: \(error)")
+            return nil
+        }
+    }
+}
+
 extension Encodable {
     func toJSONString(encoding: String.Encoding = .utf8) -> String? {
         let encoder = JSONEncoder()

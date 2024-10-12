@@ -42,7 +42,10 @@ struct DIYPanel: View {
                                 text: $inputText)
                     .padding(.top)
                     .padding(.leading)
-                FavoriteButton(initState: initFavorite, isSelect: $isFavorite)
+                FavoriteButton(initFavorite, onTouch: { favorite in
+                    isFavorite = favorite
+                })
+                
             }
             .padding(.bottom, 5)
          
@@ -83,7 +86,7 @@ struct DIYPanel: View {
                             message: "Name should not be empty"
                         )
                     } else {
-                        onSave(isFavorite||initFavorite, inputText)
+                        onSave(isFavorite, inputText)
                     }
                     
                 }

@@ -10,7 +10,7 @@ import SwiftUI
 struct FavoriteView: View {
     
     let device:Device
-    let designs:[InkDesign]
+    let designs:[Design]
     
     @Environment(\.appRouter) var appRouter
     

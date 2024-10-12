@@ -25,6 +25,30 @@ extension InkDevice {
     }()
 }
 
+extension FavoriteDesign {
+    static func designRequest(forDeviceId deviceId: String) -> NSFetchRequest<FavoriteDesign> {
+        let request = NSFetchRequest<FavoriteDesign>(entityName: "FavoriteDesign")
+        
+        // 设置排序规则
+        request.sortDescriptors = [.init(key: "createTimestamp", ascending: false)]
+        
+        // 设置过滤条件 (根据 deviceId)
+        request.predicate = NSPredicate(format: "deviceId == %@", deviceId)
+        
+        // 设置返回对象不作为 faults
+        request.returnsObjectsAsFaults = false
+        
+        return request
+    }
+
+    static let disableRequest: NSFetchRequest<FavoriteDesign> = {
+        let request = NSFetchRequest<FavoriteDesign>(entityName: "FavoriteDesign")
+        request.sortDescriptors = [.init(key: "createTimestamp", ascending: false)]
+        request.predicate = .init(value: false)
+        return request
+    }()
+}
+
 extension InkDesign {
     static func designRequest(forDeviceId deviceId: String) -> NSFetchRequest<InkDesign> {
         let request = NSFetchRequest<InkDesign>(entityName: "InkDesign")

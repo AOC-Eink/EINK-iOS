@@ -12,17 +12,35 @@ import AlertToast
 enum EditAction {
     case apply
     case edit
+    case favorite
     case delete
+    
+    
+    var titleName:String {
+        switch self {
+
+        case .apply:
+            return "Apply"
+        case .edit:
+            return "Edit"
+        case .favorite:
+            return "Favorite"
+        case .delete:
+            return "Delete"
+        }
+    }
+}
+
+enum PageType {
+    case preset
+    case custom
+    case category
+    case favorite
 }
 
 struct PresetGridView: View {
     
-    enum PageType {
-        case preset
-        case custom
-        case category
-        case favorite
-    }
+    
     
     @EnvironmentObject var alertManager: AlertManager
     @Environment(\.appRouter) var appRouter
@@ -31,13 +49,14 @@ struct PresetGridView: View {
     @State private var showToast = false
     
     let device:Device
-    let designs:[InkDesign]
+    let designs:[Design]
     let pageType:PageType
     
-    init(device: Device, designs: [InkDesign] = [], pageType: PageType = .preset) {
+    init(device: Device, designs: [Design] = [], pageType: PageType = .preset, sectionName:String = "") {
         self.device = device
         self.designs = designs
         self.pageType = pageType
+        self.sectionName = sectionName
     }
     
     func deleteAlert(_ name:String) {
@@ -58,26 +77,29 @@ struct PresetGridView: View {
         await deviceManager.sendColors(device, colors: colors)
     }
     
-    func edit(_ design:InkDesign) {
-        goDIYView(design.colors?.components(separatedBy: ",") ,design.name, design.favorite)
+    func edit(_ design:Design) {
+        goDIYView(design.colors.components(separatedBy: ",") ,design.name, design.favorite, design.category == "custom")
     }
     
+    let sectionName:String
     
     var body: some View {
         VStack(alignment:.leading){
             
-            if pageType == .preset {
-                Text("Preset pattern")
+            if !sectionName.isEmpty {
+                Text(sectionName)
                     .padding(.leading, 10)
-                    .font(.deviceCount)
+                    .font(.sectionBoldTitle)
                     .foregroundStyle(.sectionTitle)
             }
             
             
             LazyVGrid(columns: device.gridLayout, spacing: 10) {
                 ForEach(designs, id: \.self) { item in
-                    PresetCard(title: item.name ?? "",
-                               presetView: PresetView(colors: item.colors ?? "",
+                    PresetCard(title: item.name,
+                               pageType:pageType,
+                               
+                               presetView: PresetView(colors: item.colors,
                                                       hGrids: Int(item.hGrids),
                                                       vGrides: Int(item.vGrids),
                                                       heightRatio: device.inkStyle.heightRatio,
@@ -90,13 +112,15 @@ struct PresetGridView: View {
                             
                         case .apply:
                             Task{
-                                await applay(item.colors?.components(separatedBy: ",") ?? [])
+                                await applay(item.colors.components(separatedBy: ","))
                             }
                             
                         case .edit:
                             edit(item)
                         case .delete:
-                            deleteAlert(item.name ?? "")
+                            deleteAlert(item.name)
+                        case .favorite:
+                            break
                         }
                                 
                        }

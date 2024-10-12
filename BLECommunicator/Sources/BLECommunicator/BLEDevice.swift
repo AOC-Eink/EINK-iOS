@@ -10,14 +10,14 @@ import CoreBluetooth
 
 public struct BLEDevice: Identifiable {
     public let id: UUID
-    public let pid: Int
-    public let mid: Int?
+    public let pid: UInt16
+    public let mid: UInt8?
     public let name: String?
     public let peripheral: CBPeripheral
     var writeCharacteristic: CBCharacteristic?
     var readCharacteristic: CBCharacteristic?
     
-    init(peripheral: CBPeripheral, pid: Int, mid: Int = 0) {
+    init(peripheral: CBPeripheral, pid: UInt16, mid: UInt8 = 0) {
         self.id = peripheral.identifier
         self.pid = pid
         self.mid = mid

@@ -161,9 +161,9 @@ struct DiscoverView: View {
             }
         }
         .onAppear{
-            //DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                //model.refreshDevicesStatus()
-            //}
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                model.refreshDevicesStatus()
+            }
         }
         .onChange(of: model.errorMessage) { oldValue, newValue in
             guard let error = newValue else {return}

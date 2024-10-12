@@ -93,6 +93,49 @@ extension CoreDataStack {
         }
     }
     
+    func insetFavoriteDesign(item: Design) {
+        container.performBackgroundTask { context in
+            let request = NSFetchRequest<FavoriteDesign>(entityName: "FavoriteDesign")
+            let namePredicate = NSPredicate(format: "name = %@", item.name)
+            let deviceIdPredicate = NSPredicate(format: "deviceId = %@", item.deviceId)
+            let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [namePredicate, deviceIdPredicate])
+            request.fetchLimit = 1
+            request.predicate = compoundPredicate
+            request.sortDescriptors = [NSSortDescriptor(key: "createTimestamp", ascending: true)]
+            let result = try? context.fetch(request).first
+            if let hasDesign = result {
+
+                hasDesign.name = item.name
+                try? context.save()
+            } else {
+
+                
+                let desgin = FavoriteDesign(context: context)
+                desgin.name = item.name
+                desgin.deviceId = item.deviceId
+                try? context.save()
+            }
+        }
+    }
+    
+    func deleteDesignWithNameAndId(name: String, deviceId:String) throws {
+        container.performBackgroundTask { context in
+            let request = NSFetchRequest<FavoriteDesign>(entityName: "FavoriteDesign")
+            let namePredicate = NSPredicate(format: "name = %@", name)
+            let deviceIdPredicate = NSPredicate(format: "deviceId = %@", deviceId)
+            let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [namePredicate, deviceIdPredicate])
+            request.predicate = compoundPredicate
+            do {
+                if let result = try context.fetch(request).first {
+                    context.delete(result)
+                    try context.save()
+                }
+            } catch let error as NSError {
+                print("Error in deleting object: \(error), \(error.userInfo)")
+            }
+        }
+    }
+    
     func deleteDesignWithName(name: String) throws {
         container.performBackgroundTask { context in
             let request = NSFetchRequest<InkDesign>(entityName: "InkDesign")

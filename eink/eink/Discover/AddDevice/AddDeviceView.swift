@@ -24,12 +24,12 @@ struct AddDeviceView: View {
         ZStack {
             VStack {
                 
-                if (model.addStatus == .scan || model.addStatus == .scanNone) && showAddView {
-                    LogOverlayView()
-                } else {
-                    Spacer()
-                }
-                
+//                if (model.addStatus == .scan || model.addStatus == .scanNone) && showAddView {
+//                    LogOverlayView()
+//                } else {
+//                    Spacer()
+//                }
+                Spacer()
                 VStack(alignment:.center) {
                     
                     Color.black

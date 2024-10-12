@@ -18,7 +18,8 @@ struct HomeView: View {
 //    private var items: FetchedResults<Item>
     
     let device:Device
-    let desgins:[InkDesign]
+    let designs:[Design]
+    let customDesigns:[Design]
     
     var body: some View {
         home
@@ -61,7 +62,13 @@ struct HomeView: View {
             ScrollView {
                 VStack{
                     SliderView(images: device.deviceType.guideImage)
-                    PresetGridView(device: device, designs: desgins, pageType: .preset)
+                    
+                    
+                    
+                    PresetGridView(device: device, designs: designs, pageType: .preset, sectionName: "Preset pattern")
+                    
+                    PresetGridView(device: device, designs: customDesigns, pageType: .preset, sectionName: "Custom pattern")
+                    
                 }
             }
             .navigationTitle(device.deviceName)
@@ -86,7 +93,7 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView(device: DeviceManager().showDevices.first!, desgins: [])
+    HomeView(device: DeviceManager().showDevices.first!, designs: [], customDesigns: [])
 }
 
 //private let itemFormatter: DateFormatter = {

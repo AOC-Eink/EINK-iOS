@@ -20,6 +20,10 @@
 		930BDA8D2C8B3AE5008672C5 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930BDA8C2C8B3AE5008672C5 /* OnboardingView.swift */; };
 		930BDA8F2C8B4FB5008672C5 /* DeviceCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930BDA8E2C8B4FB5008672C5 /* DeviceCard.swift */; };
 		930BDA922C8C436E008672C5 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930BDA912C8C436E008672C5 /* ColorExtension.swift */; };
+		930D91622CB96C4B00AA52BD /* DevicePresetExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930D91612CB96C4B00AA52BD /* DevicePresetExtension.swift */; };
+		930D91652CBA139200AA52BD /* PresetColors.json in Resources */ = {isa = PBXBuildFile; fileRef = 930D91642CBA139200AA52BD /* PresetColors.json */; };
+		930D91682CBA5E9400AA52BD /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 930D91672CBA5E9400AA52BD /* OrderedCollections */; };
+		930D916A2CBA869600AA52BD /* DeviceCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930D91692CBA869600AA52BD /* DeviceCommand.swift */; };
 		933EFF912C99CC9000856EE1 /* FetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933EFF902C99CC9000856EE1 /* FetchRequest.swift */; };
 		933EFF942C9B06F500856EE1 /* SwiftfulLoadingIndicators in Frameworks */ = {isa = PBXBuildFile; productRef = 933EFF932C9B06F500856EE1 /* SwiftfulLoadingIndicators */; };
 		933EFF982C9E559100856EE1 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933EFF972C9E559000856EE1 /* AlertManager.swift */; };
@@ -100,6 +104,9 @@
 		930BDA8C2C8B3AE5008672C5 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		930BDA8E2C8B4FB5008672C5 /* DeviceCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceCard.swift; sourceTree = "<group>"; };
 		930BDA912C8C436E008672C5 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
+		930D91612CB96C4B00AA52BD /* DevicePresetExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicePresetExtension.swift; sourceTree = "<group>"; };
+		930D91642CBA139200AA52BD /* PresetColors.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PresetColors.json; sourceTree = "<group>"; };
+		930D91692CBA869600AA52BD /* DeviceCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceCommand.swift; sourceTree = "<group>"; };
 		933EFF902C99CC9000856EE1 /* FetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchRequest.swift; sourceTree = "<group>"; };
 		933EFF972C9E559000856EE1 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		936017C42CB697510021DE05 /* PacketFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PacketFormat.swift; sourceTree = "<group>"; };
@@ -151,6 +158,7 @@
 			files = (
 				93FBAC922CAD7D3900BB2B7B /* AlertToast in Frameworks */,
 				933EFF942C9B06F500856EE1 /* SwiftfulLoadingIndicators in Frameworks */,
+				930D91682CBA5E9400AA52BD /* OrderedCollections in Frameworks */,
 				93C898EB2CA448690001E331 /* BLECommunicator in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -248,6 +256,9 @@
 			isa = PBXGroup;
 			children = (
 				930BDA8A2C8B32F1008672C5 /* Device.swift */,
+				930D91692CBA869600AA52BD /* DeviceCommand.swift */,
+				930D91612CB96C4B00AA52BD /* DevicePresetExtension.swift */,
+				930D91642CBA139200AA52BD /* PresetColors.json */,
 				93C898EC2CA44A120001E331 /* DeviceManager.swift */,
 			);
 			path = AppData;
@@ -472,6 +483,7 @@
 				933EFF932C9B06F500856EE1 /* SwiftfulLoadingIndicators */,
 				93C898EA2CA448690001E331 /* BLECommunicator */,
 				93FBAC912CAD7D3900BB2B7B /* AlertToast */,
+				930D91672CBA5E9400AA52BD /* OrderedCollections */,
 			);
 			productName = eink;
 			productReference = 9301E7ED2C87489700381CA7 /* eink.app */;
@@ -549,6 +561,7 @@
 				933EFF922C9B06F500856EE1 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */,
 				93C898E42CA30DE30001E331 /* XCLocalSwiftPackageReference "../BLECommunicator" */,
 				93FBAC902CAD7D3900BB2B7B /* XCRemoteSwiftPackageReference "AlertToast" */,
+				930D91662CBA5E7100AA52BD /* XCRemoteSwiftPackageReference "swift-collections" */,
 			);
 			productRefGroup = 9301E7EE2C87489700381CA7 /* Products */;
 			projectDirPath = "";
@@ -568,6 +581,7 @@
 			files = (
 				9301E7F82C87489800381CA7 /* Preview Assets.xcassets in Resources */,
 				9301E7F52C87489800381CA7 /* Assets.xcassets in Resources */,
+				930D91652CBA139200AA52BD /* PresetColors.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -595,6 +609,7 @@
 				93FBAC8F2CAD609800BB2B7B /* EditPopverMenu.swift in Sources */,
 				9301E7FD2C87489800381CA7 /* eink.xcdatamodeld in Sources */,
 				93F2924E2C96671400ECCE35 /* StringExtension.swift in Sources */,
+				930D916A2CBA869600AA52BD /* DeviceCommand.swift in Sources */,
 				9301E7FA2C87489800381CA7 /* Persistence.swift in Sources */,
 				936D15EB2C88AAA500066274 /* ProfileView.swift in Sources */,
 				930BDA8D2C8B3AE5008672C5 /* OnboardingView.swift in Sources */,
@@ -611,6 +626,7 @@
 				93C898DA2C9EB7490001E331 /* DIYView.Model.swift in Sources */,
 				93F292542C96945300ECCE35 /* FavoriteButton.swift in Sources */,
 				930BDA8F2C8B4FB5008672C5 /* DeviceCard.swift in Sources */,
+				930D91622CB96C4B00AA52BD /* DevicePresetExtension.swift in Sources */,
 				93F292562C96AC3800ECCE35 /* ColorGrid.swift in Sources */,
 				BE70110E2CB904D000729C8C /* LogView.swift in Sources */,
 				93F2924C2C95D6E900ECCE35 /* Design.swift in Sources */,
@@ -803,7 +819,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"eink/Preview Content\"";
 				DEVELOPMENT_TEAM = Y3W3G6RN8D;
 				ENABLE_PREVIEWS = YES;
@@ -845,7 +861,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"eink/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = B3K28DD4HW;
@@ -870,7 +886,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.aocgroup.eink;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "eink-apple-Provisioning Profile";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "aoc-eink-app-test-profile";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -1006,6 +1022,14 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		930D91662CBA5E7100AA52BD /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.4;
+			};
+		};
 		933EFF922C9B06F500856EE1 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulLoadingIndicators.git";
@@ -1025,6 +1049,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		930D91672CBA5E9400AA52BD /* OrderedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 930D91662CBA5E7100AA52BD /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = OrderedCollections;
+		};
 		933EFF932C9B06F500856EE1 /* SwiftfulLoadingIndicators */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 933EFF922C9B06F500856EE1 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */;

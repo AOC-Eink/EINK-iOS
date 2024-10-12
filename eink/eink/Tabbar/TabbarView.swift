@@ -12,6 +12,8 @@ struct TabbarView: View {
     @Environment(\.appRouter) var appRouter
     @State private var onAddTouch:Bool = false
     @FetchRequest var designs: FetchedResults<InkDesign>
+    @FetchRequest var fDesigns: FetchedResults<FavoriteDesign>
+    @State private var presetDesigns:[PresetDesign] = []
     
     let device:Device
     
@@ -19,26 +21,77 @@ struct TabbarView: View {
         self.device = device
         let request: NSFetchRequest<InkDesign> = InkDesign.designRequest(forDeviceId: device.indentify)
         _designs = FetchRequest(fetchRequest: request)
+        let fRequest: NSFetchRequest<FavoriteDesign> = FavoriteDesign.designRequest(forDeviceId: device.indentify)
+        _fDesigns = FetchRequest(fetchRequest: fRequest)
+        
         
     }
     
-    var favoriteDesigns: [InkDesign] {
-        designs.filter { $0.favorite }
+    func loadPresetDesigns(devicePid:String) {
+        guard let url = Bundle.main.url(forResource: "PresetColors", withExtension: "json") else {
+            print("无法找到配置文件")
+            return
+        }
+        do {
+            let data = try Data(contentsOf: url)
+            if let presets:[PresetDesign] = data.toModel(key: devicePid) {
+                presetDesigns = presets
+            }
+        } catch {
+            print("解析配置文件时出错: \(error)")
+            return
+        }
     }
     
-    var categroyDesigns:[InkDesign] {
-        designs.filter { !$0.favorite }
+    
+    var favoriteDesigns: [Design] {
+        
+        allDesigns.filter{$0.favorite}
+
     }
     
-    var newAddName: String {
-        var newName = "New Design"
+    func isFavorite(name:String, id:String) -> Bool {
+        if self.fDesigns.contains(where: {$0.deviceId == id && $0.name == name}) {
+            return true
+        }
+        return false
+    }
+    
+    var categroyDesigns:[Design] {
+        presetDesigns.map{ Design(deviceId: device.indentify,
+                                  vGrids: device.deviceType.shape[1],
+                                 hGrids: device.deviceType.shape[0],
+                                  name: $0.name,
+                                  colors: $0.colors,
+                                  favorite: isFavorite(name: $0.name, id: device.indentify),
+                                  category: $0.category
+        )}
+    }
+    
+    var customDesigns:[Design] {
+        designs.map{
+            Design(deviceId: device.indentify,
+                   vGrids: Int($0.vGrids),
+                     hGrids: Int($0.hGrids),
+                      name: $0.name ?? "",
+                      colors: $0.colors ?? "",
+                      favorite: isFavorite(name: $0.name ?? "", id: device.indentify),
+                      category: "custom")
+        }
+    }
+    
+    var allDesigns:[Design] {
+        categroyDesigns+customDesigns
+    }
+    
+    func newAddNameFrom(_ name:String) -> String {
+        var newName = name
         var counter = 0
         
-        while designs.contains(where: { $0.name == newName }) {
+        while allDesigns.contains(where: { $0.name == newName }) {
             counter += 1
-            newName = "New Design \(counter)"
+            newName = "\(name) \(counter)"
         }
-        
         return newName
     }
     
@@ -54,7 +107,7 @@ struct TabbarView: View {
             ZStack(alignment: .bottom) {
                 TabView(selection: $selectedTab){
                     
-                    HomeView(device:device, desgins: designs.map { $0 })
+                    HomeView(device:device, designs: categroyDesigns, customDesigns: customDesigns)
                         .tabItem {
                             Label("Home", systemImage: "house")}
                         .tag(Router.home(nil))
@@ -82,7 +135,7 @@ struct TabbarView: View {
                 .tint(.opButton)
                 
                 Button(action: {
-                    diyName = newAddName
+                    diyName = newAddNameFrom("New Design")
                     diyColors = []
                     diyFavorite = false
                     onAddTouch.toggle()
@@ -111,19 +164,17 @@ struct TabbarView: View {
             
         }
         .animation(.easeInOut, value: onAddTouch)
-        .environment(\.goDIYView) { colors, name, favorite in
+        .environment(\.goDIYView) { colors, name, favorite, isCostom in
             self.diyColors = colors ?? []
-            self.diyName = name ?? ""
+            self.diyName = isCostom ? (name ?? "") : self.newAddNameFrom(name ?? "New Design")
             self.diyFavorite = favorite ?? false
-            if name == nil {
-                self.diyName = self.newAddName
-            }
             onAddTouch = true
         }
         .onAppear{
-            for item in designs {
-                print("\(item.name ?? "")")
-            }
+            loadPresetDesigns(devicePid: device.devicePidString)
+//            for item in designs {
+//                print("\(item.name ?? "")")
+//            }
         }
         .onChange(of: device.bleStatus) { oldValue, newValue in
             if newValue == .disconnected {
