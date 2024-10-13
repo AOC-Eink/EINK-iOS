@@ -22,12 +22,10 @@
 		930BDA922C8C436E008672C5 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930BDA912C8C436E008672C5 /* ColorExtension.swift */; };
 		930D91622CB96C4B00AA52BD /* DevicePresetExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930D91612CB96C4B00AA52BD /* DevicePresetExtension.swift */; };
 		930D91652CBA139200AA52BD /* PresetColors.json in Resources */ = {isa = PBXBuildFile; fileRef = 930D91642CBA139200AA52BD /* PresetColors.json */; };
-		930D91682CBA5E9400AA52BD /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 930D91672CBA5E9400AA52BD /* OrderedCollections */; };
 		930D916A2CBA869600AA52BD /* DeviceCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930D91692CBA869600AA52BD /* DeviceCommand.swift */; };
 		930F2EA72CBAB35F00C6A7F8 /* PlaybackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930F2EA62CBAB35F00C6A7F8 /* PlaybackView.swift */; };
 		930F2EA92CBB3F8C00C6A7F8 /* CommandSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930F2EA82CBB3F8C00C6A7F8 /* CommandSender.swift */; };
 		933EFF912C99CC9000856EE1 /* FetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933EFF902C99CC9000856EE1 /* FetchRequest.swift */; };
-		933EFF942C9B06F500856EE1 /* SwiftfulLoadingIndicators in Frameworks */ = {isa = PBXBuildFile; productRef = 933EFF932C9B06F500856EE1 /* SwiftfulLoadingIndicators */; };
 		933EFF982C9E559100856EE1 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933EFF972C9E559000856EE1 /* AlertManager.swift */; };
 		936017C52CB697510021DE05 /* PacketFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936017C42CB697510021DE05 /* PacketFormat.swift */; };
 		936D15DC2C88A68C00066274 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15DB2C88A68C00066274 /* AppRouter.swift */; };
@@ -38,13 +36,16 @@
 		936D15EF2C89D91600066274 /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15EE2C89D91600066274 /* GuideView.swift */; };
 		936D15F22C89DC1F00066274 /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15F12C89DC1F00066274 /* DiscoverView.swift */; };
 		936D15F52C89F74100066274 /* TabbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15F42C89F74100066274 /* TabbarView.swift */; };
+		93C0C6C22CBBC0C2002BA238 /* SwiftfulLoadingIndicators in Frameworks */ = {isa = PBXBuildFile; productRef = 93C0C6C12CBBC0C2002BA238 /* SwiftfulLoadingIndicators */; };
+		93C0C6C42CBBC0C5002BA238 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 93C0C6C32CBBC0C5002BA238 /* AlertToast */; };
+		93C0C6C62CBBC0CA002BA238 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 93C0C6C52CBBC0CA002BA238 /* OrderedCollections */; };
+		93C0C6C82CBBC0CE002BA238 /* BLECommunicator in Frameworks */ = {isa = PBXBuildFile; productRef = 93C0C6C72CBBC0CE002BA238 /* BLECommunicator */; };
 		93C898D82C9EAFAD0001E331 /* AlertModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898D72C9EAFAD0001E331 /* AlertModifier.swift */; };
 		93C898DA2C9EB7490001E331 /* DIYView.Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898D92C9EB7490001E331 /* DIYView.Model.swift */; };
 		93C898DE2C9F94E30001E331 /* CostomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898DD2C9F94E30001E331 /* CostomTextField.swift */; };
 		93C898E02C9FFCC30001E331 /* RoundedBorderModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898DF2C9FFCC30001E331 /* RoundedBorderModifier.swift */; };
 		93C898E32C9FFDFB0001E331 /* InkStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898E22C9FFDFB0001E331 /* InkStruct.swift */; };
 		93C898E82CA448420001E331 /* BLEHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898E72CA448410001E331 /* BLEHandler.swift */; };
-		93C898EB2CA448690001E331 /* BLECommunicator in Frameworks */ = {isa = PBXBuildFile; productRef = 93C898EA2CA448690001E331 /* BLECommunicator */; };
 		93C898ED2CA44A120001E331 /* DeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898EC2CA44A120001E331 /* DeviceManager.swift */; };
 		93C898F42CA640880001E331 /* AddDeviceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898F32CA640880001E331 /* AddDeviceView.swift */; };
 		93C898F62CA648930001E331 /* AddDeviceView.Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898F52CA648920001E331 /* AddDeviceView.Model.swift */; };
@@ -67,7 +68,6 @@
 		93F332CF2C91C4E000C01091 /* SliderCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F332CE2C91C4E000C01091 /* SliderCard.swift */; };
 		93F332D12C91C52E00C01091 /* SliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F332D02C91C52E00C01091 /* SliderView.swift */; };
 		93FBAC8F2CAD609800BB2B7B /* EditPopverMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FBAC8E2CAD609800BB2B7B /* EditPopverMenu.swift */; };
-		93FBAC922CAD7D3900BB2B7B /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 93FBAC912CAD7D3900BB2B7B /* AlertToast */; };
 		93FBAC942CAD825400BB2B7B /* EnvironmentKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FBAC932CAD825400BB2B7B /* EnvironmentKey.swift */; };
 		BE70110E2CB904D000729C8C /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE70110D2CB904D000729C8C /* LogView.swift */; };
 /* End PBXBuildFile section */
@@ -160,10 +160,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				93FBAC922CAD7D3900BB2B7B /* AlertToast in Frameworks */,
-				933EFF942C9B06F500856EE1 /* SwiftfulLoadingIndicators in Frameworks */,
-				930D91682CBA5E9400AA52BD /* OrderedCollections in Frameworks */,
-				93C898EB2CA448690001E331 /* BLECommunicator in Frameworks */,
+				93C0C6C22CBBC0C2002BA238 /* SwiftfulLoadingIndicators in Frameworks */,
+				93C0C6C42CBBC0C5002BA238 /* AlertToast in Frameworks */,
+				93C0C6C62CBBC0CA002BA238 /* OrderedCollections in Frameworks */,
+				93C0C6C82CBBC0CE002BA238 /* BLECommunicator in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,10 +486,10 @@
 			);
 			name = eink;
 			packageProductDependencies = (
-				933EFF932C9B06F500856EE1 /* SwiftfulLoadingIndicators */,
-				93C898EA2CA448690001E331 /* BLECommunicator */,
-				93FBAC912CAD7D3900BB2B7B /* AlertToast */,
-				930D91672CBA5E9400AA52BD /* OrderedCollections */,
+				93C0C6C12CBBC0C2002BA238 /* SwiftfulLoadingIndicators */,
+				93C0C6C32CBBC0C5002BA238 /* AlertToast */,
+				93C0C6C52CBBC0CA002BA238 /* OrderedCollections */,
+				93C0C6C72CBBC0CE002BA238 /* BLECommunicator */,
 			);
 			productName = eink;
 			productReference = 9301E7ED2C87489700381CA7 /* eink.app */;
@@ -564,10 +564,10 @@
 			);
 			mainGroup = 9301E7E42C87489700381CA7;
 			packageReferences = (
-				933EFF922C9B06F500856EE1 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */,
-				93C898E42CA30DE30001E331 /* XCLocalSwiftPackageReference "../BLECommunicator" */,
-				93FBAC902CAD7D3900BB2B7B /* XCRemoteSwiftPackageReference "AlertToast" */,
-				930D91662CBA5E7100AA52BD /* XCRemoteSwiftPackageReference "swift-collections" */,
+				933CF8512CBBBC0400841E98 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */,
+				933CF8522CBBBC0900841E98 /* XCRemoteSwiftPackageReference "AlertToast" */,
+				933CF8532CBBBC1900841E98 /* XCRemoteSwiftPackageReference "swift-collections" */,
+				93C0C6C02CBBC0B2002BA238 /* XCLocalSwiftPackageReference "../BLECommunicator" */,
 			);
 			productRefGroup = 9301E7EE2C87489700381CA7 /* Products */;
 			projectDirPath = "";
@@ -827,7 +827,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_ASSET_PATHS = "\"eink/Preview Content\"";
 				DEVELOPMENT_TEAM = Y3W3G6RN8D;
 				ENABLE_PREVIEWS = YES;
@@ -869,7 +869,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_ASSET_PATHS = "\"eink/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = B3K28DD4HW;
@@ -1023,22 +1023,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		93C898E42CA30DE30001E331 /* XCLocalSwiftPackageReference "../BLECommunicator" */ = {
+		93C0C6C02CBBC0B2002BA238 /* XCLocalSwiftPackageReference "../BLECommunicator" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../BLECommunicator;
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		930D91662CBA5E7100AA52BD /* XCRemoteSwiftPackageReference "swift-collections" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-collections.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.1.4;
-			};
-		};
-		933EFF922C9B06F500856EE1 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */ = {
+		933CF8512CBBBC0400841E98 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulLoadingIndicators.git";
 			requirement = {
@@ -1046,7 +1038,7 @@
 				minimumVersion = 0.0.4;
 			};
 		};
-		93FBAC902CAD7D3900BB2B7B /* XCRemoteSwiftPackageReference "AlertToast" */ = {
+		933CF8522CBBBC0900841E98 /* XCRemoteSwiftPackageReference "AlertToast" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/elai950/AlertToast.git";
 			requirement = {
@@ -1054,28 +1046,36 @@
 				minimumVersion = 1.3.9;
 			};
 		};
+		933CF8532CBBBC1900841E98 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		930D91672CBA5E9400AA52BD /* OrderedCollections */ = {
+		93C0C6C12CBBC0C2002BA238 /* SwiftfulLoadingIndicators */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 930D91662CBA5E7100AA52BD /* XCRemoteSwiftPackageReference "swift-collections" */;
-			productName = OrderedCollections;
-		};
-		933EFF932C9B06F500856EE1 /* SwiftfulLoadingIndicators */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 933EFF922C9B06F500856EE1 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */;
+			package = 933CF8512CBBBC0400841E98 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */;
 			productName = SwiftfulLoadingIndicators;
 		};
-		93C898EA2CA448690001E331 /* BLECommunicator */ = {
+		93C0C6C32CBBC0C5002BA238 /* AlertToast */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 93C898E42CA30DE30001E331 /* XCLocalSwiftPackageReference "../BLECommunicator" */;
-			productName = BLECommunicator;
-		};
-		93FBAC912CAD7D3900BB2B7B /* AlertToast */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 93FBAC902CAD7D3900BB2B7B /* XCRemoteSwiftPackageReference "AlertToast" */;
+			package = 933CF8522CBBBC0900841E98 /* XCRemoteSwiftPackageReference "AlertToast" */;
 			productName = AlertToast;
+		};
+		93C0C6C52CBBC0CA002BA238 /* OrderedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 933CF8532CBBBC1900841E98 /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = OrderedCollections;
+		};
+		93C0C6C72CBBC0CE002BA238 /* BLECommunicator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 93C0C6C02CBBC0B2002BA238 /* XCLocalSwiftPackageReference "../BLECommunicator" */;
+			productName = BLECommunicator;
 		};
 /* End XCSwiftPackageProductDependency section */
 

@@ -207,15 +207,15 @@ struct Device:Hashable, Equatable {
     }
     
     var deviceType:DeviceType {
-        if deviceName.contains("Case") || bleDevice?.pid == 0x4E61 || bleDevice?.pid == 0x4E62 {
+        if bleDevice?.pid == 0x4E62 {
             return .phoneCase
         }
         
-        if deviceName.contains("Clock") && bleDevice?.pid == 0x4E65 {
+        if bleDevice?.pid == 0x4E61 {
             return .clock
         }
         
-        if deviceName.contains("Speaker") || bleDevice?.pid == 0x4E63 {
+        if bleDevice?.pid == 0x4E63 {
             return .speaker
         }
         

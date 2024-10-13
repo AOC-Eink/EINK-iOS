@@ -19,6 +19,7 @@ struct PlaybackView: View {
     let designs:[Design]
     @Binding var showBottomSheet:Bool
     @State private var showToast = false
+    @State private var showError = false
     
     @State private var isToggleOn = true
     @State private var selectedMinutes = 0
@@ -42,6 +43,12 @@ struct PlaybackView: View {
             showToast = false
             showBottomSheet.toggle()
         })
+        .alert("Write Failure", isPresented: $showToast) {
+            
+        } message: {
+            Text("WriteCharacteristic not Found")
+        }
+
         
         
     }
@@ -139,12 +146,14 @@ struct PlaybackView: View {
 
             CustomButton(title: "Confirm", bgColor: .opButton) {
                 if showToast { return }
-                showToast.toggle()
-                
-                Task {
-                    await device.deviceFuction?.sendTestPlayColors(device, designs: designs, gapTime: totalSeconds, isShow: isToggleOn)
+                if let _ = device.bleDevice?.writeCharacteristic {
+                    showToast.toggle()
+                    Task {
+                        await device.deviceFuction?.sendTestPlayColors(device, designs: designs, gapTime: totalSeconds, isShow: isToggleOn)
+                    }
+                } else {
+                    showError.toggle()
                 }
-                
             }
         }
     }

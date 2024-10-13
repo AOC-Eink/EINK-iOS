@@ -57,8 +57,8 @@ extension DiscoverView {
             }
         }
         
-        func removeDevice(device:Device) {
-            deviceManager.removeDevice(device: device)
+        func removeDevice(device:Device) async {
+            await deviceManager.removeDevice(device: device)
         }
         
         

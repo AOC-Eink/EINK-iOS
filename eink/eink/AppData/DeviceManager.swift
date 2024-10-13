@@ -9,6 +9,7 @@ import BLECommunicator
 import Combine
 import SwiftUI
 
+
 protocol BLEDataService {
 //    func write()
 //    func read()
@@ -102,9 +103,12 @@ class DeviceManager:BLEDataService {
         
     }
     
-    func removeDevice(device:Device) {
+    func removeDevice(device:Device) async {
         showDevices.removeAll(where: {$0.indentify == device.indentify})
         try? CoreDataStack.shared.deleteDeviceWith(mac: device.indentify)
+        
+        guard let bleDevice = device.bleDevice else { return }
+        await bleHandle.disconnetDevice(device: bleDevice)
     }
     
     
@@ -163,6 +167,7 @@ class DeviceManager:BLEDataService {
         guard let bleDevice = device?.bleDevice else {
             return false
         }
+        Logger.shared.log("点击设备开始连接 name = \(device?.deviceName ?? ""), uuid = \(bleDevice.peripheral.identifier)")
         return try await bleHandle.connectToDevice(bleDevice)
     }
     
@@ -218,7 +223,7 @@ class DeviceManager:BLEDataService {
                 let colorInts = colors.map{self.getUInt8Color(String($0))}
                 let mcuInts = device.formMCUCommand(colors: colorInts)
                 
-                let command = PacketFormat.sendColor(header: device.commandHeader, colors: colorInts)
+                let command = PacketFormat.sendColor(header: device.commandHeader, colors: mcuInts)
                 debugPrint("send test: \(command.map { String(format: "%02X", $0) }.joined())")
                 Task {
                     await self.bleHandle.sendData(command, to: bleDevice)

@@ -14,8 +14,8 @@ public struct BLEDevice: Identifiable {
     public let mid: UInt8?
     public let name: String?
     public let peripheral: CBPeripheral
-    var writeCharacteristic: CBCharacteristic?
-    var readCharacteristic: CBCharacteristic?
+    public var writeCharacteristic: CBCharacteristic?
+    public var readCharacteristic: CBCharacteristic?
     
     init(peripheral: CBPeripheral, pid: UInt16, mid: UInt8 = 0) {
         self.id = peripheral.identifier

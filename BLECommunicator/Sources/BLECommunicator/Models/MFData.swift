@@ -19,19 +19,20 @@ struct MFData {
             return
         }
         
-        self.vid = UInt16(data[0]) | (UInt16(data[1]) << 8)
-        self.pid = UInt16(data[2]) | (UInt16(data[3]) << 8)
+        self.vid = (UInt16(data[0]) << 8) | UInt16(data[1])
+        self.pid = (UInt16(data[2]) << 8) | UInt16(data[3])
         self.mid = data[4]
         
         if data.count >= 7 {
-            self.scrValue = UInt16(data[5]) | (UInt16(data[6]) << 8)
+            self.scrValue = (UInt16(data[5]) << 8) | UInt16(data[6])
         }
         
         if data.count >= 9 {
-            self.scrValue2 = UInt16(data[7]) | (UInt16(data[8]) << 8)
+            self.scrValue2 = (UInt16(data[7]) << 8) | UInt16(data[8])
         }
     }
 }
+
 
 //extension BLECommunicator {
 //    func parseManufacturerData(_ data: Data) -> MFData {

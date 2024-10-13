@@ -31,6 +31,8 @@ public class BLECommunicator: NSObject, BLECommunicatorProtocol {
     }
     
     public func connect(to peripheral: CBPeripheral) async throws -> Bool {
+        Logger.shared.log("连接设备 name = \(peripheral.name ?? ""), uuid = \(peripheral.identifier)  start")
+
         return try await withThrowingTaskGroup(of: Bool.self) { group in
             group.addTask {
                 try await withCheckedThrowingContinuation { continuation in
@@ -40,7 +42,7 @@ public class BLECommunicator: NSObject, BLECommunicatorProtocol {
             }
             
             group.addTask {
-                try await Task.sleep(for: .seconds(10.0))
+                try await Task.sleep(for: .seconds(20.0))
                 throw BLEError.connectionTimeout
             }
             
@@ -79,6 +81,7 @@ public class BLECommunicator: NSObject, BLECommunicatorProtocol {
         
         return try await withCheckedThrowingContinuation { continuation in
             self.writeContinuation = continuation
+            Logger.shared.log("写数据 name = \(peripheral.name ?? "Unknown"), uuid = \(characteristic.uuid) data = \(data.hexEncodedString())")
             peripheral.writeValue(data, for: characteristic, type: .withResponse)
             // 在实际应用中，你需要处理写入完成的回调
         }
@@ -121,18 +124,23 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
     public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         let log0 = "didDiscover origin: \(peripheral.identifier) name: \(peripheral.name ?? "UnKown")"
         debugPrint(log0)
+        Logger.shared.log("搜索到广播 \(log0)")
         guard let adData = advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data else {
             return
         }
+        //let hexString = "FFFF4E6274696F6E7300"
+        //guard let adData = hexString.hexadecimal() else { return}
         let log = "didDiscover: \(peripheral.identifier) name: \(peripheral.name ?? "UnKown") adData:\(adData.map { String(format: "%02X", $0) }.joined())"
         delegate?.bleCommunicator(self, didDiscoverDeviceInfo: log)
         debugPrint(log)
         
         let mfData = MFData(adData)
         let log2 = "didDiscover mfData: vid\(mfData.vid) pid: \(mfData.pid)"
+        debugPrint(log2)
         delegate?.bleCommunicator(self, didDiscoverDeviceInfo: log2)
         
         if mfData.vid == AOCMF.vid {
+            Logger.shared.log("搜索到设备 name = \(peripheral.name ?? "Unknown"), uuid = \(peripheral.identifier) vid\(mfData.vid) pid: \(mfData.pid)")
             let device = BLEDevice(peripheral: peripheral, pid: mfData.pid, mid: mfData.mid)
             discoveredDevices[peripheral.identifier] = device
             delegate?.bleCommunicator(self, didDiscoverDevice: discoveredDevices)
@@ -141,9 +149,9 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
     }
     
     public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-        
+        Logger.shared.log("连接设备 name = \(peripheral.name ?? "Unknown"), uuid = \(peripheral.identifier)  didConnect")
         peripheral.delegate = self
-        peripheral.discoverServices([AOCMF.AocUUID])//传入需要发现的服务ID
+        peripheral.discoverServices([AOCMF.ServiceUUID])//传入需要发现的服务ID
         //delegate?.bleCommunicator(self, didConnectDevice: connectedDevices)
     }
     
@@ -156,27 +164,47 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
     public func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         guard let services = peripheral.services else { return }
         for service in services {
-            peripheral.discoverCharacteristics([AOCMF.RXCharacteristicsUUID, AOCMF.TXCharacteristicsUUID], for: service) //传入需要发现的特征
+            peripheral.discoverCharacteristics([AOCMF.TXCharacteristicsUUID,AOCMF.RXCharacteristicsUUID], for: service) //传入需要发现的特征
         }
     }
     
     public func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
-        guard let characteristics = service.characteristics else { return }
+        Logger.shared.log("发现服务 name = \(peripheral.name ?? "Unknown"), uuid = \(peripheral.identifier)")
+        guard let characteristics = service.characteristics else {
+            Logger.shared.log("未发现特证 name = \(peripheral.name ?? "Unknown"), uuid = \(peripheral.identifier)")
+            return
+        }
+        Logger.shared.log("发现特证 name = \(peripheral.name ?? "Unknown"), uuid = \(peripheral.identifier) 数量 = \(characteristics.count)")
         for characteristic in characteristics {
-            if characteristic.properties.contains(.write) && characteristic.uuid.isEqual(AOCMF.TXCharacteristicsUUID) {
+            Logger.shared.log("发现特证 name = \(peripheral.name ?? "Unknown"), 特证 uuid = \(characteristic.uuid)")
+            if  characteristic.uuid.isEqual(AOCMF.TXCharacteristicsUUID) { //characteristic.properties.contains(.writeWithoutResponse) &&
+                Logger.shared.log("发现写服务 name = \(peripheral.name ?? "Unknown"), uuid = \(characteristic.uuid)")
                 discoveredDevices[peripheral.identifier]?.writeCharacteristic = characteristic
             }
             if characteristic.properties.contains(.read) && characteristic.uuid.isEqual(AOCMF.RXCharacteristicsUUID) {
+                Logger.shared.log("发现读服务 name = \(peripheral.name ?? "Unknown"), uuid = \(characteristic.uuid)")
                 discoveredDevices[peripheral.identifier]?.readCharacteristic = characteristic
             }
+            
+            
             if characteristic.properties.contains(.notify) {
-                peripheral.setNotifyValue(true, for: characteristic)
-                //到这里先假设连接成功
-                //guard let device = discoveredDevices[peripheral.identifier] else { return }
+                //peripheral.setNotifyValue(true, for: characteristic)
+                Logger.shared.log("设置通知 name = \(peripheral.name ?? "Unknown"), uuid = \(characteristic.uuid)")
+                //只有找到读写特征才算连接成功
+                guard let writeCharacteristic = discoveredDevices[peripheral.identifier]?.writeCharacteristic else {
+                    Logger.shared.log("未发现写特证 0 name = \(peripheral.name ?? "Unknown"), uuid = \(characteristic.uuid)")
+                    if let (pendingUUID, continuation) = pendingConnection {
+                        Logger.shared.log("未发现写特证 1 name = \(peripheral.name ?? "Unknown"), uuid = \(characteristic.uuid)")
+                        continuation.resume(throwing: NSError(domain: "Characteristic not found ", code: 404, userInfo: [NSLocalizedDescriptionKey: "未发现写入特征"]))
+                    }
+                    return
+                }
+                //Logger.shared.log("连接成功返回 name = \(peripheral.name), uuid = \(characteristic.uuid)")
                 delegate?.bleCommunicator(self, didConnectDevice: peripheral)
                 connectedDevices[peripheral.identifier] = peripheral
                 if let (pendingUUID, continuation) = pendingConnection, pendingUUID == peripheral.identifier {
                     continuation.resume(returning: true)
+                    Logger.shared.log("连接成功返回结束 name = \(peripheral.name ?? "Unknown"), uuid = \(characteristic.uuid)")
                     pendingConnection = nil
                     break
                 }
@@ -202,11 +230,25 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
     public func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
         if let error = error {
             writeContinuation?.resume(throwing: error)
+            print("写入失败: \(error.localizedDescription)")
+            Logger.shared.log("写入失败 name = \(peripheral.name ?? "Unknown"), uuid = \(characteristic.uuid) error = \(error.localizedDescription))")
         } else {
+            print("成功写入特征值: \(characteristic.uuid)")
+            Logger.shared.log("成功写入特征值: \(characteristic.uuid)")
+            if let value = characteristic.value {
+                Logger.shared.log("写入的数据 name = \(peripheral.name ?? "Unknown"), uuid = \(characteristic.uuid) data = \(value.hexEncodedString()))")
+                print("写入的数据: \(value.hexEncodedString())")
+            }
             writeContinuation?.resume()
         }
         writeContinuation = nil
     }
     
     
+}
+
+extension Data {
+    func hexEncodedString() -> String {
+        return map { String(format: "%02hhx", $0) }.joined()
+    }
 }

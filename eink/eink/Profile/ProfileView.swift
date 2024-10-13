@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import BLECommunicator
 
 struct ProfileView: View {
     
@@ -48,12 +49,31 @@ struct ProfileView: View {
                             .foregroundColor(.plusbutton)
                     }
                 }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        exportLog()
+                    }) {
+                        Image(systemName: "square.and.arrow.up")
+                            .foregroundColor(.opButton)
+                    }
+                }
                 ToolbarItem(placement: .principal) {
                     Text("Profile")
                         .font(.title)
                         .foregroundStyle(.mydevicestitle)
                 }
             }
+        }
+    }
+    
+    func exportLog() {
+        let logFileURL = Logger.shared.getLogFileURL()
+        let activityVC = UIActivityViewController(activityItems: [logFileURL], applicationActivities: nil)
+        
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = windowScene.windows.first,
+           let rootViewController = window.rootViewController {
+            rootViewController.present(activityVC, animated: true, completion: nil)
         }
     }
 }

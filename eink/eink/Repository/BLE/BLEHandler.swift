@@ -54,6 +54,10 @@ class BLEHandler {
             print("Failed to send data: \(error)")
         }
     }
+    
+    func disconnetDevice(device: BLEDevice) async {
+        await communicator.disconnect(from: device.peripheral)
+    }
 }
 
 extension BLEHandler: BLECommunicatorDelegate {

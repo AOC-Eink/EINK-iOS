@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreData
 import SwiftfulLoadingIndicators
+import BLECommunicator
 
 struct DiscoverView: View {
     @Environment(\.appRouter) var appRouter
@@ -118,7 +119,10 @@ struct DiscoverView: View {
                                     
                                     Button {
                                         let device = model.showDevices[index]
-                                        model.removeDevice(device: device)
+                                        Task {
+                                            await model.removeDevice(device: device)
+                                        }
+                                       
                                     } label: {
                                         Label("Remove", systemImage: "trash.slash")
                                     }
@@ -136,7 +140,14 @@ struct DiscoverView: View {
             .padding()
             
             .toolbar {
-
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        exportLog()
+                    }) {
+                        Image(systemName: "square.and.arrow.up")
+                            .foregroundColor(.opButton)
+                    }
+                }
                 ToolbarItem {
                     Button(action: {
                         withAnimation {
@@ -207,6 +218,17 @@ struct DiscoverView: View {
             }
         )
         
+    }
+    
+    func exportLog() {
+        let logFileURL = Logger.shared.getLogFileURL()
+        let activityVC = UIActivityViewController(activityItems: [logFileURL], applicationActivities: nil)
+        
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = windowScene.windows.first,
+           let rootViewController = window.rootViewController {
+            rootViewController.present(activityVC, animated: true, completion: nil)
+        }
     }
     
     @ViewBuilder
