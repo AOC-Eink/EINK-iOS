@@ -45,7 +45,7 @@ struct PresetGridView: View {
     @EnvironmentObject var alertManager: AlertManager
     @Environment(\.appRouter) var appRouter
     @Environment(\.goDIYView) var goDIYView
-    @Environment(DeviceManager.self) var deviceManager
+    //@Environment(DeviceManager.self) var deviceManager
     @State private var showToast = false
     
     let device:Device
@@ -74,7 +74,7 @@ struct PresetGridView: View {
     func applay(_ colors:[String]) async {
         //showToast.toggle()
         
-        await deviceManager.sendColors(device, colors: colors)
+        await device.deviceFuction?.sendColors(device, colors: colors)
     }
     
     func edit(_ design:Design) {

@@ -7,16 +7,21 @@
 import Foundation
 import BLECommunicator
 import Combine
+import SwiftUI
 
 protocol BLEDataService {
 //    func write()
 //    func read()
     func readDeviceInfo(_ device:BLEDevice) async
     func sendColors(_ device:Device, colors:[String]) async
+    func sendTestPlayColors(_ device: Device, designs:[Design], gapTime: Int, isShow:Bool) async
 }
 
 @Observable 
 class DeviceManager:BLEDataService {
+    
+    private var timerCancellable: AnyCancellable?
+    private var counter = 0
     
     private var scanTask: Task<Void, Never>?
     private var cancellable: AnyCancellable?
@@ -33,7 +38,7 @@ class DeviceManager:BLEDataService {
     
     
     init() {
-        createModaDevices()
+        //createModaDevices()
         disconnectedListener()
         didConnectedListener()
         dicoverLogListener()
@@ -55,18 +60,18 @@ class DeviceManager:BLEDataService {
     }
     
     func didConnectedListener() {
-        bleHandle.didConnectNotify = { [self] device in
+//        bleHandle.didConnectNotify = { [self] device in
 //            if let index = self.showDevices.firstIndex(where: { $0.id == device.identifier.uuidString }) {
 //                self.showDevices[index].bleDevice = device
 //            }
-        }
+//        }
     }
     
     func updateSaveDevices(_ devices:[InkDevice]) {
 //        saveDevices.removeAll()
 //        saveDevices = devices;
         
-        showDevices = devices.map{Device(indentify: $0.mac ?? "", deviceName: $0.name ?? "")}
+        showDevices = devices.map{Device(indentify: $0.mac ?? "", deviceName: $0.name ?? "", deviceFunction: self)}
         
     }
     
@@ -191,6 +196,55 @@ class DeviceManager:BLEDataService {
             await bleHandle.sendData(data, to: bleDevice)
         }
         
+    }
+    
+    func sendTestPlayColors(_ device: Device, designs:[Design], gapTime: Int, isShow:Bool) async {
+        debugPrint("sendTestPlayColors")
+        guard let bleDevice = device.bleDevice else { return }
+        let interval = gapTime == 0 ? 1:gapTime
+        if isShow {
+            taskScheduler(interval: TimeInterval(interval), taskCount: 9) { index in
+                let command = PacketFormat.playBackTest(header: device.commandHeader, UInt8(index+1))
+                debugPrint("send test: \(command.map { String(format: "%02X", $0) }.joined())")
+                Task {
+                    await self.bleHandle.sendData(command, to: bleDevice)
+                }
+                
+            }
+
+        } else {
+            taskScheduler(interval: TimeInterval(interval), taskCount: designs.count) { index in
+                let colors = designs[index].colors.split(separator: ",")
+                let colorInts = colors.map{self.getUInt8Color(String($0))}
+                let mcuInts = device.formMCUCommand(colors: colorInts)
+                
+                let command = PacketFormat.sendColor(header: device.commandHeader, colors: colorInts)
+                debugPrint("send test: \(command.map { String(format: "%02X", $0) }.joined())")
+                Task {
+                    await self.bleHandle.sendData(command, to: bleDevice)
+                }
+                
+            }
+            
+            
+        }
+    }
+    
+    func taskScheduler(interval: TimeInterval, taskCount: Int, task: @escaping (Int) -> Void) {
+        timerCancellable?.cancel()
+        counter = 0
+        task(self.counter)
+        counter += 1
+        timerCancellable = Timer.publish(every: interval, on: .main, in: .common)
+            .autoconnect()
+            .sink { _ in
+                if self.counter < taskCount {
+                    task(self.counter)
+                    self.counter += 1
+                } else {
+                    self.timerCancellable?.cancel()
+                }
+            }
     }
     
     func getUInt8Color(_ color:String) -> UInt8 {

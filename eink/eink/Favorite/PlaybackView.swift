@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AlertToast
 enum PlaybackMode {
     case singlePlayback
     case allPlayback
@@ -15,7 +16,9 @@ enum PlaybackMode {
 struct PlaybackView: View {
     
     let device:Device
+    let designs:[Design]
     @Binding var showBottomSheet:Bool
+    @State private var showToast = false
     
     @State private var isToggleOn = true
     @State private var selectedMinutes = 0
@@ -33,7 +36,18 @@ struct PlaybackView: View {
         .padding()
         .padding(.top, 10)
         .background(.white)
+        .toast(isPresenting: $showToast, duration: 1, alert: {
+            AlertToast(type: .systemImage("checkmark.circle", .opButton), title: "Message Sent!")
+        }, completion: {
+            showToast = false
+            showBottomSheet.toggle()
+        })
         
+        
+    }
+    
+    var totalSeconds:Int {
+        selectedMinutes*60 + selectedSeconds
     }
     
     private var deviceInfoSection: some View {
@@ -58,22 +72,24 @@ struct PlaybackView: View {
     
     private var controlButtonsSection: some View {
         HStack {
-            ForEach([
-                   (PlaybackMode.singlePlayback, "arrow.clockwise"),
-                   (PlaybackMode.allPlayback, "arrow.2.circlepath"),
-                   (PlaybackMode.randomPlayback, "arrow.right.arrow.left")
-               ], id: \.0) { mode, iconName in
-                   Button(action: {
-                       selectedMode = mode
-                   }) {
-                       Image(systemName: iconName)
-                           .foregroundColor(selectedMode == mode ? .white : .gray)
-                           .frame(width: 50, height: 30)
-                           .background(selectedMode == mode ? .opButton : .white)
-                           .cornerRadius(20)
-                           .shadow(color: .deviceItemShadow, radius: 2, x: 0, y: 0)
-                   }
-               }
+//            ForEach([
+//                   (PlaybackMode.singlePlayback, "arrow.clockwise"),
+//                   (PlaybackMode.allPlayback, "arrow.2.circlepath"),
+//                   (PlaybackMode.randomPlayback, "arrow.right.arrow.left")
+//               ], id: \.0) { mode, iconName in
+//                   Button(action: {
+//                       selectedMode = mode
+//                   }) {
+//                       Image(systemName: iconName)
+//                           .foregroundColor(selectedMode == mode ? .white : .gray)
+//                           .frame(width: 50, height: 30)
+//                           .background(selectedMode == mode ? .opButton : .white)
+//                           .cornerRadius(20)
+//                           .shadow(color: .deviceItemShadow, radius: 2, x: 0, y: 0)
+//                   }
+//               }
+            Text("Show")
+                .font(.sectionBoldTitle)
             Spacer()
             Toggle("", isOn: $isToggleOn)
                 .labelsHidden()
@@ -122,11 +138,19 @@ struct PlaybackView: View {
             }
 
             CustomButton(title: "Confirm", bgColor: .opButton) {
-                showBottomSheet.toggle()
+                if showToast { return }
+                showToast.toggle()
+                
+                Task {
+                    await device.deviceFuction?.sendTestPlayColors(device, designs: designs, gapTime: totalSeconds, isShow: isToggleOn)
+                }
+                
             }
         }
     }
 }
+    
+
 
 struct ColoredToggleStyle: ToggleStyle {
     var onColor: Color = .opButton
@@ -152,5 +176,5 @@ struct ColoredToggleStyle: ToggleStyle {
 }
 
 #Preview {
-    PlaybackView(device: Device(indentify: "", deviceName: "EINK Phone Case"), showBottomSheet: .constant(true))
+    PlaybackView(device: Device(indentify: "", deviceName: "EINK Phone Case"), designs: [], showBottomSheet: .constant(true))
 }

@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import Combine
 
 struct FavoriteView: View {
     
     let device:Device
     let designs:[Design]
     @State private var showBottomSheet = false
+    @State private var timerCancellable: AnyCancellable?
+    @State private var counter = 0
     
     @Environment(\.appRouter) var appRouter
     
@@ -33,6 +36,7 @@ struct FavoriteView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: {
                         showBottomSheet.toggle()
+                    
                     }) {
                         Image(systemName: "ellipsis")
                             .foregroundColor(.plusbutton)
@@ -47,7 +51,7 @@ struct FavoriteView: View {
             }
         }
         .sheet(isPresented: $showBottomSheet) {
-            PlaybackView(device: device, showBottomSheet: $showBottomSheet)
+            PlaybackView(device: device, designs: designs, showBottomSheet: $showBottomSheet)
                 .presentationDetents([.height(400)])
                 .presentationDragIndicator(.visible)
 //                .cornerRadius(40, corners: [.topLeft, .topRight])

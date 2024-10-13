@@ -155,7 +155,7 @@ struct Device:Hashable, Equatable {
     
     var bleStatus:DeviceStatus {
         guard let bleDevice = self.bleDevice else {
-            return .connected
+            return .disconnected
         }
         
         switch bleDevice.peripheral.state {
@@ -211,7 +211,7 @@ struct Device:Hashable, Equatable {
             return .phoneCase
         }
         
-        if deviceName.contains("Clock") || bleDevice?.pid == 0x4E65 {
+        if deviceName.contains("Clock") && bleDevice?.pid == 0x4E65 {
             return .clock
         }
         
@@ -229,10 +229,10 @@ struct Device:Hashable, Equatable {
             return 0xC5
             
         case .phoneCase:
-            return 0xAA
+            return 0xCF
             
         case .speaker:
-            return 0xCC
+            return 0xC5
         }
     }
     

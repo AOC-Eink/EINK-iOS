@@ -146,7 +146,9 @@ struct DIYView: View {
                 isPresented = false
             },
             onEmploy: {
-                
+                Task{
+                    await model.applay()
+                }
             }
         )
     }

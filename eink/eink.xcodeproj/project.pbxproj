@@ -25,6 +25,7 @@
 		930D91682CBA5E9400AA52BD /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 930D91672CBA5E9400AA52BD /* OrderedCollections */; };
 		930D916A2CBA869600AA52BD /* DeviceCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930D91692CBA869600AA52BD /* DeviceCommand.swift */; };
 		930F2EA72CBAB35F00C6A7F8 /* PlaybackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930F2EA62CBAB35F00C6A7F8 /* PlaybackView.swift */; };
+		930F2EA92CBB3F8C00C6A7F8 /* CommandSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930F2EA82CBB3F8C00C6A7F8 /* CommandSender.swift */; };
 		933EFF912C99CC9000856EE1 /* FetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933EFF902C99CC9000856EE1 /* FetchRequest.swift */; };
 		933EFF942C9B06F500856EE1 /* SwiftfulLoadingIndicators in Frameworks */ = {isa = PBXBuildFile; productRef = 933EFF932C9B06F500856EE1 /* SwiftfulLoadingIndicators */; };
 		933EFF982C9E559100856EE1 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933EFF972C9E559000856EE1 /* AlertManager.swift */; };
@@ -109,6 +110,7 @@
 		930D91642CBA139200AA52BD /* PresetColors.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PresetColors.json; sourceTree = "<group>"; };
 		930D91692CBA869600AA52BD /* DeviceCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceCommand.swift; sourceTree = "<group>"; };
 		930F2EA62CBAB35F00C6A7F8 /* PlaybackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackView.swift; sourceTree = "<group>"; };
+		930F2EA82CBB3F8C00C6A7F8 /* CommandSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandSender.swift; sourceTree = "<group>"; };
 		933EFF902C99CC9000856EE1 /* FetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchRequest.swift; sourceTree = "<group>"; };
 		933EFF972C9E559000856EE1 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		936017C42CB697510021DE05 /* PacketFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PacketFormat.swift; sourceTree = "<group>"; };
@@ -262,6 +264,7 @@
 				930D91612CB96C4B00AA52BD /* DevicePresetExtension.swift */,
 				930D91642CBA139200AA52BD /* PresetColors.json */,
 				93C898EC2CA44A120001E331 /* DeviceManager.swift */,
+				930F2EA82CBB3F8C00C6A7F8 /* CommandSender.swift */,
 			);
 			path = AppData;
 			sourceTree = "<group>";
@@ -626,6 +629,7 @@
 				93F2924A2C95D1ED00ECCE35 /* DiscoverView.Model.swift in Sources */,
 				93C898E02C9FFCC30001E331 /* RoundedBorderModifier.swift in Sources */,
 				933EFF982C9E559100856EE1 /* AlertManager.swift in Sources */,
+				930F2EA92CBB3F8C00C6A7F8 /* CommandSender.swift in Sources */,
 				93C898DA2C9EB7490001E331 /* DIYView.Model.swift in Sources */,
 				93F292542C96945300ECCE35 /* FavoriteButton.swift in Sources */,
 				930BDA8F2C8B4FB5008672C5 /* DeviceCard.swift in Sources */,
@@ -823,7 +827,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_ASSET_PATHS = "\"eink/Preview Content\"";
 				DEVELOPMENT_TEAM = Y3W3G6RN8D;
 				ENABLE_PREVIEWS = YES;
@@ -865,7 +869,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_ASSET_PATHS = "\"eink/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = B3K28DD4HW;

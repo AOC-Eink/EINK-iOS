@@ -10,6 +10,7 @@ import Foundation
 enum CommandType:UInt8 {
     case readDeviceInfo = 0x11
     case writeCmd = 0xFE
+    case showCmd = 0xFF
     case sendFlag = 0x21
 }
 
@@ -23,6 +24,25 @@ class PacketFormat {
             UInt8(CommandType.readDeviceInfo.rawValue), // Command-id
             0x00                    // Payload len
         ]
+        return Data(temp)
+    }
+    
+    static func playBackTest(header:UInt8, _ serial:UInt8) -> Data {
+        let temp: [UInt8] = [
+            UInt8(header),    // identifier
+            UInt8(CommandType.showCmd.rawValue), // Command-id
+            0x01,                    // Payload len
+            serial
+        ]
+        return Data(temp)
+    }
+    
+    static func sendColor(header:UInt8, colors:[UInt8]) -> Data {
+        let temp: [UInt8] = [
+            UInt8(header),    // identifier
+            UInt8(CommandType.writeCmd.rawValue), // Command-id
+            UInt8(colors.count),              // Payload len                // Payload
+        ] + colors
         return Data(temp)
     }
     
