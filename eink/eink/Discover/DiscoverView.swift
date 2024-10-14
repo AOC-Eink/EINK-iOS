@@ -14,22 +14,26 @@ struct DiscoverView: View {
     @Environment(\.appRouter) var appRouter
     @EnvironmentObject var appConfig:AppConfiguration
     @Environment(DeviceManager.self) var deviceManager
-    @EnvironmentObject var alertManager: AlertManager
+    //@EnvironmentObject var alertManager: AlertManager
     
     @Binding var selectIndex:Int
     @State private var showAddView:Bool = false
     @State private var isShowingPopup:Bool = false
 
-    let model:Model
+    let model:Model = Model()
     
-    init(selectIndex:Binding<Int>, model:Model) {
+    init(selectIndex:Binding<Int>) {
+        debugPrint("new Init DiscoverView")
         _selectIndex = selectIndex
-        self.model = model
     }
     
     
     let columns = [GridItem(.flexible()),
                    GridItem(.flexible())]
+    
+    var showDevices:[Device] {
+        model.showDevices(deviceManager)
+    }
     
     var body: some View {
         
@@ -52,7 +56,7 @@ struct DiscoverView: View {
                 }
                 
                 
-                Text("\(model.showDevices.count) Devies")
+                Text("\(showDevices.count) Devies")
                     .font(.deviceCount)
                     .fontWeight(.light)
                     .foregroundColor(.ekSubtitle)
@@ -66,7 +70,7 @@ struct DiscoverView: View {
                     .foregroundColor(.sectionTitle)
                     .padding(.top, 60)
                     .padding(.leading, 5)
-                if model.showDevices.isEmpty {
+                if showDevices.isEmpty {
                     VStack {
                         Spacer()
                         Button(action: {
@@ -90,16 +94,16 @@ struct DiscoverView: View {
                     ScrollView {
                         
                         LazyVGrid(columns: columns) {
-                            ForEach(Array(model.showDevices.enumerated()), id: \.offset) {index, item in
+                            ForEach(Array(showDevices.enumerated()), id: \.offset) {index, item in
                                 DeviceCard(name: item.deviceName,
                                            status: item.bleStatus.statusName,
                                            image: item.deviceImage,
                                            color: item.bleStatus.statusBg
                                 )
                                 .onTapGesture {
-                                    model.stopScan()
-                                    let device = model.showDevices[index]
-                                    if device.bleStatus == .connected {
+                                    model.stopScan(deviceManager)
+                                    let device = showDevices[index]
+                                    if device.bleStatus == .connected || device.bleStatus == .discovered {
                                         selectIndex = index
                                         appRouter.isConnected = true
                                         return
@@ -109,7 +113,7 @@ struct DiscoverView: View {
                                         selectIndex = index
                                         isShowingPopup = true
                                         Task {
-                                            await model.connectDevice(device: device)
+                                            await model.connectDevice(deviceManager, device: device)
                                         }
                                         
                                     }
@@ -118,9 +122,9 @@ struct DiscoverView: View {
                                 .contextMenu {
                                     
                                     Button {
-                                        let device = model.showDevices[index]
+                                        let device = showDevices[index]
                                         Task {
-                                            await model.removeDevice(device: device)
+                                            await model.removeDevice(deviceManager, device: device)
                                         }
                                        
                                     } label: {
@@ -162,18 +166,21 @@ struct DiscoverView: View {
                 }
             }
         }
-        .overlay {
-            if showAddView {
-                AddDeviceView(showAddView: $showAddView)
-                    .transition(.move(edge: .bottom))
-                    .animation(.spring(), value: showAddView)
-                    .id(UUID())
-                
-            }
-        }
+//        .overlay {
+//            if showAddView {
+//                AddDeviceView(showAddView: $showAddView)
+//                    .transition(.move(edge: .bottom))
+//                    .animation(.spring(), value: showAddView)
+//                    .id(UUID())
+//                
+//            }
+//        }
+        .fullScreenCover(isPresented: $showAddView, content: {
+            AddDeviceView(showAddView: $showAddView)
+        })
         .onAppear{
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                model.refreshDevicesStatus()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                model.refreshDevicesStatus(deviceManager)
             }
         }
         .onChange(of: model.errorMessage) { oldValue, newValue in
@@ -185,15 +192,15 @@ struct DiscoverView: View {
                 return
             }
             
-            alertManager.showAlert(message:error, confirmAction: {
-                model.refreshDevicesStatus()
-            })
+//            alertManager.showAlert(message:error, confirmAction: {
+//                model.refreshDevicesStatus(deviceManager)
+//            })
         }
         .onChange(of: appRouter.isConnected) { oldValue, newValue in
             
             if (oldValue ?? false) && !(newValue ?? true) {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    model.refreshDevicesStatus()
+                    model.refreshDevicesStatus(deviceManager)
                 }
             }
         }
@@ -244,6 +251,6 @@ struct DiscoverView: View {
 }
 
 #Preview {
-    DiscoverView(selectIndex: .constant(0), model: DiscoverView.Model(DeviceManager()))
+    DiscoverView(selectIndex: .constant(0))
         .environment(DeviceManager())
 }

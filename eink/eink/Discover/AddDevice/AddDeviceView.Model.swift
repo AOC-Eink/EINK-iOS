@@ -7,20 +7,21 @@
 
 import Foundation
 import SwiftUI
+import BLECommunicator
 
 extension AddDeviceView {
     
     @Observable
     class Model {
         
-        var deviceManager:DeviceManager?
-        func setManager(_ deviceManager:DeviceManager) {
-            if self.deviceManager == nil {
-                self.deviceManager = deviceManager
-                print("new init model")
-            }
-            
-        }
+//        var deviceManager:DeviceManager?
+//        func setManager(_ deviceManager:DeviceManager) {
+//            if self.deviceManager == nil {
+//                self.deviceManager = deviceManager
+//                print("new init model")
+//            }
+//            
+//        }
         
         var errorMessage:String?
         
@@ -43,18 +44,20 @@ extension AddDeviceView {
             }
         }
         
-        var discoverDevices:[Device] {
-            self.deviceManager?.discoveredDevices ?? []
+        var discoverDevices:[Device] = []
+        
+        
+        func startScan(_ deviceManager:DeviceManager) {
+            deviceManager.startScanning { devices, isStop in
+                self.discoverDevices.removeAll()
+                self.discoverDevices = devices
+                if isStop && devices.isEmpty {
+                    self.addStatus = .scanNone
+                }
+            }
         }
         
-        
-        func startScan() {
-            deviceManager?.startScanning(stopHandle: {
-                self.addStatus = .scanNone
-            })
-        }
-        
-        func startConnect() async {
+        func startConnect(_ deviceManager:DeviceManager) async {
             
 //            DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
 //                self.saveAdd()
@@ -64,21 +67,19 @@ extension AddDeviceView {
 //            return
             
             do {
-                guard let result = try await deviceManager?.startConnect(selectDevice) else {
-                    errorMessage = "Connect fail, please try again later"
-                    return
-                }
+                let result = try await deviceManager.startConnect(selectDevice)
+
                 if result {
-                    saveAdd()
+                    saveAdd(deviceManager)
                     addStatus = .addSuccess
                 } else {
                     //errorMessage = "Connect failured"
-                    saveAdd()
+                    saveAdd(deviceManager)
                     addStatus = .addSuccess
                 }
             } catch {
                 //errorMessage = "Connect \(error)"
-                saveAdd()
+                saveAdd(deviceManager)
                 addStatus = .addSuccess
             }
         }
@@ -87,19 +88,19 @@ extension AddDeviceView {
             
         }
         
-        func stopScan() {
-            print("stopScan")
-            deviceManager?.stopScanning()
+        func stopScan(_ deviceManager:DeviceManager) {
+            Logger.shared.log("-- stopScan --")
+            deviceManager.stopScanning()
         }
         
-        func stopTask() {
+        func stopTask(_ deviceManager:DeviceManager) {
             addStatus = .scan
-            stopScan()
+            stopScan(deviceManager)
         }
         
-        func saveAdd() {
+        func saveAdd(_ deviceManager:DeviceManager) {
             if let device = selectDevice {
-                deviceManager?.addNewDevice(device: device)
+                deviceManager.addNewDevice(device: device)
             }
         }
         

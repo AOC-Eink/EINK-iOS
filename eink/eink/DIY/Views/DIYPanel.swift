@@ -32,7 +32,7 @@ struct DIYPanel: View {
     
     @State private var isFavorite:Bool = false
     
-    @EnvironmentObject var alertManager: AlertManager
+    //@EnvironmentObject var alertManager: AlertManager
     
     var body: some View {
         VStack(alignment:.leading) {
@@ -82,9 +82,9 @@ struct DIYPanel: View {
                 
                 CustomButton(title: "Save") {
                     if inputText.isEmpty {
-                        alertManager.showAlert(
-                            message: "Name should not be empty"
-                        )
+//                        alertManager.showAlert(
+//                            message: "Name should not be empty"
+//                        )
                     } else {
                         onSave(isFavorite, inputText)
                     }

@@ -1,7 +1,7 @@
 
 import SwiftUI
 
-class AlertManager: ObservableObject {
+class AHlertManager: ObservableObject {
     @Published var isPresented = false
     @Published var title = ""
     @Published var message: String?

@@ -10,7 +10,7 @@ import CoreData
 
 struct ContentView: View {
     
-    @EnvironmentObject var alertManager: AlertManager
+    //@EnvironmentObject var alertManager: AlertManager
     
     @EnvironmentObject var appConfig:AppConfiguration
     
@@ -51,9 +51,7 @@ struct ContentView: View {
 
     var body: some View {
         ZStack {
-            DiscoverView(selectIndex: $selectIndex, 
-                         model: DiscoverView.Model(deviceManager))
-                //.environment(deviceManager)
+            DiscoverView(selectIndex: $selectIndex)
                 .zIndex(0)
             
             if isConnected {
@@ -62,7 +60,7 @@ struct ContentView: View {
                 .zIndex(1)
             }
         }
-        .withAlertManager()
+        //.withAlertManager()
         .animation(.easeInOut, value: isConnected)
         .fullScreenCover(isPresented: showOnboarding) {
             GuideView()

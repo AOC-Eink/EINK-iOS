@@ -50,6 +50,11 @@ struct FavoriteView: View {
                 }
             }
         }
+        .onAppear{
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
+                AlertWindow.show(title: "Favorite", message: "I am here")
+            })
+        }
         .sheet(isPresented: $showBottomSheet) {
             PlaybackView(device: device, designs: designs, showBottomSheet: $showBottomSheet)
                 .presentationDetents([.height(400)])
@@ -57,6 +62,7 @@ struct FavoriteView: View {
 //                .cornerRadius(40, corners: [.topLeft, .topRight])
 //                .shadow(color: .deviceItemShadow, radius: 5, x: 1, y: -5)
         }
+        
     }
 }
 

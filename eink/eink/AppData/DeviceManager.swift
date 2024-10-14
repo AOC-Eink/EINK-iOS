@@ -49,7 +49,7 @@ class DeviceManager:BLEDataService {
     func disconnectedListener() {
         bleHandle.disconnectNotify = { [self] device in
             if let index = self.showDevices.firstIndex(where: { $0.id == device.id.uuidString }) {
-                self.showDevices[index].bleDevice = device
+                self.showDevices[index].bleDevice = nil
             }
         }
     }
@@ -61,11 +61,11 @@ class DeviceManager:BLEDataService {
     }
     
     func didConnectedListener() {
-//        bleHandle.didConnectNotify = { [self] device in
-//            if let index = self.showDevices.firstIndex(where: { $0.id == device.identifier.uuidString }) {
-//                self.showDevices[index].bleDevice = device
-//            }
-//        }
+        bleHandle.didConnectNotify = { [self] device in
+            if let index = self.showDevices.firstIndex(where: { $0.id == device.peripheral.identifier.uuidString }) {
+                self.showDevices[index].bleDevice = device
+            }
+        }
     }
     
     func updateSaveDevices(_ devices:[InkDevice]) {
@@ -112,41 +112,33 @@ class DeviceManager:BLEDataService {
     }
     
     
-    func updateDevicesByDiscovered(_ devices: [BLEDevice]) {
-        for device in devices {
-            if let index = showDevices.firstIndex(where: { $0.id == device.id.uuidString }) {
-                showDevices[index].bleDevice = device
-            }
-//            else {
-//                 await connectFirstDevice(device: device)
-//            }
-        }
-    }
     
     
-    
-    
-    func startScanning(stopHandle:(()->Void)?) {
+    func startScanning(discover: (([Device], Bool)->Void)?) {
         discoverInfo.removeAll()
+        discoveredDevices.removeAll()
         // 取消之前的扫描任务（如果存在）
         scanTask?.cancel()
         cancellable?.cancel()
 
         // 创建新的扫描任务
         scanTask = Task {
-            await performScan()
+            await performScan(discover: discover)
         }
 
         // 设置30秒后自动停止扫描
         cancellable = Timer.publish(every: 15, on: .main, in: .common)
             .autoconnect()
             .sink { [weak self] _ in
-                stopHandle?()
+                discover?(self?.discoveredDevices ?? [], true)
                 self?.stopScanning()
+                if discover == nil {
+                    self?.discoveredDevices.removeAll()
+                }
             }
     }
     
-    private func performScan() async {
+    private func performScan(discover: (([Device], Bool)->Void)?) async {
         await bleHandle.startScanning(discover: { [weak self] newDevices in
             guard let self = self else { return }
             self.discoveredDevices.removeAll()
@@ -156,17 +148,29 @@ class DeviceManager:BLEDataService {
                        bleDevice: ble,
                        deviceFunction: self)
             }
+            discover?(self.discoveredDevices, false)
+            //if discover == nil {
+                self.updateDevicesByDiscovered(newDevices)
+            //}
             
-            self.updateDevicesByDiscovered(newDevices)
         })
     }
     
-    
+    func updateDevicesByDiscovered(_ devices: [BLEDevice]) {
+        for device in devices {
+            if let index = showDevices.firstIndex(where: { $0.id == device.id.uuidString }) {
+                showDevices[index].bleDevice = device
+            }
+        }
+    }
     
     func startConnect(_ device:Device?) async throws -> Bool {
         guard let bleDevice = device?.bleDevice else {
             return false
         }
+        
+        //return true
+        
         Logger.shared.log("点击设备开始连接 name = \(device?.deviceName ?? ""), uuid = \(bleDevice.peripheral.identifier)")
         return try await bleHandle.connectToDevice(bleDevice)
     }
@@ -180,7 +184,6 @@ class DeviceManager:BLEDataService {
         Task {
             await bleHandle.stopScan()
         }
-        self.discoveredDevices.removeAll()
     }
     
     
@@ -204,13 +207,16 @@ class DeviceManager:BLEDataService {
     }
     
     func sendTestPlayColors(_ device: Device, designs:[Design], gapTime: Int, isShow:Bool) async {
-        debugPrint("sendTestPlayColors")
+        Logger.shared.log("sendTestPlayColors")
         guard let bleDevice = device.bleDevice else { return }
+        Logger.shared.log("sendTestPlayColors has bleDevice")
         let interval = gapTime == 0 ? 1:gapTime
         if isShow {
+            Logger.shared.log("sendTestPlayColors show")
             taskScheduler(interval: TimeInterval(interval), taskCount: 9) { index in
                 let command = PacketFormat.playBackTest(header: device.commandHeader, UInt8(index+1))
                 debugPrint("send test: \(command.map { String(format: "%02X", $0) }.joined())")
+                Logger.shared.log("sendTestPlayColors show send: \(command.map { String(format: "%02X", $0) }.joined())")
                 Task {
                     await self.bleHandle.sendData(command, to: bleDevice)
                 }
@@ -218,6 +224,7 @@ class DeviceManager:BLEDataService {
             }
 
         } else {
+            Logger.shared.log("sendTestPlayColors normal")
             taskScheduler(interval: TimeInterval(interval), taskCount: designs.count) { index in
                 let colors = designs[index].colors.split(separator: ",")
                 let colorInts = colors.map{self.getUInt8Color(String($0))}
@@ -225,6 +232,7 @@ class DeviceManager:BLEDataService {
                 
                 let command = PacketFormat.sendColor(header: device.commandHeader, colors: mcuInts)
                 debugPrint("send test: \(command.map { String(format: "%02X", $0) }.joined())")
+                Logger.shared.log("sendTestPlayColors normal send: \(command.map { String(format: "%02X", $0) }.joined())")
                 Task {
                     await self.bleHandle.sendData(command, to: bleDevice)
                 }

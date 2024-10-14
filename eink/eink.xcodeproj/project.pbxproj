@@ -36,6 +36,8 @@
 		936D15EF2C89D91600066274 /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15EE2C89D91600066274 /* GuideView.swift */; };
 		936D15F22C89DC1F00066274 /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15F12C89DC1F00066274 /* DiscoverView.swift */; };
 		936D15F52C89F74100066274 /* TabbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15F42C89F74100066274 /* TabbarView.swift */; };
+		93AF5B452CBCD82B00877C56 /* AlertKit in Frameworks */ = {isa = PBXBuildFile; productRef = 93AF5B442CBCD82B00877C56 /* AlertKit */; };
+		93AF5B472CBCEC1000877C56 /* AlertWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AF5B462CBCEC1000877C56 /* AlertWindow.swift */; };
 		93C0C6C22CBBC0C2002BA238 /* SwiftfulLoadingIndicators in Frameworks */ = {isa = PBXBuildFile; productRef = 93C0C6C12CBBC0C2002BA238 /* SwiftfulLoadingIndicators */; };
 		93C0C6C42CBBC0C5002BA238 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 93C0C6C32CBBC0C5002BA238 /* AlertToast */; };
 		93C0C6C62CBBC0CA002BA238 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 93C0C6C52CBBC0CA002BA238 /* OrderedCollections */; };
@@ -122,6 +124,7 @@
 		936D15EE2C89D91600066274 /* GuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideView.swift; sourceTree = "<group>"; };
 		936D15F12C89DC1F00066274 /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.swift; sourceTree = "<group>"; };
 		936D15F42C89F74100066274 /* TabbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarView.swift; sourceTree = "<group>"; };
+		93AF5B462CBCEC1000877C56 /* AlertWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertWindow.swift; sourceTree = "<group>"; };
 		93C898D72C9EAFAD0001E331 /* AlertModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModifier.swift; sourceTree = "<group>"; };
 		93C898D92C9EB7490001E331 /* DIYView.Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIYView.Model.swift; sourceTree = "<group>"; };
 		93C898DD2C9F94E30001E331 /* CostomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostomTextField.swift; sourceTree = "<group>"; };
@@ -162,6 +165,7 @@
 			files = (
 				93C0C6C22CBBC0C2002BA238 /* SwiftfulLoadingIndicators in Frameworks */,
 				93C0C6C42CBBC0C5002BA238 /* AlertToast in Frameworks */,
+				93AF5B452CBCD82B00877C56 /* AlertKit in Frameworks */,
 				93C0C6C62CBBC0CA002BA238 /* OrderedCollections in Frameworks */,
 				93C0C6C82CBBC0CE002BA238 /* BLECommunicator in Frameworks */,
 			);
@@ -274,6 +278,7 @@
 			children = (
 				93C898E12C9FFDB00001E331 /* Model */,
 				930BDA912C8C436E008672C5 /* ColorExtension.swift */,
+				93AF5B462CBCEC1000877C56 /* AlertWindow.swift */,
 				93E4B4FB2C8C4EA10094DEDD /* FontExtension.swift */,
 				93F292432C947C3A00ECCE35 /* ViewExtension.swift */,
 				93F2924D2C96671400ECCE35 /* StringExtension.swift */,
@@ -490,6 +495,7 @@
 				93C0C6C32CBBC0C5002BA238 /* AlertToast */,
 				93C0C6C52CBBC0CA002BA238 /* OrderedCollections */,
 				93C0C6C72CBBC0CE002BA238 /* BLECommunicator */,
+				93AF5B442CBCD82B00877C56 /* AlertKit */,
 			);
 			productName = eink;
 			productReference = 9301E7ED2C87489700381CA7 /* eink.app */;
@@ -568,6 +574,7 @@
 				933CF8522CBBBC0900841E98 /* XCRemoteSwiftPackageReference "AlertToast" */,
 				933CF8532CBBBC1900841E98 /* XCRemoteSwiftPackageReference "swift-collections" */,
 				93C0C6C02CBBC0B2002BA238 /* XCLocalSwiftPackageReference "../BLECommunicator" */,
+				93AF5B432CBCD6D800877C56 /* XCRemoteSwiftPackageReference "AlertKit" */,
 			);
 			productRefGroup = 9301E7EE2C87489700381CA7 /* Products */;
 			projectDirPath = "";
@@ -630,6 +637,7 @@
 				93C898E02C9FFCC30001E331 /* RoundedBorderModifier.swift in Sources */,
 				933EFF982C9E559100856EE1 /* AlertManager.swift in Sources */,
 				930F2EA92CBB3F8C00C6A7F8 /* CommandSender.swift in Sources */,
+				93AF5B472CBCEC1000877C56 /* AlertWindow.swift in Sources */,
 				93C898DA2C9EB7490001E331 /* DIYView.Model.swift in Sources */,
 				93F292542C96945300ECCE35 /* FavoriteButton.swift in Sources */,
 				930BDA8F2C8B4FB5008672C5 /* DeviceCard.swift in Sources */,
@@ -827,7 +835,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_ASSET_PATHS = "\"eink/Preview Content\"";
 				DEVELOPMENT_TEAM = Y3W3G6RN8D;
 				ENABLE_PREVIEWS = YES;
@@ -869,7 +877,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_ASSET_PATHS = "\"eink/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = B3K28DD4HW;
@@ -1054,9 +1062,22 @@
 				minimumVersion = 1.1.4;
 			};
 		};
+		93AF5B432CBCD6D800877C56 /* XCRemoteSwiftPackageReference "AlertKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/rebeloper/AlertKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		93AF5B442CBCD82B00877C56 /* AlertKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 93AF5B432CBCD6D800877C56 /* XCRemoteSwiftPackageReference "AlertKit" */;
+			productName = AlertKit;
+		};
 		93C0C6C12CBBC0C2002BA238 /* SwiftfulLoadingIndicators */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 933CF8512CBBBC0400841E98 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */;

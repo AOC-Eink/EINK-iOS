@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AlertModifier: ViewModifier {
-    @StateObject private var alertManager = AlertManager()
+    @StateObject private var alertManager = AHlertManager()
     
     func body(content: Content) -> some View {
         content

@@ -14,7 +14,6 @@ extension DiscoverView {
     class Model {
         
         var errorMessage:String?
-        let deviceManager:DeviceManager
 //        func setManager(_ deviceManager:DeviceManager) {
 //            if self.deviceManager == nil {
 //                self.deviceManager = deviceManager
@@ -23,27 +22,25 @@ extension DiscoverView {
 //            
 //        }
         
-        init(_ deviceManager:DeviceManager) {
-            self.deviceManager = deviceManager
-        }
+//        init(_ deviceManager:DeviceManager) {
+//            self.deviceManager = deviceManager
+//        }
         
-        var showDevices:[Device] {
+        var showDevices:(DeviceManager) -> [Device] = { deviceManager in
             deviceManager.showDevices
         }
         
         
-        func refreshDevicesStatus()  {
-            deviceManager.startScanning(stopHandle: {
-                
-            })
+        func refreshDevicesStatus(_ deviceManager:DeviceManager)  {
+            deviceManager.startScanning(discover: nil)
         }
         
-        func stopScan()  {
+        func stopScan(_ deviceManager:DeviceManager)  {
              deviceManager.stopScanning()
         }
         
         
-        func connectDevice(device:Device) async {
+        func connectDevice(_ deviceManager:DeviceManager, device:Device) async {
             
             do {
                 let result = try await deviceManager.startConnect(device)
@@ -57,7 +54,7 @@ extension DiscoverView {
             }
         }
         
-        func removeDevice(device:Device) async {
+        func removeDevice(_ deviceManager:DeviceManager, device:Device) async {
             await deviceManager.removeDevice(device: device)
         }
         

@@ -24,6 +24,7 @@ public class BLECommunicator: NSObject, BLECommunicatorProtocol {
     }
     
     public func stopScan() async {
+        Logger.shared.log("-- BLECommunicator stopScan --")
         await withCheckedContinuation { continuation in
             centralManager.stopScan()
             continuation.resume()
@@ -74,6 +75,7 @@ public class BLECommunicator: NSObject, BLECommunicatorProtocol {
     }
     
     public func writeData(_ data: Data, to device: BLEDevice) async throws {
+        Logger.shared.log("writeData 开始")
         guard let peripheral = connectedDevices[device.id],
               let characteristic = device.writeCharacteristic else {
             throw BLEError.deviceNotConnected
@@ -125,11 +127,11 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
         let log0 = "didDiscover origin: \(peripheral.identifier) name: \(peripheral.name ?? "UnKown")"
         debugPrint(log0)
         Logger.shared.log("搜索到广播 \(log0)")
-        guard let adData = advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data else {
-            return
-        }
-        //let hexString = "FFFF4E6274696F6E7300"
-        //guard let adData = hexString.hexadecimal() else { return}
+//        guard let adData = advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data else {
+//            return
+//        }
+        let hexString = "FFFF4E6274696F6E7300"
+        guard let adData = hexString.hexadecimal() else { return}
         let log = "didDiscover: \(peripheral.identifier) name: \(peripheral.name ?? "UnKown") adData:\(adData.map { String(format: "%02X", $0) }.joined())"
         delegate?.bleCommunicator(self, didDiscoverDeviceInfo: log)
         debugPrint(log)
@@ -152,13 +154,13 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
         Logger.shared.log("连接设备 name = \(peripheral.name ?? "Unknown"), uuid = \(peripheral.identifier)  didConnect")
         peripheral.delegate = self
         peripheral.discoverServices([AOCMF.ServiceUUID])//传入需要发现的服务ID
-        //delegate?.bleCommunicator(self, didConnectDevice: connectedDevices)
+        //delegate?.bleCommunicator(self, didConnectDevice: connectedDevices[peripheral.identifier.uuid])
     }
     
     public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         guard let device = discoveredDevices[peripheral.identifier] else { return }
-        connectedDevices.removeValue(forKey: peripheral.identifier)
         delegate?.bleCommunicator(self, didDisconnectDevice: device)
+        connectedDevices.removeValue(forKey: peripheral.identifier)
     }
     
     public func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
@@ -200,7 +202,8 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
                     return
                 }
                 //Logger.shared.log("连接成功返回 name = \(peripheral.name), uuid = \(characteristic.uuid)")
-                delegate?.bleCommunicator(self, didConnectDevice: peripheral)
+                guard let connectDeivce = discoveredDevices[peripheral.identifier] else { return }
+                delegate?.bleCommunicator(self, didConnectDevice: connectDeivce)
                 connectedDevices[peripheral.identifier] = peripheral
                 if let (pendingUUID, continuation) = pendingConnection, pendingUUID == peripheral.identifier {
                     continuation.resume(returning: true)

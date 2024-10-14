@@ -42,7 +42,7 @@ struct PresetGridView: View {
     
     
     
-    @EnvironmentObject var alertManager: AlertManager
+    //@EnvironmentObject var alertManager: AlertManager
     @Environment(\.appRouter) var appRouter
     @Environment(\.goDIYView) var goDIYView
     //@Environment(DeviceManager.self) var deviceManager
@@ -60,15 +60,15 @@ struct PresetGridView: View {
     }
     
     func deleteAlert(_ name:String) {
-        alertManager.showAlert(
-            message: "Are you sure to delete this design",
-            confirmAction: {
-                try? CoreDataStack.shared.deleteDesignWithName(name: name)
-            },
-            cancelAction: {
-                
-            }
-            )
+//        alertManager.showAlert(
+//            message: "Are you sure to delete this design",
+//            confirmAction: {
+//                try? CoreDataStack.shared.deleteDesignWithName(name: name)
+//            },
+//            cancelAction: {
+//                
+//            }
+//            )
     }
     
     func applay(_ colors:[String]) async {

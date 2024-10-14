@@ -157,7 +157,6 @@ struct Device:Hashable, Equatable {
         guard let bleDevice = self.bleDevice else {
             return .disconnected
         }
-        
         switch bleDevice.peripheral.state {
             
         case .disconnected:
@@ -219,7 +218,7 @@ struct Device:Hashable, Equatable {
             return .speaker
         }
         
-        return .clock
+        return .phoneCase
     }
     
     var commandHeader:UInt8 {

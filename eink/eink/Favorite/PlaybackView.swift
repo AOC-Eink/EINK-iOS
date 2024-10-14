@@ -7,6 +7,9 @@
 
 import SwiftUI
 import AlertToast
+import BLECommunicator
+import AlertKit
+
 enum PlaybackMode {
     case singlePlayback
     case allPlayback
@@ -19,12 +22,13 @@ struct PlaybackView: View {
     let designs:[Design]
     @Binding var showBottomSheet:Bool
     @State private var showToast = false
-    @State private var showError = false
     
     @State private var isToggleOn = true
     @State private var selectedMinutes = 0
     @State private var selectedSeconds = 0
     @State private var selectedMode: PlaybackMode = .singlePlayback
+    @StateObject var alertManager = AlertManager()
+    
     
     var body: some View {
         VStack(spacing: 20) {
@@ -43,11 +47,7 @@ struct PlaybackView: View {
             showToast = false
             showBottomSheet.toggle()
         })
-        .alert("Write Failure", isPresented: $showToast) {
-            
-        } message: {
-            Text("WriteCharacteristic not Found")
-        }
+        .uses(alertManager)
 
         
         
@@ -145,14 +145,21 @@ struct PlaybackView: View {
             }
 
             CustomButton(title: "Confirm", bgColor: .opButton) {
+                Logger.shared.log("--点击 Confirm 发送--")
                 if showToast { return }
+                Logger.shared.log("--点击 Confirm 发送 222-- \(device.bleDevice?.name ?? "Unknown")")
                 if let _ = device.bleDevice?.writeCharacteristic {
+                    Logger.shared.log("--存在写特证 Confirm 发送 333--")
                     showToast.toggle()
                     Task {
+                        Logger.shared.log("--存在写特证 Confirm 发送--")
                         await device.deviceFuction?.sendTestPlayColors(device, designs: designs, gapTime: totalSeconds, isShow: isToggleOn)
                     }
                 } else {
-                    showError.toggle()
+                    Logger.shared.log("--不存在写特证 Confirm 发送 333--")
+                    //alertManager.showAlert(title: "设备不存在")
+                    //alertManager.show(dismiss: .success(message: "设备不存在"))
+                    AlertWindow.show(title: "Caution", message: "设备不存在")
                 }
             }
         }
