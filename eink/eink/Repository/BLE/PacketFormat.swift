@@ -16,7 +16,7 @@ enum CommandType:UInt8 {
 
 class PacketFormat {
     
-    static let Identifier = 0xAD
+    static let Identifier = 0xC5
     
     static func readDeviceInfoPacket() -> Data {
         let temp: [UInt8] = [

@@ -59,13 +59,6 @@ extension AddDeviceView {
         
         func startConnect(_ deviceManager:DeviceManager) async {
             
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-//                self.saveAdd()
-//                self.addStatus = .addSuccess
-//            })
-//            
-//            return
-            
             do {
                 let result = try await deviceManager.startConnect(selectDevice)
 
@@ -74,13 +67,11 @@ extension AddDeviceView {
                     addStatus = .addSuccess
                 } else {
                     //errorMessage = "Connect failured"
-                    saveAdd(deviceManager)
-                    addStatus = .addSuccess
+                    addStatus = .addFail
                 }
             } catch {
-                //errorMessage = "Connect \(error)"
-                saveAdd(deviceManager)
-                addStatus = .addSuccess
+                //errorMessage = "\(error)"
+                addStatus = .addFail
             }
         }
         
@@ -106,7 +97,7 @@ extension AddDeviceView {
         }
         
         
-        static let modaModel = Model()
+        //static let modaModel = Model()
         
         
     }

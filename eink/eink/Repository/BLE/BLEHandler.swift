@@ -48,12 +48,11 @@ class BLEHandler {
     
     func sendData(_ data: Data, to device: BLEDevice) async {
         do {
-            Logger.shared.log("Data sent successfully")
+            Logger.shared.log("Data sent")
             try await communicator.writeData(data, to: device)
-            print("Data sent successfully")
+            Logger.shared.log("Data sent successfully")
         } catch {
             Logger.shared.log("Failed to send data: \(error)")
-            print("Failed to send data: \(error)")
         }
     }
     
@@ -64,12 +63,12 @@ class BLEHandler {
 
 extension BLEHandler: BLECommunicatorDelegate {
     func bleCommunicator(_ communicator: any BLECommunicatorProtocol, didDiscoverDevice device: [UUID:BLEDevice]) {
-        print("didDiscoverDevice count:\(device.count)")
+        Logger.shared.log("didDiscoverDevice count:\(device.count)")
         discoverDevices?(device.map{$0.value})
     }
     
     func bleCommunicator(_ communicator: any BLECommunicatorProtocol, didConnectDevice device: BLEDevice) {
-        
+        didConnectNotify?(device)
     }
     
     func bleCommunicator(_ communicator: any BLECommunicatorProtocol, didDisconnectDevice device: BLEDevice) {

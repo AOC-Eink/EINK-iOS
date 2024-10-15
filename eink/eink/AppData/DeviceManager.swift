@@ -64,6 +64,11 @@ class DeviceManager:BLEDataService {
         bleHandle.didConnectNotify = { [self] device in
             if let index = self.showDevices.firstIndex(where: { $0.id == device.peripheral.identifier.uuidString }) {
                 self.showDevices[index].bleDevice = device
+            } else {
+                CoreDataStack.shared.insetOrUpdateDevice(name: device.name ?? "Unknown",
+                                                         item: Device(indentify: device.id.uuidString,
+                                                                      deviceName: device.name ?? "Unknown",
+                                                                      bleDevice: device))
             }
         }
     }

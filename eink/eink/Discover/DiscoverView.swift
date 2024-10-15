@@ -102,7 +102,7 @@ struct DiscoverView: View {
                                 .onTapGesture {
                                     model.stopScan(deviceManager)
                                     let device = showDevices[index]
-                                    if device.bleStatus == .connected || device.bleStatus == .discovered {
+                                    if device.bleStatus == .connected {
                                         selectIndex = index
                                         appRouter.isConnected = true
                                         return
@@ -190,12 +190,12 @@ struct DiscoverView: View {
         .onChange(of: model.errorMessage) { oldValue, newValue in
             guard let error = newValue else {return}
             isShowingPopup = false
-            if error == "successs" {
+            if error == "success" {
                 
                 appRouter.isConnected = true
                 return
             }
-            AlertWindow.show(title: "Error", message: error, onTap:{
+            AlertWindow.show(title: "Reminder", message: error, onTap:{
                 model.refreshDevicesStatus(deviceManager)
             })
         }

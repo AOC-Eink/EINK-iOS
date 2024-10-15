@@ -25,7 +25,7 @@ extension Device {
         case .clock:
             return Array.init(repeating: 0x00, count: 64)
         case .phoneCase:
-            return Array.init(repeating: 0x00, count: 64)
+            return [-1] + Array.init(repeating: 32, count: 62) + [-2]
         case .speaker:
             return [
                     -1,85,86,87,88,89,90,91,
