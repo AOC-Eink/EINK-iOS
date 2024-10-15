@@ -15,7 +15,7 @@ final class AlertWindow: UIAlertController {
     // アラート表示（キャンセルのみ）
     static func show(title: String,
                      message: String,
-                     cancelButtonTitle: String = "閉じる",
+                     cancelButtonTitle: String = "OK",
                      onTap: (() -> Void)? = nil
     ) {
         DispatchQueue.main.async {

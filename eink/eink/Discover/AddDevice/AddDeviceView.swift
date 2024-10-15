@@ -7,20 +7,12 @@
 
 import SwiftUI
 import SwiftfulLoadingIndicators
-import AlertKit
 
 struct AddDeviceView: View {
     
     let model:Model = Model()
     @Binding var showAddView:Bool
     @Environment(DeviceManager.self) var deviceManager
-    //@EnvironmentObject var alertManager: AlertManager
-
-    @StateObject var alertManager = AlertManager()
-//    init(showAddView: Binding<Bool>) {
-//        _showAddView = showAddView
-//        print("new init")
-//    }
     
     var body: some View {
         ZStack {
@@ -31,42 +23,9 @@ struct AddDeviceView: View {
 //                } else {
 //                    Spacer()
 //                }
-                Spacer()
+                //Spacer()
                 VStack(alignment:.center) {
-                    
-                    Color.black
-                        .frame(width: 80, height: 6)
-                        .cornerRadius(3)
-                        .onTapGesture {
-                            Task{
-                                
-                                model.stopTask(deviceManager)
-                                withAnimation {
-                                    showAddView = false
-                                }
-                            }
-                            
-                        }
-                        .gesture(
-                            DragGesture(minimumDistance: 5, coordinateSpace: .local)
-                                    .onEnded { gesture in
-                                        let verticalMovement = gesture.translation.height
-                                        let threshold: CGFloat = 50 // 设置一个阈值来判断是否为有效的下滑
 
-                                        if verticalMovement > threshold {
-                                            Task{
-                                                model.addStatus = .scan
-                                                model.stopScan(deviceManager)
-                                                withAnimation {
-                                                    showAddView = false
-                                                }
-                                            }
-                                            
-                                        }
-                                    }
-                        )
-                        
-                    Spacer()
                     switch model.addStatus {
                     case .scan, .scanNone, .descovered:
                         scanView
@@ -81,17 +40,15 @@ struct AddDeviceView: View {
                     }
                 }
                 .padding()
-                .frame(maxWidth: .infinity, minHeight: 200, maxHeight: 400)
-                .background(.white)
-                .cornerRadius(30, corners: [.topLeft, .topRight])
-                .shadow(color: .deviceItemShadow, radius: 5, x: 2, y: -2)
+                //.frame(maxWidth: .infinity, minHeight: 200, maxHeight: 400)
+                //.background(.white)
+                //.cornerRadius(30, corners: [.topLeft, .topRight])
+                //.shadow(color: .deviceItemShadow, radius: 5, x: 2, y: -2)
                 
             }
             
         }
-        .ignoresSafeArea()
-        .background(.clear)
-        .contentShape(Rectangle())
+        //.contentShape(Rectangle())
         .onChange(of: model.discoverDevices) { oldValue, newValue in
             print("newValue \(newValue.count) model.addStatus = \(model.addStatus)")
             if oldValue != newValue && newValue.count > 0 && model.addStatus == .scan {
@@ -101,39 +58,27 @@ struct AddDeviceView: View {
         }
         .onAppear{
             print("onAppear")
-            model.addStatus = .scan
-            //DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+                model.addStatus = .scan
                 Task{
                     self.model.startScan(deviceManager)
                 }
-            //})
+            })
+            
+
         }
-//        .onChange(of: showAddView) { oldValue, newValue in
-//            print("showAddView = \(showAddView)")
-//            if newValue {
-//                model.addStatus = .scan
-//            }
-//        }
         .onChange(of: model.errorMessage) { oldValue, newValue in
             guard let error = model.errorMessage else {return}
-            //alertManager.show(dismiss: .custom(title: <#T##String#>, message: <#T##String#>, dismissButton: <#T##Alert.Button?#>))
-            
-//            alertManager.showAlert(message:error, confirmAction: {
-//                model.addStatus = .scan
-//                model.startScan(deviceManager)
-//            })
+            AlertWindow.show(title: "Error", message: error, onTap:{
+                model.addStatus = .scan
+                model.startScan(deviceManager)
+            })
         }
-//        .onChange(of: model.addStatus) { oldValue, newValue in
-//            if newValue == .addSuccess {
-//                debugPrint("--addSuccess--")
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                    model.addStatus = .scanNone
-//                    withAnimation {
-//                        showAddView = false
-//                    }
-//                }
-//            }
-//        }
+        .onDisappear{
+            model.stopTask(deviceManager)
+        }
+
         
     }
     

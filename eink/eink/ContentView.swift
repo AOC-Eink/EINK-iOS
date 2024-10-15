@@ -10,8 +10,6 @@ import CoreData
 
 struct ContentView: View {
     
-    //@EnvironmentObject var alertManager: AlertManager
-    
     @EnvironmentObject var appConfig:AppConfiguration
     
     @FetchRequest var savedDevices: FetchedResults<InkDevice>
@@ -60,7 +58,6 @@ struct ContentView: View {
                 .zIndex(1)
             }
         }
-        //.withAlertManager()
         .animation(.easeInOut, value: isConnected)
         .fullScreenCover(isPresented: showOnboarding) {
             GuideView()

@@ -40,12 +40,8 @@ enum PageType {
 
 struct PresetGridView: View {
     
-    
-    
-    //@EnvironmentObject var alertManager: AlertManager
     @Environment(\.appRouter) var appRouter
     @Environment(\.goDIYView) var goDIYView
-    //@Environment(DeviceManager.self) var deviceManager
     @State private var showToast = false
     
     let device:Device
@@ -60,15 +56,12 @@ struct PresetGridView: View {
     }
     
     func deleteAlert(_ name:String) {
-//        alertManager.showAlert(
-//            message: "Are you sure to delete this design",
-//            confirmAction: {
-//                try? CoreDataStack.shared.deleteDesignWithName(name: name)
-//            },
-//            cancelAction: {
-//                
-//            }
-//            )
+        
+        AlertWindow.showOKAndCancel(title: "Reminder",
+                                    message: "Are you sure to delete this design",
+                                    onTapOk: {
+            try? CoreDataStack.shared.deleteDesignWithName(name: name)
+        })
     }
     
     func applay(_ colors:[String]) async {

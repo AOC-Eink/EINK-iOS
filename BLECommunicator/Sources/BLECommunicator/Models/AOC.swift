@@ -32,4 +32,14 @@ struct AOCMF {
         return CBUUID.init(string: uuid)
     }
     
+    static var TestServicesUUID:CBUUID {
+        let uuid = "00002760-08C2-11E1-9073-0E8AC72E1001"
+        return CBUUID.init(string: uuid)
+    }
+    
+    static var TestCharacteristicsUUID:CBUUID {
+        let uuid = "00002760-08C2-11E1-9073-0E8AC72E1001"
+        return CBUUID.init(string: uuid)
+    }
+    
 }

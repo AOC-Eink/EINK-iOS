@@ -36,12 +36,7 @@
 		936D15EF2C89D91600066274 /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15EE2C89D91600066274 /* GuideView.swift */; };
 		936D15F22C89DC1F00066274 /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15F12C89DC1F00066274 /* DiscoverView.swift */; };
 		936D15F52C89F74100066274 /* TabbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15F42C89F74100066274 /* TabbarView.swift */; };
-		93AF5B452CBCD82B00877C56 /* AlertKit in Frameworks */ = {isa = PBXBuildFile; productRef = 93AF5B442CBCD82B00877C56 /* AlertKit */; };
 		93AF5B472CBCEC1000877C56 /* AlertWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AF5B462CBCEC1000877C56 /* AlertWindow.swift */; };
-		93C0C6C22CBBC0C2002BA238 /* SwiftfulLoadingIndicators in Frameworks */ = {isa = PBXBuildFile; productRef = 93C0C6C12CBBC0C2002BA238 /* SwiftfulLoadingIndicators */; };
-		93C0C6C42CBBC0C5002BA238 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 93C0C6C32CBBC0C5002BA238 /* AlertToast */; };
-		93C0C6C62CBBC0CA002BA238 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 93C0C6C52CBBC0CA002BA238 /* OrderedCollections */; };
-		93C0C6C82CBBC0CE002BA238 /* BLECommunicator in Frameworks */ = {isa = PBXBuildFile; productRef = 93C0C6C72CBBC0CE002BA238 /* BLECommunicator */; };
 		93C898D82C9EAFAD0001E331 /* AlertModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898D72C9EAFAD0001E331 /* AlertModifier.swift */; };
 		93C898DA2C9EB7490001E331 /* DIYView.Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898D92C9EB7490001E331 /* DIYView.Model.swift */; };
 		93C898DE2C9F94E30001E331 /* CostomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898DD2C9F94E30001E331 /* CostomTextField.swift */; };
@@ -72,6 +67,10 @@
 		93FBAC8F2CAD609800BB2B7B /* EditPopverMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FBAC8E2CAD609800BB2B7B /* EditPopverMenu.swift */; };
 		93FBAC942CAD825400BB2B7B /* EnvironmentKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FBAC932CAD825400BB2B7B /* EnvironmentKey.swift */; };
 		BE70110E2CB904D000729C8C /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE70110D2CB904D000729C8C /* LogView.swift */; };
+		BE940EE92CBE0F4F00EF0088 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = BE940EE82CBE0F4F00EF0088 /* AlertToast */; };
+		BE940EED2CBE0FBC00EF0088 /* BLECommunicator in Frameworks */ = {isa = PBXBuildFile; productRef = BE940EEC2CBE0FBC00EF0088 /* BLECommunicator */; };
+		BE940EEF2CBE0FDB00EF0088 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = BE940EEE2CBE0FDB00EF0088 /* OrderedCollections */; };
+		BE940EF22CBE103000EF0088 /* SwiftfulLoadingIndicators in Frameworks */ = {isa = PBXBuildFile; productRef = BE940EF12CBE103000EF0088 /* SwiftfulLoadingIndicators */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -163,11 +162,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				93C0C6C22CBBC0C2002BA238 /* SwiftfulLoadingIndicators in Frameworks */,
-				93C0C6C42CBBC0C5002BA238 /* AlertToast in Frameworks */,
-				93AF5B452CBCD82B00877C56 /* AlertKit in Frameworks */,
-				93C0C6C62CBBC0CA002BA238 /* OrderedCollections in Frameworks */,
-				93C0C6C82CBBC0CE002BA238 /* BLECommunicator in Frameworks */,
+				BE940EE92CBE0F4F00EF0088 /* AlertToast in Frameworks */,
+				BE940EED2CBE0FBC00EF0088 /* BLECommunicator in Frameworks */,
+				BE940EEF2CBE0FDB00EF0088 /* OrderedCollections in Frameworks */,
+				BE940EF22CBE103000EF0088 /* SwiftfulLoadingIndicators in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -491,11 +489,10 @@
 			);
 			name = eink;
 			packageProductDependencies = (
-				93C0C6C12CBBC0C2002BA238 /* SwiftfulLoadingIndicators */,
-				93C0C6C32CBBC0C5002BA238 /* AlertToast */,
-				93C0C6C52CBBC0CA002BA238 /* OrderedCollections */,
-				93C0C6C72CBBC0CE002BA238 /* BLECommunicator */,
-				93AF5B442CBCD82B00877C56 /* AlertKit */,
+				BE940EE82CBE0F4F00EF0088 /* AlertToast */,
+				BE940EEC2CBE0FBC00EF0088 /* BLECommunicator */,
+				BE940EEE2CBE0FDB00EF0088 /* OrderedCollections */,
+				BE940EF12CBE103000EF0088 /* SwiftfulLoadingIndicators */,
 			);
 			productName = eink;
 			productReference = 9301E7ED2C87489700381CA7 /* eink.app */;
@@ -570,11 +567,10 @@
 			);
 			mainGroup = 9301E7E42C87489700381CA7;
 			packageReferences = (
-				933CF8512CBBBC0400841E98 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */,
-				933CF8522CBBBC0900841E98 /* XCRemoteSwiftPackageReference "AlertToast" */,
-				933CF8532CBBBC1900841E98 /* XCRemoteSwiftPackageReference "swift-collections" */,
-				93C0C6C02CBBC0B2002BA238 /* XCLocalSwiftPackageReference "../BLECommunicator" */,
-				93AF5B432CBCD6D800877C56 /* XCRemoteSwiftPackageReference "AlertKit" */,
+				BE940EE72CBE0F4F00EF0088 /* XCRemoteSwiftPackageReference "AlertToast" */,
+				BE940EEA2CBE0F6800EF0088 /* XCRemoteSwiftPackageReference "swift-collections" */,
+				BE940EEB2CBE0FBC00EF0088 /* XCLocalSwiftPackageReference "../BLECommunicator" */,
+				BE940EF02CBE103000EF0088 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */,
 			);
 			productRefGroup = 9301E7EE2C87489700381CA7 /* Products */;
 			projectDirPath = "";
@@ -1031,22 +1027,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		93C0C6C02CBBC0B2002BA238 /* XCLocalSwiftPackageReference "../BLECommunicator" */ = {
+		BE940EEB2CBE0FBC00EF0088 /* XCLocalSwiftPackageReference "../BLECommunicator" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../BLECommunicator;
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		933CF8512CBBBC0400841E98 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulLoadingIndicators.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.4;
-			};
-		};
-		933CF8522CBBBC0900841E98 /* XCRemoteSwiftPackageReference "AlertToast" */ = {
+		BE940EE72CBE0F4F00EF0088 /* XCRemoteSwiftPackageReference "AlertToast" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/elai950/AlertToast.git";
 			requirement = {
@@ -1054,7 +1042,7 @@
 				minimumVersion = 1.3.9;
 			};
 		};
-		933CF8532CBBBC1900841E98 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+		BE940EEA2CBE0F6800EF0088 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-collections.git";
 			requirement = {
@@ -1062,41 +1050,35 @@
 				minimumVersion = 1.1.4;
 			};
 		};
-		93AF5B432CBCD6D800877C56 /* XCRemoteSwiftPackageReference "AlertKit" */ = {
+		BE940EF02CBE103000EF0088 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/rebeloper/AlertKit.git";
+			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulLoadingIndicators.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.2.0;
+				minimumVersion = 0.0.4;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		93AF5B442CBCD82B00877C56 /* AlertKit */ = {
+		BE940EE82CBE0F4F00EF0088 /* AlertToast */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 93AF5B432CBCD6D800877C56 /* XCRemoteSwiftPackageReference "AlertKit" */;
-			productName = AlertKit;
-		};
-		93C0C6C12CBBC0C2002BA238 /* SwiftfulLoadingIndicators */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 933CF8512CBBBC0400841E98 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */;
-			productName = SwiftfulLoadingIndicators;
-		};
-		93C0C6C32CBBC0C5002BA238 /* AlertToast */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 933CF8522CBBBC0900841E98 /* XCRemoteSwiftPackageReference "AlertToast" */;
+			package = BE940EE72CBE0F4F00EF0088 /* XCRemoteSwiftPackageReference "AlertToast" */;
 			productName = AlertToast;
 		};
-		93C0C6C52CBBC0CA002BA238 /* OrderedCollections */ = {
+		BE940EEC2CBE0FBC00EF0088 /* BLECommunicator */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 933CF8532CBBBC1900841E98 /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = BLECommunicator;
+		};
+		BE940EEE2CBE0FDB00EF0088 /* OrderedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BE940EEA2CBE0F6800EF0088 /* XCRemoteSwiftPackageReference "swift-collections" */;
 			productName = OrderedCollections;
 		};
-		93C0C6C72CBBC0CE002BA238 /* BLECommunicator */ = {
+		BE940EF12CBE103000EF0088 /* SwiftfulLoadingIndicators */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 93C0C6C02CBBC0B2002BA238 /* XCLocalSwiftPackageReference "../BLECommunicator" */;
-			productName = BLECommunicator;
+			package = BE940EF02CBE103000EF0088 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */;
+			productName = SwiftfulLoadingIndicators;
 		};
 /* End XCSwiftPackageProductDependency section */
 

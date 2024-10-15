@@ -8,7 +8,6 @@
 import SwiftUI
 import AlertToast
 import BLECommunicator
-import AlertKit
 
 enum PlaybackMode {
     case singlePlayback
@@ -17,6 +16,7 @@ enum PlaybackMode {
 }
 
 struct PlaybackView: View {
+    @Environment(\.appRouter) private var appRouter
     
     let device:Device
     let designs:[Design]
@@ -27,7 +27,6 @@ struct PlaybackView: View {
     @State private var selectedMinutes = 0
     @State private var selectedSeconds = 0
     @State private var selectedMode: PlaybackMode = .singlePlayback
-    @StateObject var alertManager = AlertManager()
     
     
     var body: some View {
@@ -47,7 +46,6 @@ struct PlaybackView: View {
             showToast = false
             showBottomSheet.toggle()
         })
-        .uses(alertManager)
 
         
         
@@ -157,9 +155,9 @@ struct PlaybackView: View {
                     }
                 } else {
                     Logger.shared.log("--不存在写特证 Confirm 发送 333--")
-                    //alertManager.showAlert(title: "设备不存在")
-                    //alertManager.show(dismiss: .success(message: "设备不存在"))
-                    AlertWindow.show(title: "Caution", message: "设备不存在")
+                    AlertWindow.show(title: "Reminder", message: "设备异常，请重新连接。") {
+                        appRouter.isConnected = false
+                    }
                 }
             }
         }

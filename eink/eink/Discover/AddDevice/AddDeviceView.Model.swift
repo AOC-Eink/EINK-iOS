@@ -94,6 +94,7 @@ extension AddDeviceView {
         }
         
         func stopTask(_ deviceManager:DeviceManager) {
+            Logger.shared.log("-- stopTask --")
             addStatus = .scan
             stopScan(deviceManager)
         }

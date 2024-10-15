@@ -127,11 +127,11 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
         let log0 = "didDiscover origin: \(peripheral.identifier) name: \(peripheral.name ?? "UnKown")"
         debugPrint(log0)
         Logger.shared.log("搜索到广播 \(log0)")
-//        guard let adData = advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data else {
-//            return
-//        }
-        let hexString = "FFFF4E6274696F6E7300"
-        guard let adData = hexString.hexadecimal() else { return}
+        guard let adData = advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data else {
+            return
+        }
+//        let hexString = "FFFF4E6274696F6E7300"
+//        guard let adData = hexString.hexadecimal(), peripheral.name != nil else { return}
         let log = "didDiscover: \(peripheral.identifier) name: \(peripheral.name ?? "UnKown") adData:\(adData.map { String(format: "%02X", $0) }.joined())"
         delegate?.bleCommunicator(self, didDiscoverDeviceInfo: log)
         debugPrint(log)
@@ -153,7 +153,7 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
     public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         Logger.shared.log("连接设备 name = \(peripheral.name ?? "Unknown"), uuid = \(peripheral.identifier)  didConnect")
         peripheral.delegate = self
-        peripheral.discoverServices([AOCMF.ServiceUUID])//传入需要发现的服务ID
+        peripheral.discoverServices([AOCMF.ServiceUUID, AOCMF.TestServicesUUID])//传入需要发现的服务ID
         //delegate?.bleCommunicator(self, didConnectDevice: connectedDevices[peripheral.identifier.uuid])
     }
     
@@ -166,7 +166,7 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
     public func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         guard let services = peripheral.services else { return }
         for service in services {
-            peripheral.discoverCharacteristics([AOCMF.TXCharacteristicsUUID,AOCMF.RXCharacteristicsUUID], for: service) //传入需要发现的特征
+            peripheral.discoverCharacteristics([AOCMF.TXCharacteristicsUUID,AOCMF.RXCharacteristicsUUID, AOCMF.TestCharacteristicsUUID], for: service) //传入需要发现的特征
         }
     }
     
@@ -183,6 +183,11 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
                 Logger.shared.log("发现写服务 name = \(peripheral.name ?? "Unknown"), uuid = \(characteristic.uuid)")
                 discoveredDevices[peripheral.identifier]?.writeCharacteristic = characteristic
             }
+            
+            if  characteristic.uuid.isEqual(AOCMF.TestCharacteristicsUUID) { //characteristic.properties.contains(.writeWithoutResponse) &&
+                Logger.shared.log("发现写服务 name = \(peripheral.name ?? "Unknown"), uuid = \(characteristic.uuid)")
+                discoveredDevices[peripheral.identifier]?.writeCharacteristic = characteristic
+            }
             if characteristic.properties.contains(.read) && characteristic.uuid.isEqual(AOCMF.RXCharacteristicsUUID) {
                 Logger.shared.log("发现读服务 name = \(peripheral.name ?? "Unknown"), uuid = \(characteristic.uuid)")
                 discoveredDevices[peripheral.identifier]?.readCharacteristic = characteristic
@@ -195,7 +200,7 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
                 //只有找到读写特征才算连接成功
                 guard let writeCharacteristic = discoveredDevices[peripheral.identifier]?.writeCharacteristic else {
                     Logger.shared.log("未发现写特证 0 name = \(peripheral.name ?? "Unknown"), uuid = \(characteristic.uuid)")
-                    if let (pendingUUID, continuation) = pendingConnection {
+                    if let (_, continuation) = pendingConnection {
                         Logger.shared.log("未发现写特证 1 name = \(peripheral.name ?? "Unknown"), uuid = \(characteristic.uuid)")
                         continuation.resume(throwing: NSError(domain: "Characteristic not found ", code: 404, userInfo: [NSLocalizedDescriptionKey: "未发现写入特征"]))
                     }

@@ -14,7 +14,6 @@ struct DiscoverView: View {
     @Environment(\.appRouter) var appRouter
     @EnvironmentObject var appConfig:AppConfiguration
     @Environment(DeviceManager.self) var deviceManager
-    //@EnvironmentObject var alertManager: AlertManager
     
     @Binding var selectIndex:Int
     @State private var showAddView:Bool = false
@@ -175,9 +174,14 @@ struct DiscoverView: View {
 //                
 //            }
 //        }
-        .fullScreenCover(isPresented: $showAddView, content: {
+        .sheet(isPresented: $showAddView, onDismiss: {
+            
+        }, content: {
             AddDeviceView(showAddView: $showAddView)
+                .presentationDetents([.height(400)])
+                .presentationDragIndicator(.visible)
         })
+        
         .onAppear{
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 model.refreshDevicesStatus(deviceManager)
@@ -191,10 +195,9 @@ struct DiscoverView: View {
                 appRouter.isConnected = true
                 return
             }
-            
-//            alertManager.showAlert(message:error, confirmAction: {
-//                model.refreshDevicesStatus(deviceManager)
-//            })
+            AlertWindow.show(title: "Error", message: error, onTap:{
+                model.refreshDevicesStatus(deviceManager)
+            })
         }
         .onChange(of: appRouter.isConnected) { oldValue, newValue in
             

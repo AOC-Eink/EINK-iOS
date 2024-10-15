@@ -11,7 +11,6 @@ struct DIYView: View {
     
     let model:Model
     
-    //@EnvironmentObject var alertManager: AlertManager
     @Environment(\.appRouter) var appRouter
     
     
@@ -53,9 +52,7 @@ struct DIYView: View {
                     
                     guard let touchIndex = index else { return }
                     guard currentColor != nil else {
-//                        alertManager.showAlert(
-//                            message: "Please select a paint color."
-//                        )
+                        AlertWindow.show(title: "Reminder", message: "Please select a paint color.")
                         return
                     }
                     
@@ -106,15 +103,11 @@ struct DIYView: View {
             }
             Spacer()
             Button(action: {
-//                alertManager.showAlert(
-//                    message: "Are you sure to clear current design?",
-//                    confirmAction: {
-//                        model.clearDesgin()
-//                    },
-//                    cancelAction: {
-//                        
-//                    }
-//                )
+                AlertWindow.showOKAndCancel(title: "Reminder",
+                                            message: "Are you sure to clear current design?",
+                                            onTapOk: {
+                    model.clearDesgin()
+                })
             }) {
                 Image(systemName: "arrow.clockwise")
                     .foregroundColor(.plusbutton)

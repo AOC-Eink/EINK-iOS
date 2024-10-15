@@ -1,15 +1,5 @@
 {
-  "originHash" : "35ec10b7b1bb29e0478b61887d8a88f924e0de3d89e0118b7da6469f86364b0e",
   "pins" : [
-    {
-      "identity" : "alertkit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/rebeloper/AlertKit.git",
-      "state" : {
-        "revision" : "be3d9f6ca6ff5962057634795c9335b14b16ebdc",
-        "version" : "0.2.0"
-      }
-    },
     {
       "identity" : "alerttoast",
       "kind" : "remoteSourceControl",
@@ -38,5 +28,5 @@
       }
     }
   ],
-  "version" : 3
+  "version" : 2
 }
