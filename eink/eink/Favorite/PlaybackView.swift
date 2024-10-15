@@ -148,10 +148,16 @@ struct PlaybackView: View {
                 Logger.shared.log("--点击 Confirm 发送 222-- \(device.bleDevice?.name ?? "Unknown")")
                 if let _ = device.bleDevice?.writeCharacteristic {
                     Logger.shared.log("--存在写特证 Confirm 发送 333--")
-                    showToast.toggle()
+                    
                     Task {
                         Logger.shared.log("--存在写特证 Confirm 发送--")
-                        await device.deviceFuction?.sendTestPlayColors(device, designs: designs, gapTime: totalSeconds, isShow: isToggleOn)
+                        do {
+                            try await device.deviceFuction?.sendTestPlayColors(device, designs: designs, gapTime: totalSeconds, isShow: isToggleOn)
+                            showToast.toggle()
+                        } catch {
+                            await AlertWindow.show(title: "Apply failured", message: "\(error.localizedDescription)")
+                        }
+                        
                     }
                 } else {
                     Logger.shared.log("--不存在写特证 Confirm 发送 333--")

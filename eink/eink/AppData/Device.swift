@@ -206,7 +206,7 @@ struct Device:Hashable, Equatable {
     }
     
     var deviceType:DeviceType {
-        if bleDevice?.pid == 0x4E62 {
+        if bleDevice?.pid == 0x4E62 || bleDevice?.pid == 0x331D {
             return .phoneCase
         }
         

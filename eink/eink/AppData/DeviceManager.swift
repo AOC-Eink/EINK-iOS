@@ -13,9 +13,9 @@ import SwiftUI
 protocol BLEDataService {
 //    func write()
 //    func read()
-    func readDeviceInfo(_ device:BLEDevice) async
-    func sendColors(_ device:Device, colors:[String]) async
-    func sendTestPlayColors(_ device: Device, designs:[Design], gapTime: Int, isShow:Bool) async
+    func readDeviceInfo(_ device:BLEDevice) async throws
+    func sendColors(_ device:Device, colors:[String]) async throws
+    func sendTestPlayColors(_ device: Device, designs:[Design], gapTime: Int, isShow:Bool) async throws
 }
 
 @Observable 
@@ -192,26 +192,30 @@ class DeviceManager:BLEDataService {
     }
     
     
-    func readDeviceInfo(_ device: BLEDevice) async {
-        await bleHandle.sendData(PacketFormat.readDeviceInfoPacket(), to: device)
+    func readDeviceInfo(_ device: BLEDevice) async throws {
+        try await bleHandle.sendData(PacketFormat.readDeviceInfoPacket(), to: device)
     }
     
-    func sendColors(_ device: Device, colors: [String]) async {
+    func sendColors(_ device: Device, colors: [String]) async throws {
         
         guard let bleDevice = device.bleDevice else { return }
         
         let colorInts = colors.map{getUInt8Color($0)}
         let mcuInts = device.formMCUCommand(colors: colorInts)
-        debugPrint("sendColors: \(mcuInts)")
-        let datas = PacketFormat.sendColors(header: device.commandHeader, colors: mcuInts)
+        Logger.shared.log("sendColors: \(mcuInts)")
+        let data = PacketFormat.sendColor(header: device.commandHeader, colors: mcuInts)
+        try await bleHandle.sendData(data, to: bleDevice)
         
-        for data in datas {
-            await bleHandle.sendData(data, to: bleDevice)
-        }
+        
+//        let datas = PacketFormat.sendColors(header: device.commandHeader, colors: mcuInts)
+//        
+//        for data in datas {
+//            await bleHandle.sendData(data, to: bleDevice)
+//        }
         
     }
     
-    func sendTestPlayColors(_ device: Device, designs:[Design], gapTime: Int, isShow:Bool) async {
+    func sendTestPlayColors(_ device: Device, designs:[Design], gapTime: Int, isShow:Bool) async throws {
         Logger.shared.log("sendTestPlayColors")
         guard let bleDevice = device.bleDevice else { return }
         Logger.shared.log("sendTestPlayColors has bleDevice")
@@ -220,10 +224,9 @@ class DeviceManager:BLEDataService {
             Logger.shared.log("sendTestPlayColors show")
             taskScheduler(interval: TimeInterval(interval), taskCount: 9) { index in
                 let command = PacketFormat.playBackTest(header: device.commandHeader, UInt8(index+1))
-                debugPrint("send test: \(command.map { String(format: "%02X", $0) }.joined())")
                 Logger.shared.log("sendTestPlayColors show send: \(command.map { String(format: "%02X", $0) }.joined())")
                 Task {
-                    await self.bleHandle.sendData(command, to: bleDevice)
+                    try await self.bleHandle.sendData(command, to: bleDevice)
                 }
                 
             }
@@ -236,10 +239,9 @@ class DeviceManager:BLEDataService {
                 let mcuInts = device.formMCUCommand(colors: colorInts)
                 
                 let command = PacketFormat.sendColor(header: device.commandHeader, colors: mcuInts)
-                debugPrint("send test: \(command.map { String(format: "%02X", $0) }.joined())")
                 Logger.shared.log("sendTestPlayColors normal send: \(command.map { String(format: "%02X", $0) }.joined())")
                 Task {
-                    await self.bleHandle.sendData(command, to: bleDevice)
+                    try await self.bleHandle.sendData(command, to: bleDevice)
                 }
                 
             }

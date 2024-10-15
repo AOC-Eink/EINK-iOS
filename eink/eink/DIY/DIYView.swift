@@ -139,8 +139,14 @@ struct DIYView: View {
                 isPresented = false
             },
             onEmploy: {
+            
                 Task{
-                    await model.applay()
+                    do {
+                        try await model.applay()
+                    } catch  {
+                        await AlertWindow.show(title: "Apply failured", message: "\(error.localizedDescription)")
+                    }
+                    
                 }
             }
         )

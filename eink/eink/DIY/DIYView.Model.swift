@@ -84,10 +84,12 @@ extension DIYView {
                 return String((0..<8).map { _ in letters.randomElement()! })
         }
         
-        func applay() async {
+        func applay() async throws {
             //showToast.toggle()
+        
+            try await device.deviceFuction?.sendColors(device, colors: colors)
             
-            await device.deviceFuction?.sendColors(device, colors: colors)
+            
         }
         
         

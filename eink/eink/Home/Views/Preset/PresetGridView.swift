@@ -65,9 +65,13 @@ struct PresetGridView: View {
     }
     
     func applay(_ colors:[String]) async {
-        //showToast.toggle()
+
+        do {
+            try await device.deviceFuction?.sendColors(device, colors: colors)
+        } catch {
+            await AlertWindow.show(title: "Apply Failured", message: "\(error.localizedDescription)")
+        }
         
-        await device.deviceFuction?.sendColors(device, colors: colors)
     }
     
     func edit(_ design:Design) {

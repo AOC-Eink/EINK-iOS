@@ -46,13 +46,13 @@ class BLEHandler {
         return try await communicator.connect(to: device.peripheral)
     }
     
-    func sendData(_ data: Data, to device: BLEDevice) async {
+    func sendData(_ data: Data, to device: BLEDevice) async throws {
         do {
             Logger.shared.log("Data sent")
             try await communicator.writeData(data, to: device)
-            Logger.shared.log("Data sent successfully")
         } catch {
             Logger.shared.log("Failed to send data: \(error)")
+            throw error
         }
     }
     
