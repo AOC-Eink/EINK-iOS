@@ -1,7 +1,18 @@
 {
-    "4E61":{
+    "4E61":[
         
-    },
+        {
+            "name":"Graphics",
+            "category":"Graphics",
+            "colors":"DBDBDB,DBDBDB,2B78B9,DBDBDB,DBDBDB,DFBE24,A45942,DBDBDB,497A64,3F384A,497A64,3F384A,2B78B9,DFBE24,A45942,DBDBDB,DBDBDB,DBDBDB,DBDBDB,DBDBDB"
+        },
+        
+        {
+            "name":"Strips",
+            "category":"Strips",
+            "colors":"DBDBDB,DBDBDB,A45942,DBDBDB,DBDBDB,DBDBDB,DBDBDB,DBDBDB,DBDBDB,DBDBDB,A45942,A45942,A45942,A45942,A45942,DBDBDB,DBDBDB,2B78B9,DBDBDB,DBDBDB"
+        }
+    ],
     
     "4E62":[
             {

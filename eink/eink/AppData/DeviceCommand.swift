@@ -23,29 +23,65 @@ extension Device {
     var commanOrder:[Int] {
         switch deviceType {
         case .clock:
-            return Array.init(repeating: 0x00, count: 64)
+            var initValues = Array.init(repeating: -2, count: 64)
+            
+            initValues[0] = -1
+            initValues[32] = 2
+            initValues[47] = 6
+            initValues[43] = 7
+            initValues[30] = 8
+            initValues[23] = 9
+            initValues[25] = 10
+            initValues[1] = 11
+            initValues[2] = 12
+            initValues[10] = 13
+            initValues[16] = 14
+            initValues[18] = 15
+            initValues[11] = 18
+            initValues[63] = -1
+            
+            return initValues
+            
         case .phoneCase:
-            return [-1] + Array.init(repeating: 32, count: 62) + [-2]
-        case .speaker:
-            return [
-                    -1,85,86,87,88,89,90,91,
-                    92,93,94,95,96,97,98,99,
-                    100,101,68,69,70,71,72,73,
-                    74,75,76,77,78,79,80,81,
-                    82,83,84,51,52,53,54,55,
-                    56,57,58,59,60,61,62,63,
-                    64,65,66,67,34,35,36,37,
-                    38,39,40,41,42,43,44,-2,
-                     
-                    45,46,47,48,49,50,17,18,
-                    19,20,21,22,23,24,25,26,
-                    27,28,29,30,31,32,33,0,
-                    1,2,3,4,5,6,7,8,
-                    9,10,11,12,13,14,15,
-                    16,-2,-2,-2,-2,-2,-2,-2,
-                    -2,-2,-2,-2,-2,-2,-2,-2,
-                    -2,-2,-2,-2,-2,-2,-2,-1,
+            
+            var phoneNumbers:[Int] = [-1,
+                         32,48,
+                         33,49,
+                         34,50,
+                         35,51,
+                         36,52,
+                 4,20,21,37,53,5,
+                 6,22,38,54,
+                 7,23,39,55,
+                 8,24,40,56,
+                 9,25,41,57,
+                 10,26,42,58,
+                 11,27,43,59,
+                 12,28,44,60,
+                 13,29,45,61,
+                 14,30,46,62,
+                 15,31,47,63,
             ]
+            phoneNumbers += Array.init(repeating: -2, count: 7)
+            phoneNumbers.append(-1)
+            
+            return phoneNumbers
+            
+            
+        case .speaker:
+            var numbers:[Int] = [-1]
+            for vIndex in 0..<6 {
+                for hIndex in 0..<17 {
+                    if hIndex + vIndex*17 == 62 || hIndex + vIndex*17 == 63 {
+                        numbers.append(-2)
+                    } else {
+                        numbers.append(hIndex + vIndex*17)
+                    }
+                }
+            }
+            numbers += Array.init(repeating: -2, count: 22)
+            numbers.append(-1)
+            return numbers
         }
     }
     

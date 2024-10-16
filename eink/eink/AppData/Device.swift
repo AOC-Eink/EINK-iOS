@@ -46,7 +46,7 @@ enum DeviceType {
     var shape:Array<Int> {
         switch self {
         case .clock:
-            return [6,9]
+            return [4,5]
             
         case .phoneCase:
             return [4,16]
@@ -212,11 +212,11 @@ struct Device:Hashable, Equatable {
     }
     
     var deviceType:DeviceType {
-        if bleDevice?.pid == 0x4E62 || bleDevice?.pid == 0x331D {
+        if bleDevice?.pid == 0x4E62 {
             return .phoneCase
         }
         
-        if bleDevice?.pid == 0x4E61 {
+        if bleDevice?.pid == 0x4E61 || bleDevice?.pid == 0x331D {
             return .clock
         }
         
@@ -270,12 +270,12 @@ struct Device:Hashable, Equatable {
                                 heightRatio: 1.0, presetSize: 25)
                 
             case .clock:
-                return InkStyle(itemWidth: 50,
-                                panelHeight: panelHeight(50,54),
-                                cornerRadius: panelHeight(50,54) * 0.5,
+                return InkStyle(itemWidth: 100,
+                                panelHeight: panelHeight(100,20),
+                                cornerRadius: panelHeight(100,20) * 0.5,
                                 borderWidth: 4,
                                 borderColor: .white,
-                                heightRatio: 0.725, presetSize: 25,
+                                heightRatio: 1.0, presetSize: 50,
                                 isCircle: true
                 )
             case .speaker:
@@ -304,7 +304,7 @@ struct Device:Hashable, Equatable {
             return 1.0
             
         case .clock:
-            return 0.725
+            return 1.0
         case .speaker:
             return 1.0
         }
