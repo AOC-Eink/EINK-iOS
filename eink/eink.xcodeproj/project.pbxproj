@@ -67,10 +67,10 @@
 		93FBAC8F2CAD609800BB2B7B /* EditPopverMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FBAC8E2CAD609800BB2B7B /* EditPopverMenu.swift */; };
 		93FBAC942CAD825400BB2B7B /* EnvironmentKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FBAC932CAD825400BB2B7B /* EnvironmentKey.swift */; };
 		BE70110E2CB904D000729C8C /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE70110D2CB904D000729C8C /* LogView.swift */; };
-		BE940EE92CBE0F4F00EF0088 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = BE940EE82CBE0F4F00EF0088 /* AlertToast */; };
-		BE940EED2CBE0FBC00EF0088 /* BLECommunicator in Frameworks */ = {isa = PBXBuildFile; productRef = BE940EEC2CBE0FBC00EF0088 /* BLECommunicator */; };
-		BE940EEF2CBE0FDB00EF0088 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = BE940EEE2CBE0FDB00EF0088 /* OrderedCollections */; };
-		BE940EF22CBE103000EF0088 /* SwiftfulLoadingIndicators in Frameworks */ = {isa = PBXBuildFile; productRef = BE940EF12CBE103000EF0088 /* SwiftfulLoadingIndicators */; };
+		BE940EF52CBF79E900EF0088 /* SwiftfulLoadingIndicators in Frameworks */ = {isa = PBXBuildFile; productRef = BE940EF42CBF79E900EF0088 /* SwiftfulLoadingIndicators */; };
+		BE940EF92CBF79F700EF0088 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = BE940EF82CBF79F700EF0088 /* AlertToast */; };
+		BE940EFC2CBF79FE00EF0088 /* BLECommunicator in Frameworks */ = {isa = PBXBuildFile; productRef = BE940EFB2CBF79FE00EF0088 /* BLECommunicator */; };
+		BE940EFE2CBF7A0E00EF0088 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = BE940EFD2CBF7A0E00EF0088 /* OrderedCollections */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -162,10 +162,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE940EE92CBE0F4F00EF0088 /* AlertToast in Frameworks */,
-				BE940EED2CBE0FBC00EF0088 /* BLECommunicator in Frameworks */,
-				BE940EEF2CBE0FDB00EF0088 /* OrderedCollections in Frameworks */,
-				BE940EF22CBE103000EF0088 /* SwiftfulLoadingIndicators in Frameworks */,
+				BE940EF52CBF79E900EF0088 /* SwiftfulLoadingIndicators in Frameworks */,
+				BE940EFC2CBF79FE00EF0088 /* BLECommunicator in Frameworks */,
+				BE940EFE2CBF7A0E00EF0088 /* OrderedCollections in Frameworks */,
+				BE940EF92CBF79F700EF0088 /* AlertToast in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -489,10 +489,10 @@
 			);
 			name = eink;
 			packageProductDependencies = (
-				BE940EE82CBE0F4F00EF0088 /* AlertToast */,
-				BE940EEC2CBE0FBC00EF0088 /* BLECommunicator */,
-				BE940EEE2CBE0FDB00EF0088 /* OrderedCollections */,
-				BE940EF12CBE103000EF0088 /* SwiftfulLoadingIndicators */,
+				BE940EF42CBF79E900EF0088 /* SwiftfulLoadingIndicators */,
+				BE940EF82CBF79F700EF0088 /* AlertToast */,
+				BE940EFB2CBF79FE00EF0088 /* BLECommunicator */,
+				BE940EFD2CBF7A0E00EF0088 /* OrderedCollections */,
 			);
 			productName = eink;
 			productReference = 9301E7ED2C87489700381CA7 /* eink.app */;
@@ -567,10 +567,10 @@
 			);
 			mainGroup = 9301E7E42C87489700381CA7;
 			packageReferences = (
-				BE940EE72CBE0F4F00EF0088 /* XCRemoteSwiftPackageReference "AlertToast" */,
-				BE940EEA2CBE0F6800EF0088 /* XCRemoteSwiftPackageReference "swift-collections" */,
-				BE940EEB2CBE0FBC00EF0088 /* XCLocalSwiftPackageReference "../BLECommunicator" */,
-				BE940EF02CBE103000EF0088 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */,
+				BE940EF32CBF79E900EF0088 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */,
+				BE940EF62CBF79F000EF0088 /* XCRemoteSwiftPackageReference "swift-collections" */,
+				BE940EF72CBF79F700EF0088 /* XCRemoteSwiftPackageReference "AlertToast" */,
+				BE940EFA2CBF79FE00EF0088 /* XCLocalSwiftPackageReference "../BLECommunicator" */,
 			);
 			productRefGroup = 9301E7EE2C87489700381CA7 /* Products */;
 			projectDirPath = "";
@@ -831,7 +831,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"eink/Preview Content\"";
 				DEVELOPMENT_TEAM = Y3W3G6RN8D;
 				ENABLE_PREVIEWS = YES;
@@ -851,7 +851,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.1;
+				MARKETING_VERSION = 0.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aocgroup.einkapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -873,7 +873,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"eink/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = B3K28DD4HW;
@@ -894,7 +894,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.1;
+				MARKETING_VERSION = 0.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aocgroup.eink;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1027,30 +1027,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		BE940EEB2CBE0FBC00EF0088 /* XCLocalSwiftPackageReference "../BLECommunicator" */ = {
+		BE940EFA2CBF79FE00EF0088 /* XCLocalSwiftPackageReference "../BLECommunicator" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../BLECommunicator;
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		BE940EE72CBE0F4F00EF0088 /* XCRemoteSwiftPackageReference "AlertToast" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/elai950/AlertToast.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.3.9;
-			};
-		};
-		BE940EEA2CBE0F6800EF0088 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-collections.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.1.4;
-			};
-		};
-		BE940EF02CBE103000EF0088 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */ = {
+		BE940EF32CBF79E900EF0088 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulLoadingIndicators.git";
 			requirement = {
@@ -1058,27 +1042,43 @@
 				minimumVersion = 0.0.4;
 			};
 		};
+		BE940EF62CBF79F000EF0088 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.4;
+			};
+		};
+		BE940EF72CBF79F700EF0088 /* XCRemoteSwiftPackageReference "AlertToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/elai950/AlertToast.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.9;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		BE940EE82CBE0F4F00EF0088 /* AlertToast */ = {
+		BE940EF42CBF79E900EF0088 /* SwiftfulLoadingIndicators */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BE940EE72CBE0F4F00EF0088 /* XCRemoteSwiftPackageReference "AlertToast" */;
+			package = BE940EF32CBF79E900EF0088 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */;
+			productName = SwiftfulLoadingIndicators;
+		};
+		BE940EF82CBF79F700EF0088 /* AlertToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BE940EF72CBF79F700EF0088 /* XCRemoteSwiftPackageReference "AlertToast" */;
 			productName = AlertToast;
 		};
-		BE940EEC2CBE0FBC00EF0088 /* BLECommunicator */ = {
+		BE940EFB2CBF79FE00EF0088 /* BLECommunicator */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = BLECommunicator;
 		};
-		BE940EEE2CBE0FDB00EF0088 /* OrderedCollections */ = {
+		BE940EFD2CBF7A0E00EF0088 /* OrderedCollections */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BE940EEA2CBE0F6800EF0088 /* XCRemoteSwiftPackageReference "swift-collections" */;
+			package = BE940EF62CBF79F000EF0088 /* XCRemoteSwiftPackageReference "swift-collections" */;
 			productName = OrderedCollections;
-		};
-		BE940EF12CBE103000EF0088 /* SwiftfulLoadingIndicators */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BE940EF02CBE103000EF0088 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */;
-			productName = SwiftfulLoadingIndicators;
 		};
 /* End XCSwiftPackageProductDependency section */
 

@@ -82,7 +82,7 @@ public class BLECommunicator: NSObject, BLECommunicatorProtocol {
         return try await withCheckedThrowingContinuation { continuation in
             self.writeContinuation = continuation
             Logger.shared.log("写数据 name = \(peripheral.name ?? "Unknown"), uuid = \(characteristic.uuid) data = \(data.hexEncodedString())")
-            peripheral.writeValue(data, for: characteristic, type: .withResponse)
+            peripheral.writeValue(data, for: characteristic, type: .withoutResponse)
             // 在实际应用中，你需要处理写入完成的回调
         }
     }
@@ -153,6 +153,7 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
     
     public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         guard let device = discoveredDevices[peripheral.identifier] else { return }
+        Logger.shared.log("didDisconnectPeripheral = \(peripheral.name ?? "Unknown"), uuid = \(peripheral.identifier)")
         delegate?.bleCommunicator(self, didDisconnectDevice: device)
         connectedDevices.removeValue(forKey: peripheral.identifier)
     }
@@ -238,7 +239,7 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
     public func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         guard let device = discoveredDevices[peripheral.identifier],
               let data = characteristic.value else { return }
-        Logger.shared.log("peripheral didUpdateValueFor : \(peripheral.name ?? "") data: \(data)")
+        Logger.shared.log("peripheral didUpdateValueFor : \(peripheral.name ?? "") data: \(data.hexEncodedString()), error:\(error?.localizedDescription ?? "")")
         if let error = error {
             readContinuation?.resume(throwing: error)
         } else if let value = characteristic.value {

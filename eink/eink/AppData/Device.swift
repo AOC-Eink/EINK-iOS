@@ -155,19 +155,25 @@ struct Device:Hashable, Equatable {
     
     var bleStatus:DeviceStatus {
         guard let bleDevice = self.bleDevice else {
+            Logger.shared.log(" bleStatus: bleDevice = nil")
             return .disconnected
         }
         switch bleDevice.peripheral.state {
             
         case .disconnected:
+            Logger.shared.log("bleStatus: disconnected")
             return .discovered
         case .connecting:
+            Logger.shared.log("bleStatus: connecting")
             return .discovered
         case .connected:
+            Logger.shared.log("bleStatus: connected")
             return .connected
         case .disconnecting:
+            Logger.shared.log("bleStatus: disconnected")
             return .disconnected
         @unknown default:
+            Logger.shared.log("bleStatus: unknown")
             return .disconnected
         }
     }
