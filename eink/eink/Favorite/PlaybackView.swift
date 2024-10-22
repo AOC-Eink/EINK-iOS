@@ -22,23 +22,69 @@ struct PlaybackView: View {
     let designs:[Design]
     @Binding var showBottomSheet:Bool
     @State private var showToast = false
+    @State private var showAddView = false
     
     @State private var isToggleOn = true
     @State private var selectedMinutes = 0
     @State private var selectedSeconds = 0
     @State private var selectedMode: PlaybackMode = .singlePlayback
+    @State private var selectDesgins:[Design] = []
     
     
     var body: some View {
         VStack(spacing: 20) {
+            
+//            VStack(alignment:.leading){
+//                Button {
+//                    showBottomSheet.toggle()
+//                } label: {
+//                    Text("Cancel")
+//                        .font(.sectionBoldTitle)
+//                        .foregroundStyle(.opButton)
+//                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+//                }
+//                Spacer()
+//
+//            }
+//            .frame(height: 44)
+            
+            
             deviceInfoSection
+            
+            if selectDesgins.isEmpty {
+                VStack{
+                    Spacer()
+                    Button(action: {
+                        showAddView = true
+                    }) {
+                        Image(systemName: "plus.app.fill")
+                            .resizable()
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(.opButton)
+                            .clipShape(Circle())
+                    }
+                    .padding()
+                    
+                    
+                    Text("请添加播放图案")
+                        .padding()
+                    Spacer()
+                    
+                }
+            } else {
+                playbackListView
+            }
+            
+            
+            Spacer()
+            
             controlButtonsSection
             scheduledPlaybackSection
             timePickerSection
             actionButtonsSection
         }
         .padding()
-        .padding(.top, 10)
+        //.padding(.top, 10)
         .background(.white)
         .toast(isPresenting: $showToast, duration: 1, alert: {
             AlertToast(type: .systemImage("checkmark.circle", .opButton), title: "Message Sent!")
@@ -46,6 +92,12 @@ struct PlaybackView: View {
             showToast = false
             showBottomSheet.toggle()
         })
+        .sheet(isPresented: $showAddView) {
+            SelectDesginView(device: device, designs: designs, showAddView: $showAddView)
+        }
+        .environment(\.selectDesigns) { designs in
+            selectDesgins = designs
+        }
 
         
         
@@ -53,6 +105,31 @@ struct PlaybackView: View {
     
     var totalSeconds:Int {
         selectedMinutes*60 + selectedSeconds
+    }
+    
+    private var playbackListView: some View {
+        List{
+            ForEach(selectDesgins, id: \.self) { design in
+                Text(design.name)
+                    .font(.sectionTitle)
+                    .foregroundStyle(.sectionTitle)
+                    .frame(maxWidth: .infinity, alignment:.leading)
+                    .background(.white)
+                    .buttonStyle(.borderless)
+                
+            }
+            .onDelete(perform: deleteItem)
+        }
+        .background(.white)
+        .listStyle(PlainListStyle())
+        .clipCornerRadius(10)
+        .shadow(color: .deviceItemShadow, radius: 2, x: 2, y: 1)
+        .padding(.bottom, 20)
+        
+    }
+    
+    func deleteItem(at offsets: IndexSet) {
+        selectDesgins.remove(atOffsets: offsets)
     }
     
     private var deviceInfoSection: some View {
@@ -77,24 +154,22 @@ struct PlaybackView: View {
     
     private var controlButtonsSection: some View {
         HStack {
-//            ForEach([
-//                   (PlaybackMode.singlePlayback, "arrow.clockwise"),
-//                   (PlaybackMode.allPlayback, "arrow.2.circlepath"),
-//                   (PlaybackMode.randomPlayback, "arrow.right.arrow.left")
-//               ], id: \.0) { mode, iconName in
-//                   Button(action: {
-//                       selectedMode = mode
-//                   }) {
-//                       Image(systemName: iconName)
-//                           .foregroundColor(selectedMode == mode ? .white : .gray)
-//                           .frame(width: 50, height: 30)
-//                           .background(selectedMode == mode ? .opButton : .white)
-//                           .cornerRadius(20)
-//                           .shadow(color: .deviceItemShadow, radius: 2, x: 0, y: 0)
-//                   }
-//               }
-            Text("Show")
-                .font(.sectionBoldTitle)
+            ForEach([
+                   //(PlaybackMode.singlePlayback, "arrow.clockwise"),
+                   (PlaybackMode.allPlayback, "arrow.2.circlepath"),
+                   (PlaybackMode.randomPlayback, "arrow.right.arrow.left")
+               ], id: \.0) { mode, iconName in
+                   Button(action: {
+                       selectedMode = mode
+                   }) {
+                       Image(systemName: iconName)
+                           .foregroundColor(selectedMode == mode ? .white : .gray)
+                           .frame(width: 50, height: 30)
+                           .background(selectedMode == mode ? .opButton : .white)
+                           .cornerRadius(20)
+                           .shadow(color: .deviceItemShadow, radius: 2, x: 0, y: 0)
+                   }
+               }
             Spacer()
             Toggle("", isOn: $isToggleOn)
                 .labelsHidden()
@@ -138,11 +213,15 @@ struct PlaybackView: View {
     
     private var actionButtonsSection: some View {
         HStack(spacing:40) {
-            CustomButton(title: "Cancel", bgColor: .deviceItemShadow) {
+            CustomButton(title: "Cancel", bgColor: selectDesgins.isEmpty ? .opButton : .deviceItemShadow) {
                 showBottomSheet.toggle()
             }
 
-            CustomButton(title: "Confirm", bgColor: .opButton) {
+            CustomButton(title: "Confirm", bgColor: selectDesgins.isEmpty ? .deviceItemShadow : .opButton) {
+                
+                if selectDesgins .isEmpty {
+                    return
+                }
                 Logger.shared.log("--点击 Confirm 发送--")
                 if showToast { return }
                 Logger.shared.log("--点击 Confirm 发送 222-- \(device.bleDevice?.name ?? "Unknown")")
@@ -152,7 +231,7 @@ struct PlaybackView: View {
                     Task {
                         Logger.shared.log("--存在写特证 Confirm 发送--")
                         do {
-                            try await device.deviceFuction?.sendTestPlayColors(device, designs: designs, gapTime: totalSeconds, isShow: isToggleOn)
+                            try await device.deviceFuction?.sendTestPlayColors(device, designs: selectDesgins, gapTime: totalSeconds, isShow: isToggleOn)
                             showToast.toggle()
                         } catch {
                             await AlertWindow.show(title: "Apply failured", message: "\(error.localizedDescription)")

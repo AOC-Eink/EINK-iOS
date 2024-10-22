@@ -36,6 +36,7 @@ enum PageType {
     case custom
     case category
     case favorite
+    case select
 }
 
 struct PresetGridView: View {
@@ -95,6 +96,7 @@ struct PresetGridView: View {
                 ForEach(designs, id: \.self) { item in
                     PresetCard(title: item.name,
                                pageType:pageType,
+                               design: item,
                                
                                presetView: PresetView(colors: item.colors,
                                                       hGrids: Int(item.hGrids),

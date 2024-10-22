@@ -36,6 +36,8 @@
 		936D15EF2C89D91600066274 /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15EE2C89D91600066274 /* GuideView.swift */; };
 		936D15F22C89DC1F00066274 /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15F12C89DC1F00066274 /* DiscoverView.swift */; };
 		936D15F52C89F74100066274 /* TabbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15F42C89F74100066274 /* TabbarView.swift */; };
+		93A988F42CC69296002C118A /* DesginCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A988F32CC69296002C118A /* DesginCard.swift */; };
+		93A988F62CC7C627002C118A /* SelectDesginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A988F52CC7C627002C118A /* SelectDesginView.swift */; };
 		93AF5B472CBCEC1000877C56 /* AlertWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AF5B462CBCEC1000877C56 /* AlertWindow.swift */; };
 		93C898D82C9EAFAD0001E331 /* AlertModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898D72C9EAFAD0001E331 /* AlertModifier.swift */; };
 		93C898DA2C9EB7490001E331 /* DIYView.Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898D92C9EB7490001E331 /* DIYView.Model.swift */; };
@@ -123,6 +125,8 @@
 		936D15EE2C89D91600066274 /* GuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideView.swift; sourceTree = "<group>"; };
 		936D15F12C89DC1F00066274 /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.swift; sourceTree = "<group>"; };
 		936D15F42C89F74100066274 /* TabbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarView.swift; sourceTree = "<group>"; };
+		93A988F32CC69296002C118A /* DesginCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesginCard.swift; sourceTree = "<group>"; };
+		93A988F52CC7C627002C118A /* SelectDesginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDesginView.swift; sourceTree = "<group>"; };
 		93AF5B462CBCEC1000877C56 /* AlertWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertWindow.swift; sourceTree = "<group>"; };
 		93C898D72C9EAFAD0001E331 /* AlertModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModifier.swift; sourceTree = "<group>"; };
 		93C898D92C9EB7490001E331 /* DIYView.Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIYView.Model.swift; sourceTree = "<group>"; };
@@ -328,6 +332,7 @@
 			children = (
 				936D15E82C88AA8200066274 /* FavoriteView.swift */,
 				930F2EA62CBAB35F00C6A7F8 /* PlaybackView.swift */,
+				93A988F52CC7C627002C118A /* SelectDesginView.swift */,
 			);
 			path = Favorite;
 			sourceTree = "<group>";
@@ -367,6 +372,14 @@
 				936D15F42C89F74100066274 /* TabbarView.swift */,
 			);
 			path = Tabbar;
+			sourceTree = "<group>";
+		};
+		93A988F22CC69208002C118A /* functionViews */ = {
+			isa = PBXGroup;
+			children = (
+				93A988F32CC69296002C118A /* DesginCard.swift */,
+			);
+			path = functionViews;
 			sourceTree = "<group>";
 		};
 		93C898E12C9FFDB00001E331 /* Model */ = {
@@ -446,6 +459,7 @@
 		93F332CA2C91C33100C01091 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				93A988F22CC69208002C118A /* functionViews */,
 				93F332CC2C91C36500C01091 /* Slider */,
 				93F332CB2C91C35400C01091 /* Preset */,
 			);
@@ -622,6 +636,7 @@
 				9301E7FA2C87489800381CA7 /* Persistence.swift in Sources */,
 				936D15EB2C88AAA500066274 /* ProfileView.swift in Sources */,
 				930BDA8D2C8B3AE5008672C5 /* OnboardingView.swift in Sources */,
+				93A988F42CC69296002C118A /* DesginCard.swift in Sources */,
 				93F292382C91E07800ECCE35 /* LanguageView.swift in Sources */,
 				93F2925B2C98629100ECCE35 /* TriangleView.swift in Sources */,
 				93C898E32C9FFDFB0001E331 /* InkStruct.swift in Sources */,
@@ -660,6 +675,7 @@
 				93C898F42CA640880001E331 /* AddDeviceView.swift in Sources */,
 				9301E7F12C87489700381CA7 /* einkApp.swift in Sources */,
 				93F292502C96751800ECCE35 /* DIYView.swift in Sources */,
+				93A988F62CC7C627002C118A /* SelectDesginView.swift in Sources */,
 				936D15EF2C89D91600066274 /* GuideView.swift in Sources */,
 				936D15E92C88AA8200066274 /* FavoriteView.swift in Sources */,
 				936D15E52C88AA2500066274 /* CatagoryView.swift in Sources */,
@@ -833,7 +849,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"eink/Preview Content\"";
-				DEVELOPMENT_TEAM = Y3W3G6RN8D;
+				DEVELOPMENT_TEAM = 7K8LKXT586;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = eink/Info.plist;
@@ -852,7 +868,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1.2;
-				PRODUCT_BUNDLE_IDENTIFIER = com.aocgroup.einkapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.test.einkapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

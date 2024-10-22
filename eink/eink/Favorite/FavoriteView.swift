@@ -38,7 +38,7 @@ struct FavoriteView: View {
                         showBottomSheet.toggle()
                     
                     }) {
-                        Image(systemName: "ellipsis")
+                        Image(systemName: "play.circle")
                             .foregroundColor(.plusbutton)
                     }
                 }
@@ -52,8 +52,8 @@ struct FavoriteView: View {
         }
         .sheet(isPresented: $showBottomSheet) {
             PlaybackView(device: device, designs: designs, showBottomSheet: $showBottomSheet)
-                .presentationDetents([.height(400)])
-                .presentationDragIndicator(.visible)
+                //.presentationDetents([.height(400)])
+                //.presentationDragIndicator(.visible)
 //                .cornerRadius(40, corners: [.topLeft, .topRight])
 //                .shadow(color: .deviceItemShadow, radius: 5, x: 1, y: -5)
         }

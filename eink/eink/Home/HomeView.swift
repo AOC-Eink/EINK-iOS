@@ -20,6 +20,7 @@ struct HomeView: View {
     let device:Device
     let designs:[Design]
     let customDesigns:[Design]
+    @State private var showBottomSheet = false
     
     var body: some View {
         home
@@ -61,7 +62,7 @@ struct HomeView: View {
         NavigationStack {
             ScrollView {
                 VStack{
-                    SliderView(images: device.deviceType.guideImage)
+                    //SliderView(images: device.deviceType.guideImage)
                     
                     
                     
@@ -81,13 +82,19 @@ struct HomeView: View {
                             .foregroundColor(.plusbutton)
                     }
                 }
-//                ToolbarItem(placement: .principal) {
-//                    Text(device.deviceName) // 设置导航栏的自定义标题
-//                        .font(.title)
-//                        .foregroundStyle(.mydevicestitle)
-//                        
-//                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(action: {
+                        showBottomSheet.toggle()
+                    
+                    }) {
+                        Image(systemName: "play.circle")
+                            .foregroundColor(.plusbutton)
+                    }
+                }
             }
+        }
+        .sheet(isPresented: $showBottomSheet) {
+            PlaybackView(device: device, designs: designs + customDesigns, showBottomSheet: $showBottomSheet)
         }
     }
 }

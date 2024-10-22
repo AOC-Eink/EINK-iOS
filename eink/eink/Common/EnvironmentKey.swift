@@ -16,9 +16,31 @@ struct GoDIYViewKey: EnvironmentKey {
     }
 }
 
+struct SelectDesginsKey: EnvironmentKey {
+    static var defaultValue:([Design]) -> Void = {_ in
+        
+    }
+}
+
+struct SelectDesginKey: EnvironmentKey {
+    static var defaultValue:(Design, Bool) -> Void = {_,_ in
+        
+    }
+}
+
 extension EnvironmentValues {
     var goDIYView: ([String]?, String?, Bool?, Bool) -> Void {
         get { self[GoDIYViewKey.self] }
         set { self[GoDIYViewKey.self] = newValue }
+    }
+    
+    var selectDesigns: ([Design]) -> Void {
+        get {self[SelectDesginsKey.self]}
+        set {self[SelectDesginsKey.self] = newValue}
+    }
+    
+    var selectDesign: (Design, Bool) -> Void {
+        get {self[SelectDesginKey.self]}
+        set {self[SelectDesginKey.self] = newValue}
     }
 }
