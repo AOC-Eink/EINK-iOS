@@ -144,7 +144,7 @@ struct DIYView: View {
                     do {
                         try await model.applay()
                     } catch  {
-                        await AlertWindow.show(title: "Apply failured", message: "\(error.localizedDescription)")
+                        AlertWindow.show(title: "Apply failured", message: "\(error.localizedDescription)")
                     }
                     
                 }

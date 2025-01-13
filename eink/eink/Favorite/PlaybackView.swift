@@ -78,7 +78,7 @@ struct PlaybackView: View {
             
             Spacer()
             
-            controlButtonsSection
+            //controlButtonsSection
             scheduledPlaybackSection
             timePickerSection
             actionButtonsSection
@@ -104,7 +104,10 @@ struct PlaybackView: View {
     }
     
     var totalSeconds:Int {
-        selectedMinutes*60 + selectedSeconds
+        if selectedMinutes == 0 && selectedSeconds == 0 {
+            return 1
+        }
+        return selectedMinutes*60 + selectedSeconds
     }
     
     private var playbackListView: some View {
@@ -219,7 +222,7 @@ struct PlaybackView: View {
 
             CustomButton(title: "Confirm", bgColor: selectDesgins.isEmpty ? .deviceItemShadow : .opButton) {
                 
-                if selectDesgins .isEmpty {
+                if selectDesgins.isEmpty {
                     return
                 }
                 Logger.shared.log("--点击 Confirm 发送--")
@@ -230,11 +233,14 @@ struct PlaybackView: View {
                     
                     Task {
                         Logger.shared.log("--存在写特证 Confirm 发送--")
+                        let colors = selectDesgins.map { design in
+                            design.colors.split(separator: ",").map(String.init)
+                        }
                         do {
-                            try await device.deviceFuction?.sendTestPlayColors(device, designs: selectDesgins, gapTime: totalSeconds, isShow: isToggleOn)
+                            try await device.deviceFuction?.sendColors(device, colors: colors, timeInterval: totalSeconds)
                             showToast.toggle()
                         } catch {
-                            await AlertWindow.show(title: "Apply failured", message: "\(error.localizedDescription)")
+                            AlertWindow.show(title: "Apply failured", message: "\(error.localizedDescription)")
                         }
                         
                     }

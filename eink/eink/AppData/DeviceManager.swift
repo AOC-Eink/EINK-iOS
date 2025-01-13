@@ -14,8 +14,8 @@ protocol BLEDataService {
 //    func write()
 //    func read()
     func readDeviceInfo(_ device:BLEDevice) async throws
-    func sendColors(_ device:Device, colors:[String]) async throws
-    func sendTestPlayColors(_ device: Device, designs:[Design], gapTime: Int, isShow:Bool) async throws
+    func sendColors(_ device:Device, colors: [[String]], timeInterval:Int?) async throws
+    //func sendTestPlayColors(_ device: Device, designs:[Design], gapTime: Int, isShow:Bool) async throws
 }
 
 @Observable 
@@ -196,14 +196,43 @@ class DeviceManager:BLEDataService {
         try await bleHandle.sendData(PacketFormat.readDeviceInfoPacket(), to: device)
     }
     
-    func sendColors(_ device: Device, colors: [String]) async throws {
+    func sendColors(_ device: Device, colors: [[String]], timeInterval:Int?) async throws {
         
         guard let bleDevice = device.bleDevice else { return }
         
-        let colorInts = colors.map{getUInt8Color($0)}
-        let mcuInts = device.formMCUCommand(colors: colorInts)
-        Logger.shared.log("sendColors: \(mcuInts)")
-        let data = PacketFormat.sendColor(header: device.commandHeader, colors: mcuInts)
+        var headers = [UInt8]()
+        headers.append(UInt8(device.commandHeader))
+        
+        if timeInterval == nil {
+            headers.append(CommandType.writeCmd.rawValue)
+            headers.append(0x00)
+            headers.append(0x00) //延时两个字节
+            headers.append(0x00) //单个命令不设置张数
+        } else {
+            headers.append(CommandType.writeCmdQueue.rawValue)
+            let time = UInt16(timeInterval ?? 0)
+            let highByte: UInt8 = UInt8((time >> 8) & 0xFF)
+            let lowByte: UInt8 = UInt8(time & 0xFF)
+            headers.append(highByte)
+            headers.append(lowByte) //延时两个字节
+            headers.append(UInt8(colors.count)) //张数
+        }
+
+        var allColors = [UInt8]()
+        for color in colors {
+            let colorInts = color.map{getUInt8Color($0)}
+            let mcuInts = device.formMCUCommand(colors: colorInts)
+            allColors += mcuInts
+        }
+        
+        let length = UInt16(allColors.count)
+        let highByte: UInt8 = UInt8((length >> 8) & 0xFF)
+        let lowByte: UInt8 = UInt8(length & 0xFF)
+        headers.append(highByte)
+        headers.append(lowByte) //长度两个字节
+        Logger.shared.log("sendColors: \(headers + allColors)")
+        let data = PacketFormat.sendColor(header: headers, colors: allColors)
+
         try await bleHandle.sendData(data, to: bleDevice)
         
         
@@ -215,40 +244,40 @@ class DeviceManager:BLEDataService {
         
     }
     
-    func sendTestPlayColors(_ device: Device, designs:[Design], gapTime: Int, isShow:Bool) async throws {
-        Logger.shared.log("sendTestPlayColors")
-        guard let bleDevice = device.bleDevice else { return }
-        Logger.shared.log("sendTestPlayColors has bleDevice")
-        let interval = gapTime == 0 ? 1:gapTime
-        if isShow {
-            Logger.shared.log("sendTestPlayColors show")
-            taskScheduler(interval: TimeInterval(interval), taskCount: 9) { index in
-                let command = PacketFormat.playBackTest(header: device.commandHeader, UInt8(index+1))
-                Logger.shared.log("sendTestPlayColors show send: \(command.map { String(format: "%02X", $0) }.joined())")
-                Task {
-                    try await self.bleHandle.sendData(command, to: bleDevice)
-                }
-                
-            }
-
-        } else {
-            Logger.shared.log("sendTestPlayColors normal")
-            taskScheduler(interval: TimeInterval(interval), taskCount: designs.count) { index in
-                let colors = designs[index].colors.split(separator: ",")
-                let colorInts = colors.map{self.getUInt8Color(String($0))}
-                let mcuInts = device.formMCUCommand(colors: colorInts)
-                
-                let command = PacketFormat.sendColor(header: device.commandHeader, colors: mcuInts)
-                Logger.shared.log("sendTestPlayColors normal send: \(command.map { String(format: "%02X", $0) }.joined())")
-                Task {
-                    try await self.bleHandle.sendData(command, to: bleDevice)
-                }
-                
-            }
-            
-            
-        }
-    }
+//    func sendTestPlayColors(_ device: Device, designs:[Design], gapTime: Int, isShow:Bool) async throws {
+//        Logger.shared.log("sendTestPlayColors")
+//        guard let bleDevice = device.bleDevice else { return }
+//        Logger.shared.log("sendTestPlayColors has bleDevice")
+//        let interval = gapTime == 0 ? 1:gapTime
+//        if isShow {
+//            Logger.shared.log("sendTestPlayColors show")
+//            taskScheduler(interval: TimeInterval(interval), taskCount: 9) { index in
+//                let command = PacketFormat.playBackTest(header: device.commandHeader, UInt8(index+1))
+//                Logger.shared.log("sendTestPlayColors show send: \(command.map { String(format: "%02X", $0) }.joined())")
+//                Task {
+//                    try await self.bleHandle.sendData(command, to: bleDevice)
+//                }
+//                
+//            }
+//
+//        } else {
+//            Logger.shared.log("sendTestPlayColors normal")
+//            taskScheduler(interval: TimeInterval(interval), taskCount: designs.count) { index in
+//                let colors = designs[index].colors.split(separator: ",")
+//                let colorInts = colors.map{self.getUInt8Color(String($0))}
+//                let mcuInts = device.formMCUCommand(colors: colorInts)
+//                
+//                let command = PacketFormat.sendColor(header: device.commandHeader, colors: mcuInts)
+//                Logger.shared.log("sendTestPlayColors normal send: \(command.map { String(format: "%02X", $0) }.joined())")
+//                Task {
+//                    try await self.bleHandle.sendData(command, to: bleDevice)
+//                }
+//                
+//            }
+//            
+//            
+//        }
+//    }
     
     func taskScheduler(interval: TimeInterval, taskCount: Int, task: @escaping (Int) -> Void) {
         timerCancellable?.cancel()

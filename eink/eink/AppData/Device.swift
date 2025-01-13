@@ -216,7 +216,7 @@ struct Device:Hashable, Equatable {
             return .phoneCase
         }
         
-        if bleDevice?.pid == 0x4E61 || bleDevice?.pid == 0x331D {
+        if bleDevice?.pid == 0x4E61 || bleDevice?.pid == 0x331C {
             return .clock
         }
         

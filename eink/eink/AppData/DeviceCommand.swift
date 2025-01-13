@@ -27,26 +27,25 @@ extension Device {
             
             initValues[0] = -1
             initValues[32] = 2
-            initValues[47] = 6
-            initValues[43] = 7
-            initValues[40] = 7
-            initValues[30] = 8
-            initValues[37] = 8
-            initValues[33] = 8
-            initValues[28] = 8
-            initValues[22] = 9
-            initValues[23] = 9
-            initValues[27] = 9
-            initValues[25] = 10
-            initValues[1] = 11
-            initValues[2] = 12
-            initValues[4] = 12
-            initValues[10] = 13
-            initValues[16] = 14
-            initValues[21] = 14
-            initValues[14] = 14
-            initValues[18] = 15
-            initValues[11] = 18
+            initValues[47] = 5
+            initValues[43] = 6
+            initValues[40] = 6
+            initValues[30] = 7
+            initValues[37] = 7
+            initValues[33] = 7
+            initValues[28] = 7
+            initValues[23] = 8
+            initValues[27] = 8
+            initValues[25] = 9
+            initValues[1] = 10
+            initValues[2] = 11
+            initValues[4] = 11
+            initValues[10] = 12
+            initValues[16] = 13
+            initValues[21] = 13
+            initValues[14] = 13
+            initValues[18] = 14
+            initValues[11] = 17
             initValues[63] = -1
             
             return initValues

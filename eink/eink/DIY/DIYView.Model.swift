@@ -87,7 +87,7 @@ extension DIYView {
         func applay() async throws {
             //showToast.toggle()
         
-            try await device.deviceFuction?.sendColors(device, colors: colors)
+            try await device.deviceFuction?.sendColors(device, colors: [colors], timeInterval: nil)
             
             
         }
