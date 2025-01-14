@@ -69,6 +69,9 @@ class DeviceManager:BLEDataService {
                                                          item: Device(indentify: device.id.uuidString,
                                                                       deviceName: device.name ?? "Unknown",
                                                                       bleDevice: device))
+                self.showDevices.append(Device(indentify: device.id.uuidString,
+                                               deviceName: device.name ?? "Unknown",
+                                               bleDevice: device))
             }
         }
     }
@@ -82,8 +85,11 @@ class DeviceManager:BLEDataService {
     }
     
     func addNewDevice(device:Device) {
-        
-        showDevices.append(device)
+        if let index = self.showDevices.firstIndex(where: { $0.id == device.id }) {
+            self.showDevices[index].deviceFuction = device.deviceFuction
+        } else {
+            showDevices.append(device)
+        }
         
         CoreDataStack.shared.insetOrUpdateDevice(name: device.deviceName, item: device)
     }
@@ -243,41 +249,6 @@ class DeviceManager:BLEDataService {
 //        }
         
     }
-    
-//    func sendTestPlayColors(_ device: Device, designs:[Design], gapTime: Int, isShow:Bool) async throws {
-//        Logger.shared.log("sendTestPlayColors")
-//        guard let bleDevice = device.bleDevice else { return }
-//        Logger.shared.log("sendTestPlayColors has bleDevice")
-//        let interval = gapTime == 0 ? 1:gapTime
-//        if isShow {
-//            Logger.shared.log("sendTestPlayColors show")
-//            taskScheduler(interval: TimeInterval(interval), taskCount: 9) { index in
-//                let command = PacketFormat.playBackTest(header: device.commandHeader, UInt8(index+1))
-//                Logger.shared.log("sendTestPlayColors show send: \(command.map { String(format: "%02X", $0) }.joined())")
-//                Task {
-//                    try await self.bleHandle.sendData(command, to: bleDevice)
-//                }
-//                
-//            }
-//
-//        } else {
-//            Logger.shared.log("sendTestPlayColors normal")
-//            taskScheduler(interval: TimeInterval(interval), taskCount: designs.count) { index in
-//                let colors = designs[index].colors.split(separator: ",")
-//                let colorInts = colors.map{self.getUInt8Color(String($0))}
-//                let mcuInts = device.formMCUCommand(colors: colorInts)
-//                
-//                let command = PacketFormat.sendColor(header: device.commandHeader, colors: mcuInts)
-//                Logger.shared.log("sendTestPlayColors normal send: \(command.map { String(format: "%02X", $0) }.joined())")
-//                Task {
-//                    try await self.bleHandle.sendData(command, to: bleDevice)
-//                }
-//                
-//            }
-//            
-//            
-//        }
-//    }
     
     func taskScheduler(interval: TimeInterval, taskCount: Int, task: @escaping (Int) -> Void) {
         timerCancellable?.cancel()

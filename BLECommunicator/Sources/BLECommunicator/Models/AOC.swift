@@ -43,7 +43,7 @@ struct AOCMF {
         return CBUUID.init(string: uuid)
     }
     static var TestCharacteristicsUUID0:CBUUID {
-        let uuid = "00010203-0405-0607-0809-0A0B0C0D2B12"
+        let uuid = "00010203-0405-0607-0809-0A0B0C0D2B12"//00010203-0405-0607-0809-0A0B0C0D2B12
         return CBUUID.init(string: uuid)
     }
     

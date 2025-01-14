@@ -76,7 +76,7 @@ public class BLECommunicator: NSObject, BLECommunicatorProtocol {
         Logger.shared.log("writeData 开始 device uuid:\(device.id)  writeCharacteristic:\(device.writeCharacteristic?.description ?? "none")")
         guard let peripheral = connectedDevices[device.id],
               let characteristic = device.writeCharacteristic else {
-            throw BLEError.deviceNotConnected
+            throw BLEError.noWriteCharacteristic
         }
         
         return try await withCheckedThrowingContinuation { continuation in
@@ -90,7 +90,7 @@ public class BLECommunicator: NSObject, BLECommunicatorProtocol {
     public func readData(from device: BLEDevice) async throws -> Data {
         guard let peripheral = connectedDevices[device.id],
               let characteristic = device.readCharacteristic else {
-            throw BLEError.deviceNotConnected
+            throw BLEError.noReadCharacteristic
         }
         
         return try await withCheckedThrowingContinuation { continuation in
@@ -180,15 +180,15 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
         Logger.shared.log("发现特证 name = \(peripheral.name ?? "Unknown"), uuid = \(peripheral.identifier) 数量 = \(characteristics.count)")
         for characteristic in characteristics {
             Logger.shared.log("发现特证 name = \(peripheral.name ?? "Unknown"), 特证 uuid = \(characteristic.uuid)")
-            if  characteristic.uuid.isEqual(AOCMF.TXCharacteristicsUUID) { //characteristic.properties.contains(.writeWithoutResponse) &&
+            if  characteristic.uuid.isEqual(AOCMF.TXCharacteristicsUUID) || characteristic.properties.contains(.writeWithoutResponse) { //characteristic.properties.contains(.writeWithoutResponse) &&
                 Logger.shared.log("发现写服务 name = \(peripheral.name ?? "Unknown"), uuid = \(characteristic.uuid)")
                 discoveredDevices[peripheral.identifier]?.writeCharacteristic = characteristic
             }
             
-            if  characteristic.uuid.isEqual(AOCMF.TestCharacteristicsUUID0) { //characteristic.properties.contains(.writeWithoutResponse) &&
-                Logger.shared.log("发现写服务 name = \(peripheral.name ?? "Unknown"), uuid = \(characteristic.uuid)")
-                discoveredDevices[peripheral.identifier]?.writeCharacteristic = characteristic
-            }
+//            if  characteristic.uuid.isEqual(AOCMF.TestCharacteristicsUUID0) || characteristic.properties.contains(.writeWithoutResponse) { //characteristic.properties.contains(.writeWithoutResponse) &&
+//                Logger.shared.log("发现写服务 name = \(peripheral.name ?? "Unknown"), uuid = \(characteristic.uuid)")
+//                discoveredDevices[peripheral.identifier]?.writeCharacteristic = characteristic
+//            }
             if characteristic.uuid.isEqual(AOCMF.RXCharacteristicsUUID) { //characteristic.properties.contains(.read) &&
                 Logger.shared.log("发现读服务 name = \(peripheral.name ?? "Unknown"), uuid = \(characteristic.uuid)")
                 discoveredDevices[peripheral.identifier]?.readCharacteristic = characteristic
