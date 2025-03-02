@@ -18,7 +18,6 @@ struct DiscoverView: View {
     @Binding var selectIndex:Int
     @State private var showAddView:Bool = false
     @State private var isShowingPopup:Bool = false
-    @State private var showSelectType:Bool = false
 
     let model:Model = Model()
     
@@ -74,7 +73,7 @@ struct DiscoverView: View {
                     VStack {
                         Spacer()
                         Button(action: {
-                            showSelectType = true
+                            showAddView = true
                         }) {
                             Image(systemName: "plus.app.fill")
                                 .resizable()
@@ -155,7 +154,7 @@ struct DiscoverView: View {
                 ToolbarItem {
                     Button(action: {
                         withAnimation {
-                            showSelectType = true
+                            showAddView = true
                         }
                     }) {
                         Image(systemName: "plus")
@@ -182,29 +181,6 @@ struct DiscoverView: View {
                 .presentationDetents([.height(400)])
                 .presentationDragIndicator(.visible)
         })
-        .alert("添加设备", isPresented: $showSelectType) {
-            HStack {
-                Button {
-                    // 蓝牙连接逻辑
-                    showAddView = true
-                } label: {
-                    Label("蓝牙", systemImage: "bluetooth")
-                }
-                
-                Button {
-                    // NFC连接逻辑
-                    model.activeNFCDevice()
-                } label: {
-                    Label("NFC", systemImage: "radiowaves.left")
-                }
-                
-                Button("取消", role: .cancel) {
-                       
-                }
-            }
-        } message: {
-            Text("请选择要使用的连接方式")
-        }
         
         .onAppear{
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
