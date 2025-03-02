@@ -49,6 +49,7 @@
 		93C898F42CA640880001E331 /* AddDeviceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898F32CA640880001E331 /* AddDeviceView.swift */; };
 		93C898F62CA648930001E331 /* AddDeviceView.Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C898F52CA648920001E331 /* AddDeviceView.Model.swift */; };
 		93E4B4FC2C8C4EA10094DEDD /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E4B4FB2C8C4EA10094DEDD /* FontExtension.swift */; };
+		93E82D052D74418600EFE563 /* NFCManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E82D042D74418600EFE563 /* NFCManager.swift */; };
 		93F292382C91E07800ECCE35 /* LanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F292372C91E07800ECCE35 /* LanguageView.swift */; };
 		93F2923E2C91E4B300ECCE35 /* TriangleGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F2923D2C91E4B300ECCE35 /* TriangleGridView.swift */; };
 		93F292442C947C3A00ECCE35 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F292432C947C3A00ECCE35 /* ViewExtension.swift */; };
@@ -138,6 +139,8 @@
 		93C898F32CA640880001E331 /* AddDeviceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDeviceView.swift; sourceTree = "<group>"; };
 		93C898F52CA648920001E331 /* AddDeviceView.Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDeviceView.Model.swift; sourceTree = "<group>"; };
 		93E4B4FB2C8C4EA10094DEDD /* FontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontExtension.swift; sourceTree = "<group>"; };
+		93E82D042D74418600EFE563 /* NFCManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFCManager.swift; sourceTree = "<group>"; };
+		93E82D062D744E7C00EFE563 /* eink.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = eink.entitlements; sourceTree = "<group>"; };
 		93F292372C91E07800ECCE35 /* LanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageView.swift; sourceTree = "<group>"; };
 		93F2923D2C91E4B300ECCE35 /* TriangleGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleGridView.swift; sourceTree = "<group>"; };
 		93F292432C947C3A00ECCE35 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
@@ -214,6 +217,7 @@
 		9301E7EF2C87489700381CA7 /* eink */ = {
 			isa = PBXGroup;
 			children = (
+				93E82D062D744E7C00EFE563 /* eink.entitlements */,
 				BE70110F2CB9173000729C8C /* Info.plist */,
 				93C898E52CA447320001E331 /* Repository */,
 				93F292452C95CC7B00ECCE35 /* CoreData */,
@@ -265,6 +269,7 @@
 		930BDA892C8B3297008672C5 /* AppData */ = {
 			isa = PBXGroup;
 			children = (
+				93E82D042D74418600EFE563 /* NFCManager.swift */,
 				930BDA8A2C8B32F1008672C5 /* Device.swift */,
 				930D91692CBA869600AA52BD /* DeviceCommand.swift */,
 				930D91612CB96C4B00AA52BD /* DevicePresetExtension.swift */,
@@ -677,6 +682,7 @@
 				93F292502C96751800ECCE35 /* DIYView.swift in Sources */,
 				93A988F62CC7C627002C118A /* SelectDesginView.swift in Sources */,
 				936D15EF2C89D91600066274 /* GuideView.swift in Sources */,
+				93E82D052D74418600EFE563 /* NFCManager.swift in Sources */,
 				936D15E92C88AA8200066274 /* FavoriteView.swift in Sources */,
 				936D15E52C88AA2500066274 /* CatagoryView.swift in Sources */,
 				936D15F22C89DC1F00066274 /* DiscoverView.swift in Sources */,
@@ -845,9 +851,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = eink/eink.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+<<<<<<< Updated upstream
 				CURRENT_PROJECT_VERSION = 4;
+=======
+				CURRENT_PROJECT_VERSION = 1;
+>>>>>>> Stashed changes
 				DEVELOPMENT_ASSET_PATHS = "\"eink/Preview Content\"";
 				DEVELOPMENT_TEAM = B3K28DD4HW;
 				ENABLE_PREVIEWS = YES;
@@ -855,6 +866,7 @@
 				INFOPLIST_FILE = eink/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = EINK;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NFCReaderUsageDescription = "此应用需要访问NFC以读取标签信息";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This will allow \"E-INK\" to connect to your accessories.";
 				INFOPLIST_KEY_NSDocumentsFolderUsageDescription = "We need access to save and share log files.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -886,10 +898,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = eink/eink.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+<<<<<<< Updated upstream
 				CURRENT_PROJECT_VERSION = 4;
+=======
+				CURRENT_PROJECT_VERSION = 1;
+>>>>>>> Stashed changes
 				DEVELOPMENT_ASSET_PATHS = "\"eink/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = B3K28DD4HW;
@@ -898,6 +915,7 @@
 				INFOPLIST_FILE = eink/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = EINK;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NFCReaderUsageDescription = "此应用需要访问NFC以读取标签信息";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This will allow \"E-INK\" to connect to your accessories.";
 				INFOPLIST_KEY_NSDocumentsFolderUsageDescription = "We need access to save and share log files.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -914,7 +932,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.aocgroup.eink;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "eink-apple-Provisioning Profile";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "aoc-eink-app-provisioning-profile";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
