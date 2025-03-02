@@ -58,6 +58,19 @@ extension DiscoverView {
             await deviceManager.removeDevice(device: device)
         }
         
+        func activeNFCDevice() {
+            let nfcCommunicator = NFCCommunicator()
+
+            nfcCommunicator.startSession { result in
+                switch result {
+                case .success(let macAddress):
+                    print("操作成功完成，MAC地址为: \(macAddress)")
+                case .failure(let error):
+                    print("操作失败: \(error.localizedDescription)")
+                }
+            }
+        }
+        
         
     }
 }
