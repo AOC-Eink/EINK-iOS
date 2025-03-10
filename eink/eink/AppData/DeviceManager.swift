@@ -202,6 +202,18 @@ class DeviceManager:BLEDataService {
         try await bleHandle.sendData(PacketFormat.readDeviceInfoPacket(), to: device)
     }
     
+    func getCurrentTimeHexArray() -> [UInt8] {
+        let date = Date()
+        let calendar = Calendar.current
+        let hour = calendar.component(.hour, from: date) % 12
+        let minute = calendar.component(.minute, from: date)
+        let second = calendar.component(.second, from: date)
+
+        let formattedHour: UInt8 = UInt8(hour == 0 ? 12 : hour)  // 12 小时制中 0 点显示为 12
+
+        return [formattedHour, UInt8(minute), UInt8(second)]
+    }
+    
     func sendColors(_ device: Device, colors: [[String]], timeInterval:Int?) async throws {
         
         guard let bleDevice = device.bleDevice else { return }
@@ -209,13 +221,20 @@ class DeviceManager:BLEDataService {
         var headers = [UInt8]()
         headers.append(UInt8(device.commandHeader))
         
+        
         if timeInterval == nil {
             headers.append(CommandType.writeCmd.rawValue)
+            
+            headers += getCurrentTimeHexArray()
+            
             headers.append(0x00)
             headers.append(0x00) //延时两个字节
             headers.append(0x00) //单个命令不设置张数
         } else {
             headers.append(CommandType.writeCmdQueue.rawValue)
+            
+            headers += getCurrentTimeHexArray()
+            
             let time = UInt16(timeInterval ?? 0)
             let highByte: UInt8 = UInt8((time >> 8) & 0xFF)
             let lowByte: UInt8 = UInt8(time & 0xFF)
@@ -223,6 +242,8 @@ class DeviceManager:BLEDataService {
             headers.append(lowByte) //延时两个字节
             headers.append(UInt8(colors.count)) //张数
         }
+        
+        
 
         var allColors = [UInt8]()
         for color in colors {
@@ -272,13 +293,13 @@ class DeviceManager:BLEDataService {
         case "497A64":
             return 0x05 //green
         case "DFBE24":
-            return 0x03 //yellow
+            return 0x01 //yellow
         case "2B78B9":
-            return 0x04 //blue
+            return 0x02 //blue
         case "3F384A":
-            return 0x02 //black
+            return 0x04 //black
         case "A45942":
-            return 0x01 // red
+            return 0x03 // red
         case "DBDBDB":
             return 0x00 // white
         default:
