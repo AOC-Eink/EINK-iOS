@@ -11,7 +11,7 @@ import SwiftUI
 struct einkApp: App {
     let persistenceController = CoreDataStack.shared
     @State var appConfiguration = AppConfiguration()
-    @State var deviceManager = DeviceManager()
+    @State var deviceManager = DeviceManager.shared
 
     var body: some Scene {
         WindowGroup {

@@ -21,6 +21,8 @@ protocol BLEDataService {
 @Observable 
 class DeviceManager:BLEDataService {
     
+    static let shared = DeviceManager()
+    
     private var timerCancellable: AnyCancellable?
     private var counter = 0
     
@@ -32,6 +34,9 @@ class DeviceManager:BLEDataService {
     //var saveDevices:Array<InkDevice> = []
     var showDevices:Array<Device> = []
     //var dbShowDevices:Array<Device> = []
+    
+    var directConnectDevice:Device?
+        
     
     let bleHandle:BLEHandler = BLEHandler()
     
@@ -148,6 +153,79 @@ class DeviceManager:BLEDataService {
                 }
             }
     }
+    
+    func startScanning(_ withIndentify:String, result: @escaping (Device?, Bool)->Void) {
+        discoverInfo.removeAll()
+        discoveredDevices.removeAll()
+        // 取消之前的扫描任务（如果存在）
+        scanTask?.cancel()
+        cancellable?.cancel()
+
+        // 创建新的扫描任务
+        scanTask = Task {
+            await performScanAndConnect(withIndentify,discover: result)
+        }
+
+        // 设置30秒后自动停止扫描
+        cancellable = Timer.publish(every: 15, on: .main, in: .common)
+            .autoconnect()
+            .sink { [weak self] _ in
+                result(self?.directConnectDevice, true)
+                self?.stopScanning()
+            }
+
+        
+    }
+    
+    private func performScanAndConnect(_ withIndentify:String ,discover: @escaping (Device?, Bool)->Void) async {
+        
+        await bleHandle.startScanning(discover: { [weak self] newDevices in
+            guard let self = self else { return }
+            
+            for device in newDevices {
+                let components = device.peripheral.identifier.uuidString.split(separator: "-")
+                let lastComponent = components.last ?? ""
+                if lastComponent == withIndentify {
+                    //38360A01C15B
+                    //44623E79-9F6A-06AE-E8C7-CB068D40D089
+                    
+                    
+                    self.directConnectDevice = Device(indentify: device.id.uuidString,
+                                                      deviceName: device.name ?? device.peripheral.identifier.uuidString,
+                                                      bleDevice: device,
+                                                      deviceFunction: self)
+                    
+                    //auto connect
+                    Task{
+                        await self.autoConnectDevice(self.directConnectDevice, discover: discover)
+                    }
+                    
+                    
+                }
+            }
+           
+            
+        })
+                                      
+                                      
+    }
+    
+    private func autoConnectDevice(_ device:Device?, discover: @escaping (Device?, Bool)->Void) async {
+        
+        
+        let result = try? await startConnect(device)
+        if result == false {
+            discover(nil, false)
+        } else {
+            addNewDevice(device: device!)
+            discover(self.directConnectDevice, result ?? false)
+        }
+    }
+                                      
+                                      
+            
+            
+        
     
     private func performScan(discover: (([Device], Bool)->Void)?) async {
         await bleHandle.startScanning(discover: { [weak self] newDevices in

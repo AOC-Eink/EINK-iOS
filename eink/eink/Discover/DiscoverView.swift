@@ -13,18 +13,20 @@ import BLECommunicator
 struct DiscoverView: View {
     @Environment(\.appRouter) var appRouter
     @EnvironmentObject var appConfig:AppConfiguration
-    @Environment(DeviceManager.self) var deviceManager
+    //@Environment(DeviceManager.self) var deviceManager
     
     @Binding var selectIndex:Int
     @State private var showAddView:Bool = false
     @State private var isShowingPopup:Bool = false
     @State private var showSelectType:Bool = false
 
-    let model:Model = Model()
+    //let model:Model = Model()
+    @State private var model:Model
     
     init(selectIndex:Binding<Int>) {
         debugPrint("new Init DiscoverView")
         _selectIndex = selectIndex
+        _model = State(initialValue: Model(deviceManager: DeviceManager.shared))
     }
     
     
@@ -32,7 +34,7 @@ struct DiscoverView: View {
                    GridItem(.flexible())]
     
     var showDevices:[Device] {
-        model.showDevices(deviceManager)
+        model.showDevices
     }
     
     var body: some View {
@@ -101,7 +103,7 @@ struct DiscoverView: View {
                                            color: item.bleStatus.statusBg
                                 )
                                 .onTapGesture {
-                                    model.stopScan(deviceManager)
+                                    model.stopScan()
                                     let device = showDevices[index]
                                     if device.bleStatus == .connected {
                                         selectIndex = index
@@ -113,7 +115,7 @@ struct DiscoverView: View {
                                         selectIndex = index
                                         isShowingPopup = true
                                         Task {
-                                            await model.connectDevice(deviceManager, device: device)
+                                            await model.connectDevice(device: device)
                                         }
                                         
                                     }
@@ -124,7 +126,7 @@ struct DiscoverView: View {
                                     Button {
                                         let device = showDevices[index]
                                         Task {
-                                            await model.removeDevice(deviceManager, device: device)
+                                            await model.removeDevice(device: device)
                                         }
                                        
                                     } label: {
@@ -208,7 +210,7 @@ struct DiscoverView: View {
         
         .onAppear{
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                model.refreshDevicesStatus(deviceManager)
+                model.refreshDevicesStatus()
             }
         }
         .onChange(of: model.errorMessage) { oldValue, newValue in
@@ -220,14 +222,14 @@ struct DiscoverView: View {
                 return
             }
             AlertWindow.show(title: "Reminder", message: error, onTap:{
-                model.refreshDevicesStatus(deviceManager)
+                model.refreshDevicesStatus()
             })
         }
         .onChange(of: appRouter.isConnected) { oldValue, newValue in
             
             if (oldValue ?? false) && !(newValue ?? true) {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    model.refreshDevicesStatus(deviceManager)
+                    model.refreshDevicesStatus()
                 }
             }
         }

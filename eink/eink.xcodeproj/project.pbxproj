@@ -16,6 +16,7 @@
 		9301E8072C87489900381CA7 /* einkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9301E8062C87489900381CA7 /* einkTests.swift */; };
 		9301E8112C87489900381CA7 /* einkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9301E8102C87489900381CA7 /* einkUITests.swift */; };
 		9301E8132C87489900381CA7 /* einkUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9301E8122C87489900381CA7 /* einkUITestsLaunchTests.swift */; };
+		9303C0C72E097E6E00053C1C /* NFCManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9303C0C62E097E6E00053C1C /* NFCManager.swift */; };
 		930BDA8B2C8B32F1008672C5 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930BDA8A2C8B32F1008672C5 /* Device.swift */; };
 		930BDA8D2C8B3AE5008672C5 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930BDA8C2C8B3AE5008672C5 /* OnboardingView.swift */; };
 		930BDA8F2C8B4FB5008672C5 /* DeviceCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930BDA8E2C8B4FB5008672C5 /* DeviceCard.swift */; };
@@ -36,7 +37,6 @@
 		936D15EF2C89D91600066274 /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15EE2C89D91600066274 /* GuideView.swift */; };
 		936D15F22C89DC1F00066274 /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15F12C89DC1F00066274 /* DiscoverView.swift */; };
 		936D15F52C89F74100066274 /* TabbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936D15F42C89F74100066274 /* TabbarView.swift */; };
-		937919B52E10B0C4000C902E /* NFCManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937919B42E10B0C4000C902E /* NFCManager.swift */; };
 		93A988F42CC69296002C118A /* DesginCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A988F32CC69296002C118A /* DesginCard.swift */; };
 		93A988F62CC7C627002C118A /* SelectDesginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A988F52CC7C627002C118A /* SelectDesginView.swift */; };
 		93AF5B472CBCEC1000877C56 /* AlertWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AF5B462CBCEC1000877C56 /* AlertWindow.swift */; };
@@ -106,6 +106,8 @@
 		9301E80C2C87489900381CA7 /* einkUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = einkUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9301E8102C87489900381CA7 /* einkUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = einkUITests.swift; sourceTree = "<group>"; };
 		9301E8122C87489900381CA7 /* einkUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = einkUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		9303C0C62E097E6E00053C1C /* NFCManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFCManager.swift; sourceTree = "<group>"; };
+		9303C0C82E097EAE00053C1C /* eink.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = eink.entitlements; sourceTree = "<group>"; };
 		930BDA8A2C8B32F1008672C5 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		930BDA8C2C8B3AE5008672C5 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		930BDA8E2C8B4FB5008672C5 /* DeviceCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceCard.swift; sourceTree = "<group>"; };
@@ -126,7 +128,6 @@
 		936D15EE2C89D91600066274 /* GuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideView.swift; sourceTree = "<group>"; };
 		936D15F12C89DC1F00066274 /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.swift; sourceTree = "<group>"; };
 		936D15F42C89F74100066274 /* TabbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarView.swift; sourceTree = "<group>"; };
-		937919B42E10B0C4000C902E /* NFCManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFCManager.swift; sourceTree = "<group>"; };
 		93A988F32CC69296002C118A /* DesginCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesginCard.swift; sourceTree = "<group>"; };
 		93A988F52CC7C627002C118A /* SelectDesginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDesginView.swift; sourceTree = "<group>"; };
 		93AF5B462CBCEC1000877C56 /* AlertWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertWindow.swift; sourceTree = "<group>"; };
@@ -216,6 +217,7 @@
 		9301E7EF2C87489700381CA7 /* eink */ = {
 			isa = PBXGroup;
 			children = (
+				9303C0C82E097EAE00053C1C /* eink.entitlements */,
 				BE70110F2CB9173000729C8C /* Info.plist */,
 				93C898E52CA447320001E331 /* Repository */,
 				93F292452C95CC7B00ECCE35 /* CoreData */,
@@ -267,7 +269,7 @@
 		930BDA892C8B3297008672C5 /* AppData */ = {
 			isa = PBXGroup;
 			children = (
-				937919B42E10B0C4000C902E /* NFCManager.swift */,
+				9303C0C62E097E6E00053C1C /* NFCManager.swift */,
 				930BDA8A2C8B32F1008672C5 /* Device.swift */,
 				930D91692CBA869600AA52BD /* DeviceCommand.swift */,
 				930D91612CB96C4B00AA52BD /* DevicePresetExtension.swift */,
@@ -656,6 +658,7 @@
 				93F292542C96945300ECCE35 /* FavoriteButton.swift in Sources */,
 				930BDA8F2C8B4FB5008672C5 /* DeviceCard.swift in Sources */,
 				930D91622CB96C4B00AA52BD /* DevicePresetExtension.swift in Sources */,
+				9303C0C72E097E6E00053C1C /* NFCManager.swift in Sources */,
 				93F292562C96AC3800ECCE35 /* ColorGrid.swift in Sources */,
 				BE70110E2CB904D000729C8C /* LogView.swift in Sources */,
 				93F2924C2C95D6E900ECCE35 /* Design.swift in Sources */,
@@ -680,7 +683,6 @@
 				93F292502C96751800ECCE35 /* DIYView.swift in Sources */,
 				93A988F62CC7C627002C118A /* SelectDesginView.swift in Sources */,
 				936D15EF2C89D91600066274 /* GuideView.swift in Sources */,
-				937919B52E10B0C4000C902E /* NFCManager.swift in Sources */,
 				936D15E92C88AA8200066274 /* FavoriteView.swift in Sources */,
 				936D15E52C88AA2500066274 /* CatagoryView.swift in Sources */,
 				936D15F22C89DC1F00066274 /* DiscoverView.swift in Sources */,
@@ -849,9 +851,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = eink/eink.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_ASSET_PATHS = "\"eink/Preview Content\"";
 				DEVELOPMENT_TEAM = B3K28DD4HW;
 				ENABLE_PREVIEWS = YES;
@@ -859,6 +862,7 @@
 				INFOPLIST_FILE = eink/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = EINK;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NFCReaderUsageDescription = "此应用需要访问NFC以读取标签信息";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This will allow \"E-INK\" to connect to your accessories.";
 				INFOPLIST_KEY_NSDocumentsFolderUsageDescription = "We need access to save and share log files.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -871,7 +875,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.3;
+				MARKETING_VERSION = 0.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.test.einkapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -890,10 +894,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = eink/eink.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_ASSET_PATHS = "\"eink/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = B3K28DD4HW;
@@ -902,6 +907,7 @@
 				INFOPLIST_FILE = eink/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = EINK;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NFCReaderUsageDescription = "此应用需要访问NFC以读取标签信息";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This will allow \"E-INK\" to connect to your accessories.";
 				INFOPLIST_KEY_NSDocumentsFolderUsageDescription = "We need access to save and share log files.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -914,11 +920,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.3;
+				MARKETING_VERSION = 0.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aocgroup.eink;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "eink-apple-Provisioning Profile";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "aoc-eink-app-provisioning-profile";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

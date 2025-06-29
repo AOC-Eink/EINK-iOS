@@ -13,7 +13,13 @@ extension DiscoverView {
     @Observable
     class Model {
         
+        private let deviceManager:DeviceManager
+        init(deviceManager: DeviceManager) {
+            self.deviceManager = deviceManager
+        }
+        
         var errorMessage:String?
+        var nfcCommunicator:NFCCommunicator?
 //        func setManager(_ deviceManager:DeviceManager) {
 //            if self.deviceManager == nil {
 //                self.deviceManager = deviceManager
@@ -26,21 +32,25 @@ extension DiscoverView {
 //            self.deviceManager = deviceManager
 //        }
         
-        var showDevices:(DeviceManager) -> [Device] = { deviceManager in
+//        var showDevices:(DeviceManager) -> [Device] = { deviceManager in
+//            deviceManager.showDevices
+//        }
+        
+        var showDevices: [Device] {
             deviceManager.showDevices
         }
         
         
-        func refreshDevicesStatus(_ deviceManager:DeviceManager)  {
+        func refreshDevicesStatus()  {
             deviceManager.startScanning(discover: nil)
         }
         
-        func stopScan(_ deviceManager:DeviceManager)  {
+        func stopScan()  {
              deviceManager.stopScanning()
         }
         
         
-        func connectDevice(_ deviceManager:DeviceManager, device:Device) async {
+        func connectDevice(device:Device) async {
             
             do {
                 let result = try await deviceManager.startConnect(device)
@@ -54,21 +64,43 @@ extension DiscoverView {
             }
         }
         
-        func removeDevice(_ deviceManager:DeviceManager, device:Device) async {
+        func removeDevice(device:Device) async {
             await deviceManager.removeDevice(device: device)
         }
         
         func activeNFCDevice() {
-            let nfcCommunicator = NFCCommunicator()
+            stopScan();
+            nfcCommunicator = NFCCommunicator()
 
-            nfcCommunicator.startSession { result in
+            nfcCommunicator?.startSession { result in
                 switch result {
                 case .success(let macAddress):
                     print("操作成功完成，MAC地址为: \(macAddress)")
+                    //AlertWindow.show(title: "读取结果", message: "\(macAddress)")
+                    Task {
+                        await self.startScanAndConnect(mac: macAddress)
+                    }
+                    
                 case .failure(let error):
                     print("操作失败: \(error.localizedDescription)")
+                    AlertWindow.show(title: "读取失败", message: error.localizedDescription)
                 }
             }
+        }
+        
+        func startScanAndConnect(mac:String) async {
+            
+            deviceManager.startScanning(mac) { device, success in
+                
+                if success {
+                    self.nfcCommunicator?.stopSession(message: "连接成功，设备已连接")
+                } else {
+                    self.nfcCommunicator?.stopSession(message: "连接失败，请重试")
+                }
+                self.nfcCommunicator = nil
+            
+            }
+            
         }
         
         
