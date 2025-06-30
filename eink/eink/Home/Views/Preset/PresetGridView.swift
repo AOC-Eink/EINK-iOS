@@ -68,7 +68,7 @@ struct PresetGridView: View {
     func applay(_ colors:[String]) async {
 
         do {
-            try await device.deviceFuction?.sendColors(device, colors: [colors], timeInterval: nil)
+            try await device.deviceFuction?.sendColors(device, commandType: .writeCmd, colors: [colors], timeInterval: nil)
         } catch {
             AlertWindow.show(title: "Apply Failured", message: "\(error.localizedDescription)")
         }

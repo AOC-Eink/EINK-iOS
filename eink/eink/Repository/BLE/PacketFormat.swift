@@ -10,7 +10,9 @@ import Foundation
 enum CommandType:UInt8 {
     case readDeviceInfo = 0x11
     case writeCmd = 0xFE
-    case writeCmdQueue = 0xFC
+    case stopCmd = 0xFD
+    case randomCmd = 0xFC
+    case recycleCmd = 0xFB
     case showCmd = 0xFF
     case sendFlag = 0x21
 }

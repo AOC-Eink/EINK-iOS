@@ -14,7 +14,7 @@ protocol BLEDataService {
 //    func write()
 //    func read()
     func readDeviceInfo(_ device:BLEDevice) async throws
-    func sendColors(_ device:Device, colors: [[String]], timeInterval:Int?) async throws
+    func sendColors(_ device:Device, commandType:CommandType, colors: [[String]], timeInterval:Int?) async throws
     //func sendTestPlayColors(_ device: Device, designs:[Design], gapTime: Int, isShow:Bool) async throws
 }
 
@@ -288,17 +288,21 @@ class DeviceManager:BLEDataService {
     }
     
     func getCurrentTimeArray() -> [Int] {
+        
         let date = Date()
         let calendar = Calendar.current
-        let hour = calendar.component(.hour, from: date) % 12  // 转换为 12 小时制
+        let year = calendar.component(.year, from: date)
+        let month = calendar.component(.month, from: date)
+        let day = calendar.component(.day, from: date)
+        let hour = calendar.component(.hour, from: date)
         let minute = calendar.component(.minute, from: date)
         let second = calendar.component(.second, from: date)
 
-        return [hour == 0 ? 12 : hour, minute, second] // 12 小时制中 0 点要显示为 12
+        return [year, month, day, hour, minute, second]
     }
     
     
-    func sendColors(_ device: Device, colors: [[String]], timeInterval:Int?) async throws {
+    func sendColors(_ device: Device, commandType:CommandType, colors: [[String]], timeInterval:Int?) async throws {
         
         guard let bleDevice = device.bleDevice else { return }
         
@@ -309,12 +313,15 @@ class DeviceManager:BLEDataService {
         
         
         if timeInterval == nil {
-            headers.append(CommandType.writeCmd.rawValue)
+            headers.append(commandType.rawValue)
+            headers.append(0x00)
+            headers.append(0x00)
+            headers.append(0x00)
             headers.append(0x00)
             headers.append(0x00) //延时两个字节
             headers.append(0x00) //单个命令不设置张数
         } else {
-            headers.append(CommandType.writeCmdQueue.rawValue)
+            headers.append(commandType.rawValue)
             let time = UInt16(timeInterval ?? 0)
             let highByte: UInt8 = UInt8((time >> 8) & 0xFF)
             let lowByte: UInt8 = UInt8(time & 0xFF)
@@ -326,6 +333,10 @@ class DeviceManager:BLEDataService {
         headers.append(UInt8(dateInfo[0]))//发送当前时间
         headers.append(UInt8(dateInfo[1]))
         headers.append(UInt8(dateInfo[2]))
+        headers.append(UInt8(dateInfo[3]))
+        headers.append(UInt8(dateInfo[4]))
+        headers.append(UInt8(dateInfo[5]))
+        
 
         var allColors = [UInt8]()
         for color in colors {
@@ -333,6 +344,9 @@ class DeviceManager:BLEDataService {
             let mcuInts = device.formMCUCommand(colors: colorInts)
             allColors += mcuInts
         }
+        
+        //colors.count = 3   0x03 代表3组数据
+        headers.append(UInt8(colors.count)) //颜色组数
         
         let length = UInt16(allColors.count)
         let highByte: UInt8 = UInt8((length >> 8) & 0xFF)

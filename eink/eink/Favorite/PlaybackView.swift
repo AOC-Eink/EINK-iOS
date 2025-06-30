@@ -10,6 +10,7 @@ import AlertToast
 import BLECommunicator
 
 enum PlaybackMode {
+    case stopPlayback
     case singlePlayback
     case allPlayback
     case randomPlayback
@@ -29,6 +30,26 @@ struct PlaybackView: View {
     @State private var selectedSeconds = 0
     @State private var selectedMode: PlaybackMode = .singlePlayback
     @State private var selectDesgins:[Design] = []
+    
+    
+    var commandType:CommandType {
+        if isToggleOn {
+            
+            switch selectedMode {
+            case .stopPlayback:
+                return .stopCmd
+            case .singlePlayback:
+                return .writeCmd
+            case .allPlayback:
+                return .recycleCmd
+            case .randomPlayback:
+                return .randomCmd
+            }
+            
+        } else {
+            return .stopCmd
+        }
+    }
     
     
     var body: some View {
@@ -78,7 +99,7 @@ struct PlaybackView: View {
             
             Spacer()
             
-            //controlButtonsSection
+            controlButtonsSection
             scheduledPlaybackSection
             timePickerSection
             actionButtonsSection
@@ -177,6 +198,13 @@ struct PlaybackView: View {
             Toggle("", isOn: $isToggleOn)
                 .labelsHidden()
                 .toggleStyle(ColoredToggleStyle())
+                .onChange(of: isToggleOn) { old, new in
+                    if !new {
+                        selectedMode = .stopPlayback
+                        Logger.shared.log("--已停止播放--")
+                    }
+                }
+            
                 
         }
     }
@@ -237,7 +265,11 @@ struct PlaybackView: View {
                             design.colors.split(separator: ",").map(String.init)
                         }
                         do {
-                            try await device.deviceFuction?.sendColors(device, colors: colors, timeInterval: totalSeconds)
+                            try await device.deviceFuction?.sendColors(
+                                device,
+                                commandType: commandType,
+                                colors: colors,
+                                timeInterval: totalSeconds)
                             showToast.toggle()
                         } catch {
                             AlertWindow.show(title: "Apply failured", message: "\(error.localizedDescription)")
