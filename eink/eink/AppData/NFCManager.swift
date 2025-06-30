@@ -24,7 +24,8 @@ class NFCCommunicator: NSObject, NFCTagReaderSessionDelegate {
     }
     
     func stopSession(message: String? = nil) {
-        session?.invalidate(errorMessage: message ?? "会话已停止")
+        session?.alertMessage = message ?? "会话已结束"
+        session?.invalidate()
         session = nil
     }
     
@@ -104,12 +105,18 @@ class NFCCommunicator: NSObject, NFCTagReaderSessionDelegate {
                         Logger.shared.log("NDEF标识符: \(record.identifier)")
                         Logger.shared.log("NDEF负载: \(payloadData.base64EncodedString())")
               
-                        let text = String(data: payloadData, encoding: .utf8) ?? ""
+                        guard let statusByte = payloadData.first else {
+                            // 处理错误
+                            return
+                        }
+                        let langCodeLen = Int(statusByte & 0x3F)
+                        let textData = payloadData.dropFirst(1 + langCodeLen)
+                        let text = String(data: textData, encoding: .utf8) ?? ""
                         Logger.shared.log("NDEF内容: \(text)")
                         //假设 text = "38360A01C15B,54,64,3,BWRYGB, 1,0,0,0" 获取 38360A01C15B
                         let components = text.components(separatedBy: ",")
                         if let firstPart = components.first?.trimmingCharacters(in: .whitespaces) {
-                            session.alertMessage = "读取成功: \(text) 准备连接蓝牙"
+                            session.alertMessage = "读取成功: \(firstPart) 准备连接蓝牙"
                             self.completionHandler?(.success(firstPart))
                         } else {
                             session.invalidate(errorMessage: "无法解析NDEF内容")

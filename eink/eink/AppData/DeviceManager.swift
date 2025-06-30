@@ -18,7 +18,7 @@ protocol BLEDataService {
     //func sendTestPlayColors(_ device: Device, designs:[Design], gapTime: Int, isShow:Bool) async throws
 }
 
-@Observable 
+@Observable
 class DeviceManager:BLEDataService {
     
     static let shared = DeviceManager()
@@ -167,10 +167,10 @@ class DeviceManager:BLEDataService {
         }
 
         // 设置30秒后自动停止扫描
-        cancellable = Timer.publish(every: 15, on: .main, in: .common)
+        cancellable = Timer.publish(every: 60, on: .main, in: .common)
             .autoconnect()
             .sink { [weak self] _ in
-                result(self?.directConnectDevice, true)
+                result(nil, false)
                 self?.stopScanning()
             }
 
@@ -179,21 +179,27 @@ class DeviceManager:BLEDataService {
     
     private func performScanAndConnect(_ withIndentify:String ,discover: @escaping (Device?, Bool)->Void) async {
         
-        await bleHandle.startScanning(discover: { [weak self] newDevices in
-            guard let self = self else { return }
-            
-            for device in newDevices {
-                let components = device.peripheral.identifier.uuidString.split(separator: "-")
-                let lastComponent = components.last ?? ""
-                if lastComponent == withIndentify {
+        await bleHandle.startScanning(
+            discover: { [weak self] newDevices in
+                guard let self = self else { return }
+                
+                for device in newDevices {
+                    let components = device.peripheral.identifier.uuidString.split(separator: "-")
+                    let lastComponent = components.last ?? ""
+                    if lastComponent == withIndentify {
+                        Logger.shared.log(
+                            "发现目标设备: \(device.name ?? "Unknown") - \(device.peripheral.identifier.uuidString)"
+                        )
                     //38360A01C15B
                     //44623E79-9F6A-06AE-E8C7-CB068D40D089
+                    self.stopScanning()
                     
-                    
-                    self.directConnectDevice = Device(indentify: device.id.uuidString,
+                    let findDevice = Device(indentify: device.id.uuidString,
                                                       deviceName: device.name ?? device.peripheral.identifier.uuidString,
                                                       bleDevice: device,
                                                       deviceFunction: self)
+                    self.directConnectDevice = findDevice
+                    addNewDevice(device: findDevice)
                     
                     //auto connect
                     Task{
@@ -214,10 +220,11 @@ class DeviceManager:BLEDataService {
         
         
         let result = try? await startConnect(device)
+        Logger.shared.log("连接设备 \(device?.deviceName ?? "") 结果: \(result == true ? "成功" : "失败")")
         if result == false {
             discover(nil, false)
         } else {
-            addNewDevice(device: device!)
+            
             discover(self.directConnectDevice, result ?? false)
         }
     }
@@ -339,7 +346,7 @@ class DeviceManager:BLEDataService {
         
         
 //        let datas = PacketFormat.sendColors(header: device.commandHeader, colors: mcuInts)
-//        
+//
 //        for data in datas {
 //            await bleHandle.sendData(data, to: bleDevice)
 //        }
