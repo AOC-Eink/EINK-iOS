@@ -291,7 +291,8 @@ class DeviceManager:BLEDataService {
         
         let date = Date()
         let calendar = Calendar.current
-        let year = calendar.component(.year, from: date)
+        //年只取后两位
+        let year = calendar.component(.year, from: date) % 100 // 取后两位
         let month = calendar.component(.month, from: date)
         let day = calendar.component(.day, from: date)
         let hour = calendar.component(.hour, from: date)
@@ -314,9 +315,6 @@ class DeviceManager:BLEDataService {
         
         if timeInterval == nil {
             headers.append(commandType.rawValue)
-            headers.append(0x00)
-            headers.append(0x00)
-            headers.append(0x00)
             headers.append(0x00)
             headers.append(0x00) //延时两个字节
             headers.append(0x00) //单个命令不设置张数

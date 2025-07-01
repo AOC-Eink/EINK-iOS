@@ -12,6 +12,7 @@ struct einkApp: App {
     let persistenceController = CoreDataStack.shared
     @State var appConfiguration = AppConfiguration()
     @State var deviceManager = DeviceManager.shared
+    @State var nfcCommunicator = NFCCommunicator.shared
 
     var body: some Scene {
         WindowGroup {
@@ -19,6 +20,7 @@ struct einkApp: App {
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
                 .environmentObject(appConfiguration)
                 .environment(deviceManager)
+                .environment(nfcCommunicator)
                 
         }
     }

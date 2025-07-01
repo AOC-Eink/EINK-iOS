@@ -1,6 +1,8 @@
 import CoreNFC
 import BLECommunicator
 
+
+@Observable
 class NFCCommunicator: NSObject, NFCTagReaderSessionDelegate {
     func tagReaderSessionDidBecomeActive(_ session: NFCTagReaderSession) {
         
@@ -8,6 +10,8 @@ class NFCCommunicator: NSObject, NFCTagReaderSessionDelegate {
     
     private var session: NFCTagReaderSession?
     private var completionHandler: ((Result<String, Error>) -> Void)?
+    
+    static let shared = NFCCommunicator()
     
     enum NFCError: Error {
         case unsupportedTag
@@ -27,6 +31,10 @@ class NFCCommunicator: NSObject, NFCTagReaderSessionDelegate {
         session?.alertMessage = message ?? "会话已结束"
         session?.invalidate()
         session = nil
+    }
+    
+    func updateSessionAlertMessage(_ message: String) {
+        session?.alertMessage = message
     }
     
     

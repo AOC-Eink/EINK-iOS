@@ -44,6 +44,9 @@ struct PresetGridView: View {
     @Environment(\.appRouter) var appRouter
     @Environment(\.goDIYView) var goDIYView
     @State private var showToast = false
+    @Environment(DeviceManager.self) var deviceManager
+    @Environment(NFCCommunicator.self) var nfcCommunicator
+    
     
     let device:Device
     let designs:[Design]
@@ -66,14 +69,60 @@ struct PresetGridView: View {
     }
     
     func applay(_ colors:[String]) async {
+        
 
-        do {
-            try await device.deviceFuction?.sendColors(device, commandType: .writeCmd, colors: [colors], timeInterval: nil)
-        } catch {
-            AlertWindow.show(title: "Apply Failured", message: "\(error.localizedDescription)")
+        nfcCommunicator.startSession { result in
+            switch result {
+            case .success(let macAddress):
+                print("操作成功完成，MAC地址为: \(macAddress)")
+                //AlertWindow.show(title: "读取结果", message: "\(macAddress)")
+                Task {
+                    await self.startScanAndConnect(mac: macAddress, colors: colors)
+                }
+                
+            case .failure(let error):
+                print("操作失败: \(error.localizedDescription)")
+                AlertWindow.show(title: "读取失败", message: error.localizedDescription)
+            }
         }
         
     }
+    
+    func startScanAndConnect(mac:String, colors:[String]) async {
+        
+        deviceManager.startScanning(mac) { device, success in
+            
+            if success {
+                self.nfcCommunicator.updateSessionAlertMessage("连接成功，准备写入图案")
+                
+                guard let connectDevice = device else {
+                    self.nfcCommunicator.stopSession(message: "连接失败，请重试")
+                    return
+                }
+                Task {
+                    await sendColors(connectDevice, colors)
+                }
+            } else {
+                self.nfcCommunicator.stopSession(message: "连接失败，请重试")
+            }
+        
+        }
+        
+    }
+    
+    func sendColors(_ connectDevice:Device, _ colors:[String]) async {
+        do {
+            try await connectDevice.deviceFuction?.sendColors(connectDevice, commandType: .writeCmd, colors: [colors], timeInterval: nil)
+            self.nfcCommunicator.updateSessionAlertMessage("图案写入中，请稍等...")
+            //延时10秒钟后关闭NFC会话
+            try await Task.sleep(nanoseconds: 30_000_000_000) // 10 seconds
+            self.nfcCommunicator.stopSession(message: "图案写入完成")
+            
+        } catch {
+            AlertWindow.show(title: "Apply Failured", message: "\(error.localizedDescription)")
+        }
+    }
+        
     
     func edit(_ design:Design) {
         goDIYView(design.colors.components(separatedBy: ",") ,design.name, design.favorite, design.category == "custom")

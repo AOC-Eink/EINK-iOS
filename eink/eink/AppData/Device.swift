@@ -154,10 +154,14 @@ struct Device:Hashable, Equatable {
 //    }
     
     var bleStatus:DeviceStatus {
+        if deviceType == .phoneCase {
+            return .connected
+        }
         guard let bleDevice = self.bleDevice else {
             Logger.shared.log(" bleStatus: bleDevice = nil")
             return .disconnected
         }
+        
         switch bleDevice.peripheral.state {
             
         case .disconnected:
