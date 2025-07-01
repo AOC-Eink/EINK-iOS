@@ -186,7 +186,7 @@ class DeviceManager:BLEDataService {
                 for device in newDevices {
                     let components = device.peripheral.identifier.uuidString.split(separator: "-")
                     let lastComponent = components.last ?? ""
-                    if lastComponent == withIndentify {
+                    if device.peripheral.name == "Philips Phone case" {
                         Logger.shared.log(
                             "发现目标设备: \(device.name ?? "Unknown") - \(device.peripheral.identifier.uuidString)"
                         )
