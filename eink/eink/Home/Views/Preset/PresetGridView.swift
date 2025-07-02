@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreData
 import AlertToast
+import BLECommunicator
 
 enum EditAction {
     case apply
@@ -112,11 +113,24 @@ struct PresetGridView: View {
     
     func sendColors(_ connectDevice:Device, _ colors:[String]) async {
         do {
-            try await connectDevice.deviceFuction?.sendColors(connectDevice, commandType: .writeCmd, colors: [colors], timeInterval: nil)
             self.nfcCommunicator.updateSessionAlertMessage("图案写入中，请稍等...")
-            //延时10秒钟后关闭NFC会话
-            try await Task.sleep(nanoseconds: 30_000_000_000) // 10 seconds
-            self.nfcCommunicator.stopSession(message: "图案写入完成")
+            try await connectDevice.deviceFuction?.sendColors(connectDevice, commandType: .writeCmd, colors: [colors], timeInterval: nil, response: { response in
+                //假设预期数据为 0x11FC0101 则成功写入 reponse 为Data 如何解析
+                if response.count >= 4 {
+                    let expectedData = Data([0x11, 0xFC, 0x01, 0x01])
+                    if response.starts(with: expectedData) {
+                        Logger.shared.log("图案写入成功")
+                        self.showToast = true
+                    } else {
+                            Logger.shared.log("图案写入失败，返回数据不匹配")
+                        self.nfcCommunicator.stopSession(message: "图案写入完成")
+                    }
+                } else {
+                    Logger.shared.log("图案写入失败，返回数据长度不足")
+                    self.nfcCommunicator.stopSession(message: "图案写入完成")
+                }
+            })
+
             
         } catch {
             AlertWindow.show(title: "Apply Failured", message: "\(error.localizedDescription)")

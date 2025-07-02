@@ -135,9 +135,25 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
         let log2 = "didDiscover mfData: vid:\(mfData.vid) pid: \(mfData.pid)"
         Logger.shared.log(log2)
         
+        var macAddress = ""
+        
         if mfData.vid == AOCMF.vid || mfData.vid == AOCMF.testVid {
             Logger.shared.log("搜索到设备 name = \(peripheral.name ?? "Unknown"), uuid = \(peripheral.identifier) vid\(mfData.vid) pid: \(mfData.pid)")
-            let device = BLEDevice(peripheral: peripheral, pid: mfData.pid, mid: mfData.mid)
+            if let manufacturerData = advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data {
+                // 2. 解析 Data
+                let bytes = [UInt8](manufacturerData)
+                // 例如 FF FF 4E 62 74 69 6F 6E 73 00
+                // 假设 MAC 地址是 bytes[4] ~ bytes[9]（即74 69 6F 6E 73 00）
+                if bytes.count >= 10 {
+                    let macBytes = bytes[4...9]
+                    // 转为十六进制字符串
+                    let macString = macBytes.map { String(format: "%02X", $0) }.joined()
+                    macAddress = macString
+                    Logger.shared.log("MAC 地址: \(macString)") // 输出 74696F6E7300
+                }
+            }
+            
+            let device = BLEDevice(peripheral: peripheral, pid: mfData.pid, mid: mfData.mid, mac: macAddress)
             discoveredDevices[peripheral.identifier] = device
             delegate?.bleCommunicator(self, didDiscoverDevice: discoveredDevices)
         }
@@ -252,6 +268,11 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
     }
     
     public func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
+        guard let device = discoveredDevices[peripheral.identifier] else {
+            Logger.shared.log("未发现设备 name = \(peripheral.name ?? "Unknown"), uuid = \(peripheral.identifier)")
+            writeContinuation?.resume(throwing: BLEError.deviceNotFound)
+            return
+        }
         if let error = error {
             writeContinuation?.resume(throwing: error)
             Logger.shared.log("写入失败 name = \(peripheral.name ?? "Unknown"), uuid = \(characteristic.uuid) error = \(error.localizedDescription))")
@@ -259,7 +280,9 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
             Logger.shared.log("成功写入特征值: \(characteristic.uuid)")
             if let value = characteristic.value {
                 Logger.shared.log("写入的数据 name = \(peripheral.name ?? "Unknown"), uuid = \(characteristic.uuid) data = \(value.hexEncodedString()))")
+                delegate?.bleCommunicator(self, didReceiveData: value, fromDevice: device)
             }
+            
             writeContinuation?.resume()
         }
         writeContinuation = nil

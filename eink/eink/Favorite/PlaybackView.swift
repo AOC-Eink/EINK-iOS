@@ -269,7 +269,7 @@ struct PlaybackView: View {
                                 device,
                                 commandType: commandType,
                                 colors: colors,
-                                timeInterval: totalSeconds)
+                                timeInterval: totalSeconds, response: nil)
                             showToast.toggle()
                         } catch {
                             AlertWindow.show(title: "Apply failured", message: "\(error.localizedDescription)")

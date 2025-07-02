@@ -22,7 +22,7 @@ class NFCCommunicator: NSObject, NFCTagReaderSessionDelegate {
     
     func beginSession() {
         // 支持三种类型
-        session = NFCTagReaderSession(pollingOption: [.iso14443, .iso15693, .iso18092], delegate: self)
+        session = NFCTagReaderSession(pollingOption: .iso14443, delegate: self)
         session?.alertMessage = "请将iPhone靠近NFC标签"
         session?.begin()
     }

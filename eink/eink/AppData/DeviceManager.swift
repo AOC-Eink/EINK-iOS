@@ -14,7 +14,7 @@ protocol BLEDataService {
 //    func write()
 //    func read()
     func readDeviceInfo(_ device:BLEDevice) async throws
-    func sendColors(_ device:Device, commandType:CommandType, colors: [[String]], timeInterval:Int?) async throws
+    func sendColors(_ device:Device, commandType:CommandType, colors: [[String]], timeInterval:Int?, response:((Data)->Void)?) async throws
     //func sendTestPlayColors(_ device: Device, designs:[Design], gapTime: Int, isShow:Bool) async throws
 }
 
@@ -30,6 +30,7 @@ class DeviceManager:BLEDataService {
     private var cancellable: AnyCancellable?
     
     
+    
     var discoveredDevices:Array<Device> = []
     //var saveDevices:Array<InkDevice> = []
     var showDevices:Array<Device> = []
@@ -39,6 +40,8 @@ class DeviceManager:BLEDataService {
         
     
     let bleHandle:BLEHandler = BLEHandler()
+    
+    var valueResponse:((Data)->Void)?
     
     var discoverInfo:[String] = []
     
@@ -67,6 +70,12 @@ class DeviceManager:BLEDataService {
     
     func didConnectedListener() {
         bleHandle.didConnectNotify = { [self] device in
+            
+            if directConnectDevice?.id == device.id.uuidString {
+                directConnectDevice?.bleDevice = device
+                return
+            }
+            
             if let index = self.showDevices.firstIndex(where: { $0.id == device.peripheral.identifier.uuidString }) {
                 self.showDevices[index].bleDevice = device
             } else {
@@ -78,6 +87,20 @@ class DeviceManager:BLEDataService {
                                                deviceName: device.name ?? "Unknown",
                                                bleDevice: device))
             }
+        }
+    }
+    
+    func didValueChangeListener() {
+        bleHandle.didValueChangeNotify = { [self] device, data in
+            // 处理接收到的数据
+            Logger.shared.log("Received data from device: \(device.name ?? "Unknown") - \(data)")
+            // 可以在这里添加对数据的处理逻辑
+            if let response = valueResponse {
+                response(data)
+                valueResponse = nil // 清除响应闭包，避免重复调用
+            }
+                
+            
         }
     }
     
@@ -184,9 +207,7 @@ class DeviceManager:BLEDataService {
                 guard let self = self else { return }
                 
                 for device in newDevices {
-                    let components = device.peripheral.identifier.uuidString.split(separator: "-")
-                    let lastComponent = components.last ?? ""
-                    if device.peripheral.name == "Philips Phone case" {
+                    if device.mac == withIndentify {
                         Logger.shared.log(
                             "发现目标设备: \(device.name ?? "Unknown") - \(device.peripheral.identifier.uuidString)"
                         )
@@ -303,7 +324,13 @@ class DeviceManager:BLEDataService {
     }
     
     
-    func sendColors(_ device: Device, commandType:CommandType, colors: [[String]], timeInterval:Int?) async throws {
+    func sendColors(_ device: Device, commandType:CommandType, colors: [[String]], timeInterval:Int? = nil, response: ((Data)->Void)? = nil) async throws {
+        
+        if response != nil {
+            valueResponse = response
+        }
+        
+        
         
         guard let bleDevice = device.bleDevice else { return }
         
@@ -317,6 +344,16 @@ class DeviceManager:BLEDataService {
             headers.append(commandType.rawValue)
             headers.append(0x00)
             headers.append(0x00) //延时两个字节
+            
+            if device.deviceType == .clock {
+                headers.append(UInt8(dateInfo[0]))//发送当前时间
+                headers.append(UInt8(dateInfo[1]))
+                headers.append(UInt8(dateInfo[2]))
+                headers.append(UInt8(dateInfo[3]))
+                headers.append(UInt8(dateInfo[4]))
+                headers.append(UInt8(dateInfo[5]))
+            }
+            
             headers.append(0x00) //单个命令不设置张数
         } else {
             headers.append(commandType.rawValue)
@@ -325,15 +362,24 @@ class DeviceManager:BLEDataService {
             let lowByte: UInt8 = UInt8(time & 0xFF)
             headers.append(highByte)
             headers.append(lowByte) //延时两个字节
+            
+            
+            if device.deviceType == .clock {
+                headers.append(UInt8(dateInfo[0]))//发送当前时间
+                headers.append(UInt8(dateInfo[1]))
+                headers.append(UInt8(dateInfo[2]))
+                headers.append(UInt8(dateInfo[3]))
+                headers.append(UInt8(dateInfo[4]))
+                headers.append(UInt8(dateInfo[5]))
+            }
+            
+            
             headers.append(UInt8(colors.count)) //张数
         }
         
-        headers.append(UInt8(dateInfo[0]))//发送当前时间
-        headers.append(UInt8(dateInfo[1]))
-        headers.append(UInt8(dateInfo[2]))
-        headers.append(UInt8(dateInfo[3]))
-        headers.append(UInt8(dateInfo[4]))
-        headers.append(UInt8(dateInfo[5]))
+        
+        
+        
         
 
         var allColors = [UInt8]()
@@ -344,7 +390,7 @@ class DeviceManager:BLEDataService {
         }
         
         //colors.count = 3   0x03 代表3组数据
-        headers.append(UInt8(colors.count)) //颜色组数
+        //headers.append(UInt8(colors.count)) //颜色组数
         
         let length = UInt16(allColors.count)
         let highByte: UInt8 = UInt8((length >> 8) & 0xFF)
