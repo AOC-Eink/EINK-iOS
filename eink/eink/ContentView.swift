@@ -40,31 +40,31 @@ struct ContentView: View {
 //        )
 //    }
     
-    var showOnboarding: Binding<Bool> {
-        Binding<Bool>(
-            get: { appConfig.showOnboarding },
-            set: { newValue in appConfig.showOnboarding = newValue }
-        )
-    }
+//    var showOnboarding: Binding<Bool> {
+//        Binding<Bool>(
+//            get: { appConfig.showOnboarding },
+//            set: { newValue in appConfig.showOnboarding = newValue }
+//        )
+//    }
 
     var body: some View {
-        ZStack {
-            DiscoverView(selectIndex: $selectIndex)
-                .zIndex(0)
+//        ZStack {
+//            DiscoverView(selectIndex: $selectIndex)
+//                .zIndex(0)
             
-            if isConnected {
-                TabbarView(device: activeDevice)
-                .transition(.move(edge: .bottom))
-                .zIndex(1)
-            }
-        }
-        .animation(.easeInOut, value: isConnected)
-        .fullScreenCover(isPresented: showOnboarding) {
-            GuideView()
-        }
-        .onAppear{
-            deviceManager.updateSaveDevices(saveCVDevices)
-        }
+            //if isConnected {
+                TabbarView()
+//                .transition(.move(edge: .bottom))
+//                .zIndex(1)
+            //}
+//        }
+        //.animation(.easeInOut, value: isConnected)
+//        .fullScreenCover(isPresented: showOnboarding) {
+//            GuideView()
+//        }
+//        .onAppear{
+//            deviceManager.updateSaveDevices(saveCVDevices)
+//        }
 //        .onChange(of: saveCVDevices) { oldValue, newValue in
 //            deviceManager.updateSaveDevices(newValue)
 //        }

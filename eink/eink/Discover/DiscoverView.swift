@@ -15,7 +15,7 @@ struct DiscoverView: View {
     @EnvironmentObject var appConfig:AppConfiguration
     //@Environment(DeviceManager.self) var deviceManager
     
-    @Binding var selectIndex:Int
+    //@Binding var selectIndex:Int
     @State private var showAddView:Bool = false
     @State private var isShowingPopup:Bool = false
     @State private var showSelectType:Bool = false
@@ -23,9 +23,9 @@ struct DiscoverView: View {
     //let model:Model = Model()
     @State private var model:Model
     
-    init(selectIndex:Binding<Int>) {
+    init() {
         debugPrint("new Init DiscoverView")
-        _selectIndex = selectIndex
+        //_selectIndex = selectIndex
         _model = State(initialValue: Model(deviceManager: DeviceManager.shared))
     }
     
@@ -42,53 +42,77 @@ struct DiscoverView: View {
         NavigationView {
             VStack(alignment:.leading, spacing: 10){
                 
-                HStack(alignment:.center, spacing: 10){
-                    Image("eink.logo")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 40, height: 40)
-                    
-                    Text("My Devices")
-                        .font(.mydevices)
-                        .fontWeight(.regular)
-                        .foregroundStyle(.mydevicestitle)
+//                HStack(alignment:.center, spacing: 10){
+//                    Image("eink.logo")
+//                        .resizable()
+//                        .aspectRatio(contentMode: .fill)
+//                        .frame(width: 40, height: 40)
+//                    
+//                    Text("My Devices")
+//                        .font(.mydevices)
+//                        .fontWeight(.regular)
+//                        .foregroundStyle(.mydevicestitle)
+//                    
+//                    Spacer()
+//                        
+//                }
+//                
+//                
+//                Text("\(showDevices.count) Devies")
+//                    .font(.deviceCount)
+//                    .fontWeight(.light)
+//                    .foregroundColor(.ekSubtitle)
+//                
+//                Spacer()
+                HStack{
+                    Text("Devies")
+                        .font(.deviceCount)
+                        .fontWeight(.bold)
+                        .foregroundColor(.sectionTitle)
+                        //.padding(.top, 60)
+                        .padding(.leading, 5)
                     
                     Spacer()
-                        
+                    
+                    Button(action: {
+                        withAnimation {
+                            showSelectType = true
+                        }
+                    }) {
+                        Image(systemName: "plus")
+                            .foregroundColor(.plusbutton)
+
+                    }
                 }
                 
                 
-                Text("\(showDevices.count) Devies")
-                    .font(.deviceCount)
-                    .fontWeight(.light)
-                    .foregroundColor(.ekSubtitle)
                 
-                Spacer()
-                
-                
-                Text("Devies")
-                    .font(.deviceCount)
-                    .fontWeight(.light)
-                    .foregroundColor(.sectionTitle)
-                    .padding(.top, 60)
-                    .padding(.leading, 5)
                 if showDevices.isEmpty {
                     VStack {
                         Spacer()
+                        
                         Button(action: {
                             showSelectType = true
                         }) {
-                            Image(systemName: "plus.app.fill")
-                                .resizable()
-                                .frame(width: 60, height: 60)
-                                .foregroundColor(.gray)
-                                .clipShape(Circle())
+                            
+                            ZStack {
+                                HStack {
+                                    Image(systemName: "plus.circle")
+                                        .foregroundColor(.white)
+                                        .font(.system(size: 20, weight: .regular))
+                                    Text("Add Device")
+                                        .foregroundColor(.white)
+                                        .font(.system(size: 14, weight: .regular))
+                                        .padding(.vertical, 10)
+                                }
+                                .padding(.horizontal, 60)
+                                
+                            }
+                            .background(.philipsBlue)
+                            .cornerRadius(30)
                         }
                         .padding()
                         
-                        
-                        Text("Please add a device")
-                            .padding()
                         Spacer()
                     }
                     .frame(maxWidth: .infinity)
@@ -106,13 +130,13 @@ struct DiscoverView: View {
                                     model.stopScan()
                                     let device = showDevices[index]
                                     if device.bleStatus == .connected {
-                                        selectIndex = index
+                                        //selectIndex = index
                                         appRouter.isConnected = true
                                         return
                                     }
                                     
                                     if device.bleStatus == .discovered  {
-                                        selectIndex = index
+                                        //selectIndex = index
                                         isShowingPopup = true
                                         Task {
                                             await model.connectDevice(device: device)
@@ -144,29 +168,31 @@ struct DiscoverView: View {
                 
             }
             .padding()
+            //居中显示的NaviegationTitle
+            .navigationTitle("E-ink Prism")
             
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        exportLog()
-                    }) {
-                        Image(systemName: "square.and.arrow.up")
-                            .foregroundColor(.opButton)
-                    }
-                }
-                ToolbarItem {
-                    Button(action: {
-                        withAnimation {
-                            showSelectType = true
-                        }
-                    }) {
-                        Image(systemName: "plus")
-                            .foregroundColor(.plusbutton)
-                            
-                    }
-                    
-                }
-            }
+//            .toolbar {
+//                ToolbarItem(placement: .navigationBarLeading) {
+//                    Button(action: {
+//                        exportLog()
+//                    }) {
+//                        Image(systemName: "square.and.arrow.up")
+//                            .foregroundColor(.opButton)
+//                    }
+//                }
+//                ToolbarItem {
+//                    Button(action: {
+//                        withAnimation {
+//                            showSelectType = true
+//                        }
+//                    }) {
+//                        Image(systemName: "plus")
+//                            .foregroundColor(.plusbutton)
+//                            
+//                    }
+//                    
+//                }
+//            }
         }
 //        .overlay {
 //            if showAddView {
@@ -280,6 +306,6 @@ struct DiscoverView: View {
 }
 
 #Preview {
-    DiscoverView(selectIndex: .constant(0))
+    DiscoverView()
         .environment(DeviceManager())
 }

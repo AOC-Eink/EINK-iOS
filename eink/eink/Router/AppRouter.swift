@@ -22,9 +22,9 @@ class AppRouter {
 enum Router: Hashable {
     
     case home(HomeRoute?)
-    case catagory(CatagoryRoute?)
-    case addDIY(AddRouter?)
-    case favorites(FavoritesRoute?)
+    case support
+//    case addDIY(AddRouter?)
+//    case favorites(FavoritesRoute?)
     case profile(ProfileRoute?)
     
     var id: Router { self }

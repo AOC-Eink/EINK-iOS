@@ -16,7 +16,7 @@ struct einkApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SplashView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
                 .environmentObject(appConfiguration)
                 .environment(deviceManager)
