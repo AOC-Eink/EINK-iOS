@@ -62,7 +62,7 @@ extension CoreDataStack {
         container.performBackgroundTask { context in
             let request = NSFetchRequest<InkDesign>(entityName: "InkDesign")
             let namePredicate = NSPredicate(format: "name = %@", name)
-            let deviceIdPredicate = NSPredicate(format: "deviceId = %@", item?.deviceId ?? "")
+            let deviceIdPredicate = NSPredicate(format: "pid = %@", item?.pid ?? "")
             let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [namePredicate, deviceIdPredicate])
             request.fetchLimit = 1
             request.predicate = compoundPredicate
@@ -83,7 +83,7 @@ extension CoreDataStack {
                 
                 let desgin = InkDesign(context: context)
                 desgin.name = newDesign.name
-                desgin.deviceId = newDesign.deviceId
+                desgin.pid = newDesign.pid
                 desgin.colors = newDesign.colors
                 desgin.hGrids = Int64(newDesign.hGrids)
                 desgin.vGrids = Int64(newDesign.vGrids)
@@ -97,7 +97,7 @@ extension CoreDataStack {
         container.performBackgroundTask { context in
             let request = NSFetchRequest<FavoriteDesign>(entityName: "FavoriteDesign")
             let namePredicate = NSPredicate(format: "name = %@", item.name)
-            let deviceIdPredicate = NSPredicate(format: "deviceId = %@", item.deviceId)
+            let deviceIdPredicate = NSPredicate(format: "pid = %@", item.pid)
             let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [namePredicate, deviceIdPredicate])
             request.fetchLimit = 1
             request.predicate = compoundPredicate
@@ -112,17 +112,17 @@ extension CoreDataStack {
                 
                 let desgin = FavoriteDesign(context: context)
                 desgin.name = item.name
-                desgin.deviceId = item.deviceId
+                desgin.pid = item.pid
                 try? context.save()
             }
         }
     }
     
-    func deleteDesignWithNameAndId(name: String, deviceId:String) throws {
+    func deleteDesignWithNameAndId(name: String, pid:String) throws {
         container.performBackgroundTask { context in
             let request = NSFetchRequest<FavoriteDesign>(entityName: "FavoriteDesign")
             let namePredicate = NSPredicate(format: "name = %@", name)
-            let deviceIdPredicate = NSPredicate(format: "deviceId = %@", deviceId)
+            let deviceIdPredicate = NSPredicate(format: "pid = %@", pid)
             let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [namePredicate, deviceIdPredicate])
             request.predicate = compoundPredicate
             do {

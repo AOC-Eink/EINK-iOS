@@ -7,10 +7,9 @@
 
 import Foundation
 
-extension DIYView {
     
     @Observable
-    class Model {
+    class DIYViewModel {
         
         let device:Device
         var colors:[String]
@@ -55,7 +54,7 @@ extension DIYView {
         
         func saveDesgin(_ name:String, _ isFavorite:Bool) {
             debugPrint("\(name)\":\"\(hexString)")
-            let design = Design(deviceId: device.indentify,
+            let design = Design(pid: device.devicePidString,
                                vGrids: vGirds,
                                hGrids: hGirds,
                                name: name,
@@ -70,8 +69,9 @@ extension DIYView {
             
             if isFavorite {
                 CoreDataStack.shared.insetFavoriteDesign(item: design)
-            } else {
-                try? CoreDataStack.shared.deleteDesignWithNameAndId(name: name, deviceId: device.indentify)
+            }
+            else {
+                try? CoreDataStack.shared.deleteDesignWithNameAndId(name: name, pid: device.devicePidString)
             }
         }
         
@@ -84,14 +84,17 @@ extension DIYView {
                 return String((0..<8).map { _ in letters.randomElement()! })
         }
         
-        func applay() async throws {
+        func applay(_ response:@escaping(Bool)->Void) async throws {
             //showToast.toggle()
         
-            try await device.deviceFuction?.sendColors(device, commandType: .writeCmd, colors: [colors], timeInterval: nil, response: nil)
+            try await device.deviceFuction?.sendColors(device, commandType: .writeCmd, colors: [colors], timeInterval: nil, response: { _ in
+                debugPrint("Colors sent successfully")
+                response(true)
+            })
             
             
         }
         
         
     }
-}
+

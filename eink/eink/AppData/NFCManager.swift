@@ -67,31 +67,7 @@ class NFCCommunicator: NSObject, NFCTagReaderSessionDelegate {
                 self.readTag(tag: miFareTag, session: session)
                 
             }
-        case .iso7816(let iso7816Tag):
-            session.connect(to: firstTag) { error in
-                if let error = error {
-                    session.invalidate(errorMessage: "连接ISO7816失败: \(error.localizedDescription)")
-                    return
-                }
-                // 这里可以操作iso7816Tag
-            }
-        case .iso15693(let iso15693Tag):
-            session.connect(to: firstTag) { error in
-                if let error = error {
-                    session.invalidate(errorMessage: "连接ISO15693失败: \(error.localizedDescription)")
-                    return
-                }
-                // 这里可以操作iso15693Tag
-            }
-        case .feliCa(let feliCaTag):
-            session.connect(to: firstTag) { error in
-                if let error = error {
-                    session.invalidate(errorMessage: "连接FeliCa失败: \(error.localizedDescription)")
-                    return
-                }
-                // 这里可以操作feliCaTag
-            }
-        @unknown default:
+        default:
             session.invalidate(errorMessage: "未知标签类型")
         }
     }

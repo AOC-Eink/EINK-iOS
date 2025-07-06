@@ -26,6 +26,7 @@
 		930D916A2CBA869600AA52BD /* DeviceCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930D91692CBA869600AA52BD /* DeviceCommand.swift */; };
 		930F2EA72CBAB35F00C6A7F8 /* PlaybackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930F2EA62CBAB35F00C6A7F8 /* PlaybackView.swift */; };
 		930F2EA92CBB3F8C00C6A7F8 /* CommandSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930F2EA82CBB3F8C00C6A7F8 /* CommandSender.swift */; };
+		933A17222E1A264D00853638 /* textView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933A17212E1A264900853638 /* textView.swift */; };
 		933EFF912C99CC9000856EE1 /* FetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933EFF902C99CC9000856EE1 /* FetchRequest.swift */; };
 		933EFF982C9E559100856EE1 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933EFF972C9E559000856EE1 /* AlertManager.swift */; };
 		936017C52CB697510021DE05 /* PacketFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936017C42CB697510021DE05 /* PacketFormat.swift */; };
@@ -118,6 +119,8 @@
 		930D91692CBA869600AA52BD /* DeviceCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceCommand.swift; sourceTree = "<group>"; };
 		930F2EA62CBAB35F00C6A7F8 /* PlaybackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackView.swift; sourceTree = "<group>"; };
 		930F2EA82CBB3F8C00C6A7F8 /* CommandSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandSender.swift; sourceTree = "<group>"; };
+		933A17212E1A264900853638 /* textView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = textView.swift; sourceTree = "<group>"; };
+		933A17232E1A5E6600853638 /* Untitled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Untitled.swift; sourceTree = "<group>"; };
 		933EFF902C99CC9000856EE1 /* FetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchRequest.swift; sourceTree = "<group>"; };
 		933EFF972C9E559000856EE1 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		936017C42CB697510021DE05 /* PacketFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PacketFormat.swift; sourceTree = "<group>"; };
@@ -288,6 +291,7 @@
 			children = (
 				93C898E12C9FFDB00001E331 /* Model */,
 				930BDA912C8C436E008672C5 /* ColorExtension.swift */,
+				933A17232E1A5E6600853638 /* Untitled.swift */,
 				93AF5B462CBCEC1000877C56 /* AlertWindow.swift */,
 				93E4B4FB2C8C4EA10094DEDD /* FontExtension.swift */,
 				93F292432C947C3A00ECCE35 /* ViewExtension.swift */,
@@ -321,6 +325,7 @@
 			isa = PBXGroup;
 			children = (
 				936D15E42C88AA2500066274 /* CatagoryView.swift */,
+				933A17212E1A264900853638 /* textView.swift */,
 			);
 			path = Catagory;
 			sourceTree = "<group>";
@@ -676,6 +681,7 @@
 				93C898ED2CA44A120001E331 /* DeviceManager.swift in Sources */,
 				936D15E32C88A9DD00066274 /* HomeView.swift in Sources */,
 				930BDA8B2C8B32F1008672C5 /* Device.swift in Sources */,
+				933A17222E1A264D00853638 /* textView.swift in Sources */,
 				93F332C92C8F3F2100C01091 /* PresetView.swift in Sources */,
 				936D15DC2C88A68C00066274 /* AppRouter.swift in Sources */,
 				93F2923E2C91E4B300ECCE35 /* TriangleGridView.swift in Sources */,

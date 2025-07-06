@@ -9,11 +9,11 @@ import SwiftUI
 import CoreData
 struct TabbarView: View {
     
-    @Environment(\.appRouter) var appRouter
+    @Environment(AppRouter.self) private var router
     @State private var onAddTouch:Bool = false
 //    @FetchRequest var designs: FetchedResults<InkDesign>
 //    @FetchRequest var fDesigns: FetchedResults<FavoriteDesign>
-    @State private var presetDesigns:[PresetDesign] = []
+//    @State private var presetDesigns:[PresetDesign] = []
     
     //let device:Device
     
@@ -27,21 +27,21 @@ struct TabbarView: View {
         
     }
     
-    func loadPresetDesigns(devicePid:String) {
-        guard let url = Bundle.main.url(forResource: "PresetColors", withExtension: "json") else {
-            print("无法找到配置文件")
-            return
-        }
-        do {
-            let data = try Data(contentsOf: url)
-            if let presets:[PresetDesign] = data.toModel(key: devicePid) {
-                presetDesigns = presets
-            }
-        } catch {
-            print("解析配置文件时出错: \(error)")
-            return
-        }
-    }
+//    func loadPresetDesigns(devicePid:String) {
+//        guard let url = Bundle.main.url(forResource: "PresetColors", withExtension: "json") else {
+//            print("无法找到配置文件")
+//            return
+//        }
+//        do {
+//            let data = try Data(contentsOf: url)
+//            if let presets:[PresetDesign] = data.toModel(key: devicePid) {
+//                presetDesigns = presets
+//            }
+//        } catch {
+//            print("解析配置文件时出错: \(error)")
+//            return
+//        }
+//    }
     
     
 //    var favoriteDesigns: [Design] {
@@ -100,17 +100,17 @@ struct TabbarView: View {
 //    @State private var diyFavorite:Bool = false
     
     
-    @State private var selectedTab: Router = .home(nil)
+//    @State private var selectedTab: Router = .home(nil)
     
     var body: some View {
         ZStack {
             ZStack(alignment: .bottom) {
-                TabView(selection: $selectedTab){
+                TabView(selection: router.selectedTabBinding()){
                     
                     DiscoverView()
                         .tabItem {
                             Label("Home", systemImage: "house")}
-                        .tag(Router.home(nil))
+                        .tag(AppTab.home)
 //                    HomeView(device:device, designs: categroyDesigns, customDesigns: customDesigns)
 //                        .tabItem {
 //                            Label("Home", systemImage: "house")}
@@ -134,12 +134,12 @@ struct TabbarView: View {
                         .tabItem {
                             Label("Support", systemImage: "ellipsis.message")
                         }
-                        .tag(Router.support)
+                        .tag(AppTab.support)
                     
                     ProfileView()
                         .tabItem {
                             Label("Profile", systemImage:  "person")}
-                        .tag(Router.profile(nil))
+                        .tag(AppTab.profile)
                     
                 }
                 .tint(.opButton)
@@ -198,6 +198,7 @@ struct TabbarView: View {
 
 #Preview {
     TabbarView()
+        .environment(AppRouter.shared)
 }
 //            .fullScreenCover(isPresented: $onAddTouch , content: {
 //                DIYView(device: device, isPresented: $onAddTouch)

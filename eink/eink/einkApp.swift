@@ -21,6 +21,7 @@ struct einkApp: App {
                 .environmentObject(appConfiguration)
                 .environment(deviceManager)
                 .environment(nfcCommunicator)
+                .withAppRouter()
                 
         }
     }

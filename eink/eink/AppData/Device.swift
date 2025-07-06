@@ -152,6 +152,10 @@ struct Device:Hashable, Equatable {
 //    mutating func updateStatus(_ status:String) {
 //        self.bleStatus = status
 //    }
+    //binding for device status
+    
+            
+    //把 isConnected 改为binding 类型
     
     var bleStatus:DeviceStatus {
         if deviceType == .phoneCase {
@@ -187,7 +191,7 @@ struct Device:Hashable, Equatable {
         case .clock:
             return "eink.clock.device"
         case .phoneCase:
-            return "eink.case.device"
+            return "default.case"
         case .speaker:
             return "eink.device.speaker"
         }
@@ -220,7 +224,7 @@ struct Device:Hashable, Equatable {
             return .phoneCase
         }
         
-        if bleDevice?.pid == 0x4E61 || bleDevice?.pid == 0x331C || bleDevice?.pid == 0x331D {
+        if bleDevice?.pid == 0x4E61 {
             return .clock
         }
         

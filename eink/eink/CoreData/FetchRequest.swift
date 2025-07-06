@@ -26,14 +26,14 @@ extension InkDevice {
 }
 
 extension FavoriteDesign {
-    static func designRequest(forDeviceId deviceId: String) -> NSFetchRequest<FavoriteDesign> {
+    static func designRequest(forPid pid: String) -> NSFetchRequest<FavoriteDesign> {
         let request = NSFetchRequest<FavoriteDesign>(entityName: "FavoriteDesign")
         
         // 设置排序规则
         request.sortDescriptors = [.init(key: "createTimestamp", ascending: false)]
         
         // 设置过滤条件 (根据 deviceId)
-        request.predicate = NSPredicate(format: "deviceId == %@", deviceId)
+        request.predicate = NSPredicate(format: "pid == %@", pid)
         
         // 设置返回对象不作为 faults
         request.returnsObjectsAsFaults = false
@@ -50,14 +50,14 @@ extension FavoriteDesign {
 }
 
 extension InkDesign {
-    static func designRequest(forDeviceId deviceId: String) -> NSFetchRequest<InkDesign> {
+    static func designRequest(forPid pid: String) -> NSFetchRequest<InkDesign> {
         let request = NSFetchRequest<InkDesign>(entityName: "InkDesign")
         
         // 设置排序规则
         request.sortDescriptors = [.init(key: "createTimestamp", ascending: false)]
         
         // 设置过滤条件 (根据 deviceId)
-        request.predicate = NSPredicate(format: "deviceId == %@", deviceId)
+        request.predicate = NSPredicate(format: "pid == %@", pid)
         
         // 设置返回对象不作为 faults
         request.returnsObjectsAsFaults = false

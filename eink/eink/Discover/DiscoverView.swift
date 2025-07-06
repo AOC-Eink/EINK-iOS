@@ -11,9 +11,10 @@ import SwiftfulLoadingIndicators
 import BLECommunicator
 
 struct DiscoverView: View {
-    @Environment(\.appRouter) var appRouter
+    @Environment(AppRouter.self) private var router
     @EnvironmentObject var appConfig:AppConfiguration
-    //@Environment(DeviceManager.self) var deviceManager
+    @FetchRequest var savedDevices: FetchedResults<InkDevice>
+    @Environment(DeviceManager.self) var deviceManager
     
     //@Binding var selectIndex:Int
     @State private var showAddView:Bool = false
@@ -27,6 +28,13 @@ struct DiscoverView: View {
         debugPrint("new Init DiscoverView")
         //_selectIndex = selectIndex
         _model = State(initialValue: Model(deviceManager: DeviceManager.shared))
+
+        let request: NSFetchRequest<InkDevice> = InkDevice.deviceRequest
+        _savedDevices = FetchRequest(fetchRequest: request)
+    }
+    
+    var saveCVDevices:[InkDevice] {
+        savedDevices.map{$0}
     }
     
     
@@ -37,139 +45,67 @@ struct DiscoverView: View {
         model.showDevices
     }
     
+
     var body: some View {
         
-        NavigationView {
+        NavigationStack(path: router.navigationPathBinding()) {
             VStack(alignment:.leading, spacing: 10){
                 
-//                HStack(alignment:.center, spacing: 10){
-//                    Image("eink.logo")
-//                        .resizable()
-//                        .aspectRatio(contentMode: .fill)
-//                        .frame(width: 40, height: 40)
-//                    
-//                    Text("My Devices")
-//                        .font(.mydevices)
-//                        .fontWeight(.regular)
-//                        .foregroundStyle(.mydevicestitle)
-//                    
-//                    Spacer()
-//                        
-//                }
-//                
-//                
-//                Text("\(showDevices.count) Devies")
-//                    .font(.deviceCount)
-//                    .fontWeight(.light)
-//                    .foregroundColor(.ekSubtitle)
-//                
-//                Spacer()
-                HStack{
-                    Text("Devies")
-                        .font(.deviceCount)
-                        .fontWeight(.bold)
-                        .foregroundColor(.sectionTitle)
-                        //.padding(.top, 60)
-                        .padding(.leading, 5)
-                    
-                    Spacer()
-                    
-                    Button(action: {
-                        withAnimation {
-                            showSelectType = true
-                        }
-                    }) {
-                        Image(systemName: "plus")
-                            .foregroundColor(.plusbutton)
-
-                    }
-                }
-                
-                
+                headArea
                 
                 if showDevices.isEmpty {
-                    VStack {
-                        Spacer()
-                        
-                        Button(action: {
-                            showSelectType = true
-                        }) {
-                            
-                            ZStack {
-                                HStack {
-                                    Image(systemName: "plus.circle")
-                                        .foregroundColor(.white)
-                                        .font(.system(size: 20, weight: .regular))
-                                    Text("Add Device")
-                                        .foregroundColor(.white)
-                                        .font(.system(size: 14, weight: .regular))
-                                        .padding(.vertical, 10)
-                                }
-                                .padding(.horizontal, 60)
-                                
-                            }
-                            .background(.philipsBlue)
-                            .cornerRadius(30)
-                        }
-                        .padding()
-                        
-                        Spacer()
-                    }
-                    .frame(maxWidth: .infinity)
+                    emptyView
                 } else {
-                    ScrollView {
-                        
-                        LazyVGrid(columns: columns) {
-                            ForEach(Array(showDevices.enumerated()), id: \.offset) {index, item in
-                                DeviceCard(name: item.deviceName,
-                                           status: item.bleStatus.statusName,
-                                           image: item.deviceImage,
-                                           color: item.bleStatus.statusBg
-                                )
-                                .onTapGesture {
-                                    model.stopScan()
-                                    let device = showDevices[index]
-                                    if device.bleStatus == .connected {
-                                        //selectIndex = index
-                                        appRouter.isConnected = true
-                                        return
-                                    }
-                                    
-                                    if device.bleStatus == .discovered  {
-                                        //selectIndex = index
-                                        isShowingPopup = true
-                                        Task {
-                                            await model.connectDevice(device: device)
-                                        }
-                                        
-                                    }
-
-                                }
-                                .contextMenu {
-                                    
-                                    Button {
-                                        let device = showDevices[index]
-                                        Task {
-                                            await model.removeDevice(device: device)
-                                        }
-                                       
-                                    } label: {
-                                        Label("Remove", systemImage: "trash.slash")
-                                    }
-                                }
-                            }
-                        }
-                        
-                    }
+                    deviceCountView
                 }
-                //.padding()
-                
-                
-                
             }
             .padding()
-            //居中显示的NaviegationTitle
             .navigationTitle("E-ink Prism")
+            .navigationDestination(for: AppDestination.self) { destination in
+                switch destination {
+                case .device(let id):
+                    if let device = showDevices.first(where: { $0.id == id }) {
+                        HomeView(device: device)
+                            
+                    } else {
+                        Text("Device not found")
+                            .foregroundColor(.red)
+                    }
+                case .category(deviceId: let deviceId):
+                    if let device = showDevices.first(where: { $0.id == deviceId }) {
+                        CatagoryView(device: device)
+                    } else {
+                        Text("Device not found")
+                            .foregroundColor(.red)
+                    }
+                case .favorite(deviceId: let deviceId, favorites: let favoriteDesigns):
+                    if let device = showDevices.first(where: { $0.id == deviceId }) {
+                        FavoriteView(device: device, designs:favoriteDesigns)
+                    } else {
+                        Text("Device not found")
+                            .foregroundColor(.red)
+                    }
+                //customize(deviceId:String, name:String, colors:[String], favorite:Bool)
+                case .customize(deviceId: let deviceId, name: let name, colors: let colors, favorite: let favorite):
+
+                    if let device = showDevices.first(where: { $0.id == deviceId }) {
+                        DIYView(device: device, name: name, colors: colors, favorite: favorite)
+                    } else {
+                        Text("Device not found")
+                            .foregroundColor(.red)
+                    }
+                case .sendDesigns(deviceId: let deviceId, designs: let designs):
+                    if let device = showDevices.first(where: { $0.id == deviceId }) {
+                        PlaybackView(device: device, designs: designs)
+                    } else {
+                        Text("Device not found")
+                            .foregroundColor(.red)
+                    }
+
+                default:
+                    EmptyView()
+                }
+            }
             
 //            .toolbar {
 //                ToolbarItem(placement: .navigationBarLeading) {
@@ -235,6 +171,7 @@ struct DiscoverView: View {
         }
         
         .onAppear{
+            deviceManager.updateSaveDevices(saveCVDevices)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 model.refreshDevicesStatus()
             }
@@ -244,21 +181,24 @@ struct DiscoverView: View {
             isShowingPopup = false
             if error == "success" {
                 
-                appRouter.isConnected = true
+                //appRouter.isConnected = true
                 return
             }
             AlertWindow.show(title: "Reminder", message: error, onTap:{
                 model.refreshDevicesStatus()
             })
         }
-        .onChange(of: appRouter.isConnected) { oldValue, newValue in
-            
-            if (oldValue ?? false) && !(newValue ?? true) {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    model.refreshDevicesStatus()
-                }
-            }
+        .onChange(of: saveCVDevices) { oldValue, newValue in
+            deviceManager.updateSaveDevices(newValue)
         }
+//        .onChange(of: appRouter.isConnected) { oldValue, newValue in
+//            
+//            if (oldValue ?? false) && !(newValue ?? true) {
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                    model.refreshDevicesStatus()
+//                }
+//            }
+//        }
         .overlay(
             Group {
                 if isShowingPopup {
@@ -280,6 +220,110 @@ struct DiscoverView: View {
             }
         )
         
+    }
+    
+    
+    var headArea: some View {
+        HStack{
+            Text("Devies")
+                .font(.deviceCount)
+                .fontWeight(.bold)
+                .foregroundColor(.sectionTitle)
+                //.padding(.top, 60)
+                .padding(.leading, 5)
+            
+            Spacer()
+            
+            Button(action: {
+                withAnimation {
+                    showSelectType = true
+                }
+            }) {
+                Image(systemName: "plus")
+                    .foregroundColor(.plusbutton)
+
+            }
+        }
+    }
+    
+    @ViewBuilder
+    var deviceCountView: some View {
+        ScrollView {
+            
+            LazyVGrid(columns: columns) {
+                ForEach(Array(showDevices.enumerated()), id: \.offset) {index, item in
+                    DeviceCard(name: item.deviceName,
+                               status: item.bleStatus.statusName,
+                               image: item.deviceImage,
+                               color: item.bleStatus.statusBg
+                    )
+                    .onTapGesture {
+                        model.stopScan()
+                        let device = showDevices[index]
+                        if device.bleStatus == .connected {
+                            //selectIndex = index
+                            //appRouter.isConnected = true
+                            router.navigate(to: .device(id: device.id))
+                            return
+                        }
+                        
+                        if device.bleStatus == .discovered  {
+                            //selectIndex = index
+                            isShowingPopup = true
+                            Task {
+                                await model.connectDevice(device: device)
+                            }
+                            
+                        }
+
+                    }
+                    .contextMenu {
+                        
+                        Button {
+                            let device = showDevices[index]
+                            Task {
+                                await model.removeDevice(device: device)
+                            }
+                           
+                        } label: {
+                            Label("Remove", systemImage: "trash.slash")
+                        }
+                    }
+                }
+            }
+            
+        }
+    }
+    
+    var emptyView: some View {
+        VStack {
+            Spacer()
+            
+            Button(action: {
+                showSelectType = true
+            }) {
+                
+                ZStack {
+                    HStack {
+                        Image(systemName: "plus.circle")
+                            .foregroundColor(.white)
+                            .font(.system(size: 20, weight: .regular))
+                        Text("Add Device")
+                            .foregroundColor(.white)
+                            .font(.system(size: 14, weight: .regular))
+                            .padding(.vertical, 10)
+                    }
+                    .padding(.horizontal, 60)
+                    
+                }
+                .background(.philipsBlue)
+                .cornerRadius(30)
+            }
+            .padding()
+            
+            Spacer()
+        }
+        .frame(maxWidth: .infinity)
     }
     
     func exportLog() {
@@ -307,5 +351,6 @@ struct DiscoverView: View {
 
 #Preview {
     DiscoverView()
-        .environment(DeviceManager())
+        .environment(DeviceManager.shared)
+        .environment(AppRouter.shared)
 }

@@ -42,7 +42,7 @@ enum PageType {
 
 struct PresetGridView: View {
     
-    @Environment(\.appRouter) var appRouter
+    @Environment(AppRouter.self) private var router
     @Environment(\.goDIYView) var goDIYView
     @State private var showToast = false
     @Environment(DeviceManager.self) var deviceManager
@@ -147,12 +147,12 @@ struct PresetGridView: View {
     var body: some View {
         VStack(alignment:.leading){
             
-            if !sectionName.isEmpty {
-                Text(sectionName)
-                    .padding(.leading, 10)
-                    .font(.sectionBoldTitle)
-                    .foregroundStyle(.sectionTitle)
-            }
+//            if !sectionName.isEmpty {
+//                Text(sectionName)
+//                    .padding(.leading, 10)
+//                    .font(.sectionBoldTitle)
+//                    .foregroundStyle(.sectionTitle)
+//            }
             
             
             LazyVGrid(columns: device.gridLayout, spacing: 10) {
@@ -182,7 +182,12 @@ struct PresetGridView: View {
                         case .delete:
                             deleteAlert(item.name)
                         case .favorite:
-                            break
+                            if item.favorite {
+                                try? CoreDataStack.shared.deleteDesignWithNameAndId(name: item.name, pid: item.pid)
+                            } else {
+                                CoreDataStack.shared.insetFavoriteDesign(item: item)
+                            }
+                            
                         }
                                 
                        }

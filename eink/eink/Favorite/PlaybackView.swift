@@ -17,11 +17,11 @@ enum PlaybackMode {
 }
 
 struct PlaybackView: View {
-    @Environment(\.appRouter) private var appRouter
+    @Environment(AppRouter.self) private var router
     
     let device:Device
     let designs:[Design]
-    @Binding var showBottomSheet:Bool
+    //@Binding var showBottomSheet:Bool
     @State private var showToast = false
     @State private var showAddView = false
     
@@ -111,7 +111,7 @@ struct PlaybackView: View {
             AlertToast(type: .systemImage("checkmark.circle", .opButton), title: "Message Sent!")
         }, completion: {
             showToast = false
-            showBottomSheet.toggle()
+            //showBottomSheet.toggle()
         })
         .sheet(isPresented: $showAddView) {
             SelectDesginView(device: device, designs: designs, showAddView: $showAddView)
@@ -245,7 +245,7 @@ struct PlaybackView: View {
     private var actionButtonsSection: some View {
         HStack(spacing:40) {
             CustomButton(title: "Cancel", bgColor: selectDesgins.isEmpty ? .opButton : .deviceItemShadow) {
-                showBottomSheet.toggle()
+                //showBottomSheet.toggle()
             }
 
             CustomButton(title: "Confirm", bgColor: selectDesgins.isEmpty ? .deviceItemShadow : .opButton) {
@@ -279,7 +279,7 @@ struct PlaybackView: View {
                 } else {
                     Logger.shared.log("--不存在写特证 Confirm 发送 333--")
                     AlertWindow.show(title: "Reminder", message: "设备异常，请重新连接。") {
-                        appRouter.isConnected = false
+                        //appRouter.isConnected = false
                     }
                 }
             }
@@ -313,5 +313,5 @@ struct ColoredToggleStyle: ToggleStyle {
 }
 
 #Preview {
-    PlaybackView(device: Device(indentify: "", deviceName: "EINK Phone Case"), designs: [], showBottomSheet: .constant(true))
+    PlaybackView(device: Device(indentify: "", deviceName: "EINK Phone Case"), designs: [])
 }

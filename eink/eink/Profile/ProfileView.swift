@@ -10,7 +10,7 @@ import BLECommunicator
 
 struct ProfileView: View {
     
-    @Environment(\.appRouter) var appRouter
+    //@Environment(\.appRouter) var appRouter
 
     var body: some View {
         NavigationStack {
@@ -43,7 +43,7 @@ struct ProfileView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: {
-                        appRouter.isConnected?.toggle()
+                        //appRouter.isConnected?.toggle()
                     }) {
                         Image(systemName: "chevron.backward")
                             .foregroundColor(.plusbutton)

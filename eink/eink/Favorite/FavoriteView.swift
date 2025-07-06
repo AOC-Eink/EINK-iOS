@@ -16,47 +16,40 @@ struct FavoriteView: View {
     @State private var timerCancellable: AnyCancellable?
     @State private var counter = 0
     
-    @Environment(\.appRouter) var appRouter
+    @Environment(AppRouter.self) private var router
     
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                PresetGridView(device: device, designs: designs, pageType: .favorite)
-            }
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button(action: {
-                        appRouter.isConnected?.toggle()
-                    }) {
-                        Image(systemName: "chevron.backward")
-                            .foregroundColor(.plusbutton)
-                    }
-                }
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button(action: {
-                        showBottomSheet.toggle()
-                    
-                    }) {
-                        Image(systemName: "play.circle")
-                            .foregroundColor(.plusbutton)
-                    }
-                }
-                ToolbarItem(placement: .principal) {
-                    Text("Favorite")
-                        .font(.title)
-                        .foregroundStyle(.mydevicestitle)
 
+        ScrollView {
+            PresetGridView(device: device, designs: designs, pageType: .favorite)
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+        
+            ToolbarItem(placement: .topBarTrailing) {
+                Button(action: {
+                    router.navigate(to: .sendDesigns(deviceId: device.id, designs: designs))
+                
+                }) {
+                    Image(systemName: "play.circle")
+                        .foregroundColor(.plusbutton)
                 }
+            }
+            ToolbarItem(placement: .principal) {
+                Text("Favorite")
+                    .font(.navTitle)
+                    .foregroundStyle(.mydevicestitle)
+
             }
         }
-        .sheet(isPresented: $showBottomSheet) {
-            PlaybackView(device: device, designs: designs, showBottomSheet: $showBottomSheet)
+//        
+//        .sheet(isPresented: $showBottomSheet) {
+//            PlaybackView(device: device, designs: designs, showBottomSheet: $showBottomSheet)
                 //.presentationDetents([.height(400)])
                 //.presentationDragIndicator(.visible)
 //                .cornerRadius(40, corners: [.topLeft, .topRight])
 //                .shadow(color: .deviceItemShadow, radius: 5, x: 1, y: -5)
-        }
+//        }
         
     }
 }

@@ -19,6 +19,7 @@ extension Font {
     static let sectionBoldTitle = Font.custom("Arial-BoldMT", size: 14)
     static let contentTitle = Font.custom("ArialMT", size: 12)
     static let contentBoldTitle = Font.custom("Arial-BoldMT", size: 12)
+    static let navTitle = Font.custom("Arial-BoldMT", size: 16)
 
     
 }

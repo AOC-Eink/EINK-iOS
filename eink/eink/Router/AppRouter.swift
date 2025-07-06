@@ -1,79 +1,144 @@
 //
-//  AppRouter.swift
-//  eink
+//  Router.swift
+//  GitHubDemo
 //
-//  Created by Aaron on 2024/9/4.
+//  Created by Aaron on 2025/4/20.
 //
 
-import Foundation
 import SwiftUI
+import Observation
 
-@Observable
-class AppRouter {
+
+enum AppDestination: Hashable, Identifiable {
     
-    var router:Router?
-    var isConnected:Bool?
+    case device(id:String)
+    case category(deviceId:String)
+    case favorite(deviceId:String, favorites:[Design])
+    case customize(deviceId:String, name:String, colors:[String], favorite:Bool)
+    case designDetail(deviceId:String, design:Design)
+    case sendDesigns(deviceId:String, designs:[Design])
     
-    func updateRouter(_ route: Router) {
-        router = route
-    }
+    var id: Self { self }
 }
 
-enum Router: Hashable {
-    
-    case home(HomeRoute?)
+
+enum AppTab: Hashable {
+    case home
     case support
-//    case addDIY(AddRouter?)
-//    case favorites(FavoritesRoute?)
-    case profile(ProfileRoute?)
+    case profile
+}
+
+
+@Observable class AppRouter {
+
+    static let shared = AppRouter()
     
-    var id: Router { self }
+
+    var selectedTab: AppTab = .home
     
-}
-
-enum HomeRoute: Hashable {
-    case deviceHome(Int)
-}
-
-enum CatagoryRoute: Hashable {
-    case category(String)
-    case item(String)
-}
-
-enum AddRouter: Hashable {
-    case new
-    case edit(InkDesign)
-}
-
-enum FavoritesRoute: Hashable {
-    case list
-}
-
-enum ProfileRoute: Hashable {
-    case detail
-}
-
-
-struct NavigateEnvironmentKey:EnvironmentKey {
-    static var defaultValue: (AppRouter)->Void = {
-        #if DEBUG
-        print("go to \($0)'s route view")
-        #endif
+    func selectedTabBinding() -> Binding<AppTab> {
+        Binding(
+            get: { self.selectedTab },
+            set: { self.selectedTab = $0 }
+        )
     }
-}
+    
 
-struct RouteEnvironmentKey:EnvironmentKey {
-    static var defaultValue:AppRouter = AppRouter()
-}
+    var navigationPath = NavigationPath()
+    
+    func navigationPathBinding() -> Binding<NavigationPath> {
+       Binding(
+           get: { self.navigationPath },
+           set: { self.navigationPath = $0 }
+       )
+   }
+    
 
-extension EnvironmentValues {
-//    var router:(AppRouter)->Void {
-//        get { self[NavigateEnvironmentKey.self] }
-//        set { self[NavigateEnvironmentKey.self] = newValue }
+    var presentedSheet: AppDestination? = nil
+    
+    func presentSheetBinding() -> Binding<AppDestination?> {
+        Binding(
+            get: { self.presentedSheet },
+            set: { self.presentedSheet = $0 }
+        )
+    }
+    
+
+    var presentedFullScreenCover: AppDestination? = nil
+    
+    func presentedFullScreenCoverBinding() -> Binding<AppDestination?> {
+        Binding(
+            get: { self.presentedFullScreenCover},
+            set: { self.presentedFullScreenCover = $0 }
+        )
+    }
+    
+    private init() {}
+    
+    // MARK: - 导航方法
+
+    func switchTab(to tab: AppTab) {
+        selectedTab = tab
+    }
+    
+
+    func navigate(to destination: AppDestination) {
+        navigationPath.append(destination)
+    }
+    
+
+    func navigateBack() {
+        if !navigationPath.isEmpty {
+            navigationPath.removeLast()
+        }
+    }
+    
+
+    func navigateToRoot() {
+        navigationPath = NavigationPath()
+    }
+    
+
+    func presentSheet(_ destination: AppDestination) {
+        presentedSheet = destination
+    }
+    
+
+    func dismissSheet() {
+        presentedSheet = nil
+    }
+    
+    
+    func presentFullScreenCover(_ destination: AppDestination) {
+        presentedFullScreenCover = destination
+    }
+    
+    func dismissFullScreenCover() {
+        presentedFullScreenCover = nil
+    }
+    
+    // MARK: -
+    
+//    func navigateToUserDetail(username: String) {
+//        navigate(to: .userDetail(username: username))
+//    }
+//    
+//    func openRepositoryWebView(url: URL) {
+//        presentSheet(.repositoryWebView(url: url))
+//    }
+//    
+//    func handleSuccessfulLogin() {
+//        navigateToRoot()
+//        switchTab(to: .userList)
 //    }
     
-    var appRouter: AppRouter {
-        get { self[RouteEnvironmentKey.self] }
-        set { self[RouteEnvironmentKey.self] = newValue }
+    func handleLogout() {
+        navigateToRoot()
+    }
+}
+
+extension View {
+    func withAppRouter() -> some View {
+        self.environment(AppRouter.shared)
     }
 }

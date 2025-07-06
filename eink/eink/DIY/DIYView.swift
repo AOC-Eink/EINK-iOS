@@ -9,18 +9,22 @@ import SwiftUI
 
 struct DIYView: View {
     
-    let model:Model
+    @State private var model:DIYViewModel
     
-    @Environment(\.appRouter) var appRouter
+    @Environment(AppRouter.self) private var router
     
     
     @State private var selectIndex:Int?
     
-    @Binding var isPresented:Bool
-    
     @State var currentColor:String?
     
     @Environment(\.displayScale) var displayScale
+    
+    
+    init(device: Device, name:String = "DIY", colors:[String] = [], favorite:Bool = false) {
+        
+        _model = State(initialValue: DIYViewModel(device, name: name, colors: colors, favorite: favorite))
+    }
     
     var itemWidth: CGFloat {
         let baseWidth: CGFloat = model.itemWidth
@@ -39,7 +43,7 @@ struct DIYView: View {
     
     var body: some View {
         VStack{
-            topbarView
+            //topbarView
             Spacer()
             ZStack(alignment:.topLeading){
                 
@@ -96,7 +100,7 @@ struct DIYView: View {
     var topbarView: some View {
         HStack {
             Button(action: {
-                isPresented = false
+                
             }) {
                 Image(systemName: "chevron.down")
                     .foregroundColor(.plusbutton)
@@ -133,16 +137,16 @@ struct DIYView: View {
                 }
             },
             onSave: { isFavorite, name in
-                
                 model.saveDesgin(name, isFavorite)
-                
-                isPresented = false
+                router.navigateBack()
             },
             onEmploy: {
             
                 Task{
                     do {
-                        try await model.applay()
+                        try await model.applay({ _ in
+                            router.navigateBack()
+                        })
                     } catch  {
                         AlertWindow.show(title: "Apply failured", message: "\(error.localizedDescription)")
                     }
@@ -153,6 +157,6 @@ struct DIYView: View {
     }
 }
 
-#Preview {
-    DIYView(model: DIYView.Model(DeviceManager.shared.showDevices.last!), isPresented: .constant(false))
-}
+//#Preview {
+//    DIYView(model: DIYViewModel(DeviceManager.shared.showDevices.last!), isPresented: .constant(false))
+//}

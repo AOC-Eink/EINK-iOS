@@ -26,4 +26,12 @@ public struct BLEDevice: Identifiable {
         self.peripheral = peripheral
         self.mac = mac
     }
+    
+    
+    public static var mockDevice: BLEDevice {
+        let mockPeripheral = unsafeBitCast(
+            NSObject(), to: CBPeripheral.self
+        )
+        return BLEDevice(peripheral: mockPeripheral, pid: 0x4E62, mid: 1, mac: "00:11:22:33:44:55")
+    }
 }

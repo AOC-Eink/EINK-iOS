@@ -32,7 +32,7 @@ class DeviceManager:BLEDataService {
     
     
     var discoveredDevices:Array<Device> = []
-    //var saveDevices:Array<InkDevice> = []
+    var saveDevices:Array<InkDevice> = []
     var showDevices:Array<Device> = []
     //var dbShowDevices:Array<Device> = []
     
@@ -445,6 +445,14 @@ class DeviceManager:BLEDataService {
         default:
             return 0x33
         }
+    }
+    
+    
+    var mockDevice:Device {
+        Device(indentify: "mock-device",
+               deviceName: "Mock Device",
+               bleDevice: BLEDevice.mockDevice,
+               deviceFunction: self)
     }
     
 }

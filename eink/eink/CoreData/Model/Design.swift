@@ -8,7 +8,7 @@
 import Foundation
 
 struct Design: Equatable, Hashable {
-    let deviceId:String
+    let pid:String
     let vGrids:Int
     let hGrids:Int
     let name:String

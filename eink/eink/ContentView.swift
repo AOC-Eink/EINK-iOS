@@ -12,27 +12,27 @@ struct ContentView: View {
     
     @EnvironmentObject var appConfig:AppConfiguration
     
-    @FetchRequest var savedDevices: FetchedResults<InkDevice>
+    //@FetchRequest var savedDevices: FetchedResults<InkDevice>
     @Environment(DeviceManager.self) var deviceManager
-    @Environment(\.appRouter) var appRouter
+    @Environment(AppRouter.self) private var router
     @State var selectIndex:Int = 0
     
     
-    init() {
-        let request: NSFetchRequest<InkDevice> = InkDevice.deviceRequest
-        _savedDevices = FetchRequest(fetchRequest: request)
-    }
-    
-    var saveCVDevices:[InkDevice] {
-        savedDevices.map{$0}
-    }
+//    init() {
+//        let request: NSFetchRequest<InkDevice> = InkDevice.deviceRequest
+//        _savedDevices = FetchRequest(fetchRequest: request)
+//    }
+//    
+//    var saveCVDevices:[InkDevice] {
+//        savedDevices.map{$0}
+//    }
     
     var activeDevice:Device {
         let saveDevices:[Device] = deviceManager.showDevices
         return saveDevices[selectIndex]
         
     }
-    var isConnected: Bool {self.appRouter.isConnected ?? false}
+//    var isConnected: Bool {self.appRouter.isConnected ?? false}
 //    Binding<Bool> {
 //        Binding<Bool>(
 //            get: { self.appRouter.isConnected ?? false },
@@ -62,17 +62,14 @@ struct ContentView: View {
 //        .fullScreenCover(isPresented: showOnboarding) {
 //            GuideView()
 //        }
-//        .onAppear{
-//            deviceManager.updateSaveDevices(saveCVDevices)
-//        }
-//        .onChange(of: saveCVDevices) { oldValue, newValue in
-//            deviceManager.updateSaveDevices(newValue)
-//        }
         
     }
 }
 
 
 #Preview {
-    ContentView().environmentObject(AppConfiguration())
+    ContentView()
+        .environmentObject(AppConfiguration())
+        .environment(DeviceManager.shared)
+        .environment(AppRouter.shared)
 }
