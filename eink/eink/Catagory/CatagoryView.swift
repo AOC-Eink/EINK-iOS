@@ -100,7 +100,7 @@ struct CatagoryView: View {
                             device: device,
                             designs: designs,
                             pageType: .category,
-                            sectionName: selectedCategory
+                            isEditing: .constant(false)
                         )
                     }
                 }

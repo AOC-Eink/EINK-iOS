@@ -20,7 +20,8 @@ struct SelectDesginView: View {
         VStack{
             
             ScrollView {
-                PresetGridView(device: device, designs: designs, pageType: .select)
+                PresetGridView(device: device, designs: designs, pageType: .select, isEditing: .constant(false))
+                    
             }
             .padding(.all, 6)
             

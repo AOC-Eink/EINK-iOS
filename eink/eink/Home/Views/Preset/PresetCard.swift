@@ -16,6 +16,7 @@ struct PresetCard: View {
     let ratio:CGFloat = 1.0
     @State var showPopover = false
     @State private var isSelected:Bool = false
+    @Binding var isEdit:Bool
     @Environment(\.selectDesign) private var selectDesign
     
     var onTouch:((EditAction)->Void)?
@@ -36,7 +37,7 @@ struct PresetCard: View {
     }
     
     var body: some View {
-        ZStack(alignment:.topLeading) {
+//        ZStack(alignment:.topLeading) {
             VStack(alignment:.center, spacing: 10){
                     
                 if (presetView != nil) {
@@ -44,26 +45,30 @@ struct PresetCard: View {
                         .allowsHitTesting(false)
                 }
                 
-                Text(title)
-                    .font(.deviceCount)
-                    .foregroundStyle(.sectionTitle)
-            }
-            if pageType == .select {
+                if isEdit {
+                    Image(systemName: isSelected ? "checkmark.square.fill":"checkmark.square")
+                        .resizable()
+                        .frame(width: 28, height: 28)
+                        .foregroundStyle(isSelected ? .philipsBlue : .deviceItemShadow)
+                } else {
+                    //占位height 28
+                    Color.clear
+                        .frame(height: 28)
+                    
+                }
                 
-                //isSelected ? Color.selectCover : .clear
-                
-                Image(systemName: isSelected ? "checkmark.circle.fill":"checkmark.circle")
-                    .resizable()
-                    .frame(width: 28, height: 28)
-                    .foregroundStyle(isSelected ? .opButton : .deviceItemShadow)
-                
-                
-                
+//                Text(title)
+//                    .font(.deviceCount)
+//                    .foregroundStyle(.sectionTitle)
             }
             
-        }
+            
+//        }
         
         .background(Color.white) // 设置背景色
+        .environment(\.triggleEdit) { isEdit in
+            self.isEdit = isEdit
+        }
         
         .onTapGesture {
             if actions.isEmpty { 

@@ -17,21 +17,22 @@ struct FavoriteView: View {
     @State private var counter = 0
     
     @Environment(AppRouter.self) private var router
+    @State private var isEditing: Bool = false
     
     var body: some View {
 
         ScrollView {
-            PresetGridView(device: device, designs: designs, pageType: .favorite)
+            PresetGridView(device: device, designs: designs, pageType: .select, isEditing: $isEditing)
+                
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
         
             ToolbarItem(placement: .topBarTrailing) {
                 Button(action: {
-                    router.navigate(to: .sendDesigns(deviceId: device.id, designs: designs))
-                
+                    isEditing.toggle()
                 }) {
-                    Image(systemName: "play.circle")
+                    Image(systemName: isEditing ? "app.badge.checkmark" : "ellipsis")
                         .foregroundColor(.plusbutton)
                 }
             }

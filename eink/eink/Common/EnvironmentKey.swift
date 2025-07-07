@@ -28,6 +28,14 @@ struct SelectDesginKey: EnvironmentKey {
     }
 }
 
+struct TriggleEditKey: EnvironmentKey {
+    static var defaultValue:(Bool) -> Void = { value in
+        #if DEBUG
+        print("Triggle edit mode: \(value)")
+        #endif
+    }
+}
+
 extension EnvironmentValues {
     var goDIYView: ([String]?, String?, Bool?, Bool) -> Void {
         get { self[GoDIYViewKey.self] }
@@ -42,5 +50,10 @@ extension EnvironmentValues {
     var selectDesign: (Design, Bool) -> Void {
         get {self[SelectDesginKey.self]}
         set {self[SelectDesginKey.self] = newValue}
+    }
+    
+    var triggleEdit: (Bool) -> Void {
+        get {self[TriggleEditKey.self]}
+        set {self[TriggleEditKey.self] = newValue}
     }
 }

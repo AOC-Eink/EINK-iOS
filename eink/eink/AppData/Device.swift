@@ -258,11 +258,10 @@ struct Device:Hashable, Equatable {
             
         case .phoneCase:
             return [GridItem(.flexible()),
-                    GridItem(.flexible()),
-                    GridItem(.flexible())]
+                    GridItem(.flexible())
+                    ]
         case .speaker:
             return [GridItem(.flexible()),
-                    GridItem(.flexible()),
                     GridItem(.flexible())]
         }
     }
@@ -275,7 +274,7 @@ struct Device:Hashable, Equatable {
                                 cornerRadius: 35,
                                 borderWidth: 5,
                                 borderColor: .caseBorderWhite,
-                                heightRatio: 1.0, presetSize: 25)
+                                heightRatio: 1.0, presetSize: 35)
                 
             case .clock:
                 return InkStyle(itemWidth: 100,

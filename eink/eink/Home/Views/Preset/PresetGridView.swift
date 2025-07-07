@@ -48,16 +48,18 @@ struct PresetGridView: View {
     @Environment(DeviceManager.self) var deviceManager
     @Environment(NFCCommunicator.self) var nfcCommunicator
     
+    @Binding var isEditing: Bool
+    
     
     let device:Device
     let designs:[Design]
     let pageType:PageType
     
-    init(device: Device, designs: [Design] = [], pageType: PageType = .preset, sectionName:String = "") {
+    init(device: Device, designs: [Design] = [], pageType: PageType = .preset, isEditing: Binding<Bool>) {
         self.device = device
         self.designs = designs
         self.pageType = pageType
-        self.sectionName = sectionName
+        self._isEditing = isEditing // 默认不编辑
     }
     
     func deleteAlert(_ name:String) {
@@ -142,8 +144,6 @@ struct PresetGridView: View {
         goDIYView(design.colors.components(separatedBy: ",") ,design.name, design.favorite, design.category == "custom")
     }
     
-    let sectionName:String
-    
     var body: some View {
         VStack(alignment:.leading){
             
@@ -168,6 +168,7 @@ struct PresetGridView: View {
                                                       inkStyle: device.inkStyle, 
                                                       itemWidth:device.inkStyle.presetSize
                                                      ),
+                               isEdit: $isEditing,
                         onTouch:{ action in
                                     
                         switch action {
@@ -207,6 +208,6 @@ struct PresetGridView: View {
     }
 }
 
-#Preview {
-    PresetGridView(device: DeviceManager().showDevices.first!)
-}
+//#Preview {
+//    PresetGridView(device: DeviceManager().showDevices.first!)
+//}
