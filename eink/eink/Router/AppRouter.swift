@@ -108,6 +108,16 @@ enum AppTab: Hashable {
         presentedSheet = nil
     }
     
+    // dimiss current
+    func dismissCurrent() {
+        if !navigationPath.isEmpty {
+            navigationPath.removeLast()
+        } else {
+            presentedSheet = nil
+            presentedFullScreenCover = nil
+        }
+    }
+    
     
     func presentFullScreenCover(_ destination: AppDestination) {
         presentedFullScreenCover = destination

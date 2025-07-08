@@ -13,7 +13,7 @@ struct DIYPanel: View {
     let name:String
     let initFavorite:Bool
     let onTouch:((String?)->Void)
-    let onSave:(Bool, String)->Void
+    let onSave:()->Void
     let onEmploy:()->Void
     
     var diyColors:[(name: String, hex: String)] {
@@ -35,22 +35,24 @@ struct DIYPanel: View {
     
     var body: some View {
         VStack(alignment:.leading) {
-            HStack(alignment:.top) {
-                CustomTextField(placeholder: "Name your design ", 
-                                initName: name,
-                                text: $inputText)
-                    .padding(.top)
-                    .padding(.leading)
+            HStack(alignment:.center) {
+//                CustomTextField(placeholder: "Name your design ",
+//                                initName: name,
+//                                text: $inputText)
+//                    .padding(.top)
+//                    .padding(.leading)
+                Text("DIY Color")
+                    .font(.sectionBoldTitle)
+                    .foregroundStyle(.sectionTitle)
+                Spacer()
                 FavoriteButton(initFavorite, onTouch: { favorite in
                     isFavorite = favorite
                 })
                 
             }
-            .padding(.bottom, 5)
+            .padding(.vertical, 10)
          
-            Text("DIY Color")
-                .font(.sectionBoldTitle)
-                .foregroundStyle(.sectionTitle)
+            
             
             HStack(spacing:1) {
                 ForEach(diyColors.indices, id: \.self) { index in
@@ -79,18 +81,21 @@ struct DIYPanel: View {
             
             HStack(spacing:50) {
                 
-                CustomButton(title: "Save") {
-                    if inputText.isEmpty {
-                        AlertWindow.show(title: "Reminder", message: "Name should not be empty.")
-                    } else {
-                        onSave(isFavorite, inputText)
-                    }
+                CustomButton(title: "Cancel", bgColor: .deviceItemShadow) {
+//                    if inputText.isEmpty {
+//                        AlertWindow.show(title: "Reminder", message: "Name should not be empty.")
+//                    } else {
+//                        onSave(isFavorite, inputText)
+//                    }
+                    //isFavorite, inputText
+                    onSave()
                     
                 }
                 
-                CustomButton(title: "Employ") {
+                CustomButton(title: "Screen Cast", icon: "square.and.arrow.up") {
                     onEmploy()
                 }
+                
             }
             .padding(.bottom, 10)
             
@@ -100,8 +105,8 @@ struct DIYPanel: View {
         .padding(.horizontal, 30)
 
         .background(.white)
-        .cornerRadius(50, corners: [.topLeft, .topRight])
-        .shadow(color: .deviceItemShadow, radius: 5, x: 1, y: -5)
+        .cornerRadius(15, corners: [.topLeft, .topRight])
+        .shadow(color: .deviceItemShadow, radius: 5, x: 1, y: -2)
 //        .aspectRatio(3/2, contentMode: .fit)
 //        .ignoresSafeArea(.keyboard)
         .frame(height: 260)
@@ -128,5 +133,5 @@ struct DIYPanel: View {
             ("black", "3F384A"),
             ("red", "A45942"),
             ("off", "DBDBDB")
-    ], name: "hello", initFavorite: true, onTouch: {_ in}, onSave: {_,_ in}, onEmploy: {})
+    ], name: "hello", initFavorite: true, onTouch: {_ in}, onSave: {}, onEmploy: {})
 }

@@ -71,20 +71,27 @@ struct PresetCard: View {
         }
         
         .onTapGesture {
-            if actions.isEmpty { 
+//            if actions.isEmpty { 
+//                isSelected.toggle()
+//                
+//                selectDesign(design,isSelected)
+//                
+//            } else {
+//                showPopover.toggle()
+//            }
+            if (isEdit) {
                 isSelected.toggle()
-                
                 selectDesign(design,isSelected)
-                
-            } else {
-                showPopover.toggle()
+                return
             }
+                
+            onTouch?(.edit)
         }
 
-        .popover(isPresented: $showPopover, content: {
-            EditPopverMenu(showPopover: $showPopover, actions: actions, onTouch: onTouch)
-                .presentationCompactAdaptation(.popover)
-        })
+//        .popover(isPresented: $showPopover, content: {
+//            EditPopverMenu(showPopover: $showPopover, actions: actions, onTouch: onTouch)
+//                .presentationCompactAdaptation(.popover)
+//        })
     }
 }
 

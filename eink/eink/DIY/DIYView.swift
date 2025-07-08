@@ -136,9 +136,9 @@ struct DIYView: View {
                     model.colors[index] = touchColor
                 }
             },
-            onSave: { isFavorite, name in
-                model.saveDesgin(name, isFavorite)
-                router.navigateBack()
+            onSave: { //isFavorite, name
+                //model.saveDesgin(name, isFavorite)
+                router.dismissSheet()
             },
             onEmploy: {
             

@@ -146,15 +146,6 @@ struct PresetGridView: View {
     
     var body: some View {
         VStack(alignment:.leading){
-            
-//            if !sectionName.isEmpty {
-//                Text(sectionName)
-//                    .padding(.leading, 10)
-//                    .font(.sectionBoldTitle)
-//                    .foregroundStyle(.sectionTitle)
-//            }
-            
-            
             LazyVGrid(columns: device.gridLayout, spacing: 10) {
                 ForEach(designs, id: \.self) { item in
                     PresetCard(title: item.name,
@@ -170,26 +161,33 @@ struct PresetGridView: View {
                                                      ),
                                isEdit: $isEditing,
                         onTouch:{ action in
-                                    
-                        switch action {
-                            
-                        case .apply:
-                            Task{
-                                await applay(item.colors.components(separatedBy: ","))
-                            }
-                            
-                        case .edit:
-                            edit(item)
-                        case .delete:
-                            deleteAlert(item.name)
-                        case .favorite:
-                            if item.favorite {
-                                try? CoreDataStack.shared.deleteDesignWithNameAndId(name: item.name, pid: item.pid)
-                            } else {
-                                CoreDataStack.shared.insetFavoriteDesign(item: item)
-                            }
-                            
+                        
+                        if !isEditing {
+                            router.navigate(to: .designDetail(deviceId: device.id, design: item))
                         }
+                        
+                          
+                        
+                                    
+//                        switch action {
+//                            
+//                        case .apply:
+//                            Task{
+//                                await applay(item.colors.components(separatedBy: ","))
+//                            }
+//                            
+//                        case .edit:
+//                            edit(item)
+//                        case .delete:
+//                            deleteAlert(item.name)
+//                        case .favorite:
+//                            if item.favorite {
+//                                try? CoreDataStack.shared.deleteDesignWithNameAndId(name: item.name, pid: item.pid)
+//                            } else {
+//                                CoreDataStack.shared.insetFavoriteDesign(item: item)
+//                            }
+//                            
+//                        }
                                 
                        }
                         

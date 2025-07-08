@@ -11,7 +11,8 @@ import SwiftUI
 
 struct CustomButton: View {
     let title: String
-    var bgColor: Color = .opButton
+    var bgColor: Color = .philipsBlue
+    var icon: String?
     var action: () -> Void
     
     @State private var isPressed = false
@@ -29,14 +30,31 @@ struct CustomButton: View {
                 self.action()
             }
         }) {
-            Text(title)
-                .font(.sectionTitle)
-                .foregroundColor(.white)
-                .padding(.horizontal)
-                .padding(.vertical, 10)
-                .frame(minWidth: 0, maxWidth: .infinity)
-                .background(bgColor)
-                .cornerRadius(10)
+            
+            HStack(alignment:.center) {
+                
+                if let icon = icon {
+                    Image(systemName: icon)
+                        .foregroundColor(.white)
+                }
+                
+                Text(title)
+                    .font(.sectionTitle)
+                    .foregroundColor(.white)
+                    
+            }
+            .padding(.horizontal)
+            .padding(.vertical, 10)
+            .frame(height: 40)
+            .frame(minWidth: 0, maxWidth: .infinity)
+            .background(
+                Capsule()
+                    .fill(bgColor)
+            )
+            
+                
+            
+            
 //                .overlay(
 //                    RoundedRectangle(cornerRadius: 10)
 //                        .stroke(Color.white, lineWidth: 2)
@@ -51,7 +69,7 @@ struct CustomButton: View {
 
 
 #Preview {
-    CustomButton(title: "Press Me") {
+    CustomButton(title: "Press Me", icon: "square.and.arrow.up") {
         print("Button pressed!")
     }
     .padding()

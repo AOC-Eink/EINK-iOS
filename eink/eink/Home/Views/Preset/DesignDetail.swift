@@ -1,0 +1,180 @@
+//
+//  DesignDetail.swift
+//  eink
+//
+//  Created by Aaron on 2025/7/8.
+//
+
+//
+//  DIYView.swift
+//  eink
+//
+//  Created by Aaron on 2024/9/15.
+//
+
+import SwiftUI
+import BLECommunicator
+
+struct DesignDetail: View {
+    
+    let device: Device
+    let design: Design
+    
+    @Environment(AppRouter.self) private var router
+    @Environment(NFCCommunicator.self) var nfcCommunicator
+    @Environment(DeviceManager.self) var deviceManager
+    
+    @Environment(\.displayScale) var displayScale
+    
+    var itemDesignWidth:CGFloat {
+        device.inkStyle.itemWidth
+    }
+    
+    var hGirds:Int {
+        device.deviceType.shape[0]
+    }
+    var vGirds:Int {
+        device.deviceType.shape[1]
+    }
+    
+    var itemWidth: CGFloat {
+        let baseWidth: CGFloat = itemDesignWidth
+        
+        switch displayScale {
+        case 1:
+            return baseWidth*0.5
+        case 2:
+            return baseWidth*0.67
+        case 3:
+            return baseWidth
+        default:
+            return baseWidth
+        }
+    }
+    
+    var colors:[String] { design.colors.components(separatedBy: ",")}
+    
+    var name:String {design.name}
+    
+    
+    var body: some View {
+        VStack{
+            //topbarView
+            Spacer()
+            
+                
+            TriangleGridView(colors: colors,
+                             columns: hGirds,
+                             rows: vGirds,
+                             triangleSize: itemWidth,
+                             heightRatio: device.heightRatio,
+                             onTouch: {index, isRepeat, preColor in
+                
+            })
+            .roundedBorder(cornerRadius: device.inkStyle.cornerRadius,
+                           borderWidth: device.inkStyle.borderWidth,
+                           borderColor: device.inkStyle.borderColor,
+                           isCircle: device.inkStyle.isCircle
+            )
+                
+            
+            
+
+            Spacer()
+            
+            HStack(spacing:50) {
+            
+                CustomButton(title: "Screen Cast", icon: "square.and.arrow.up") {
+                    Task{
+                        await applay(colors)
+                    }
+                }
+                
+                CustomButton(title: "Derivative", icon: "pawprint.circle") {
+                    router.navigate(to: .customize(deviceId: device.id, name: "New Design", colors: colors, favorite: false))
+                }
+                
+            }
+            .padding(.horizontal, 27)
+            
+            Spacer()
+            
+            
+        }
+        .navigationTitle(name)
+        .background(.white)
+    }
+    
+    func applay(_ colors:[String]) async {
+        
+
+        nfcCommunicator.startSession { result in
+            switch result {
+            case .success(let macAddress):
+                print("操作成功完成，MAC地址为: \(macAddress)")
+                //AlertWindow.show(title: "读取结果", message: "\(macAddress)")
+                Task {
+                    await self.startScanAndConnect(mac: macAddress, colors: colors)
+                }
+                
+            case .failure(let error):
+                print("操作失败: \(error.localizedDescription)")
+                AlertWindow.show(title: "读取失败", message: error.localizedDescription)
+            }
+        }
+        
+    }
+    
+    func startScanAndConnect(mac:String, colors:[String]) async {
+        
+        deviceManager.startScanning(mac) { device, success in
+            
+            if success {
+                self.nfcCommunicator.updateSessionAlertMessage("连接成功，准备写入图案")
+                
+                guard let connectDevice = device else {
+                    self.nfcCommunicator.stopSession(message: "连接失败，请重试")
+                    return
+                }
+                Task {
+                    await sendColors(connectDevice, colors)
+                }
+            } else {
+                self.nfcCommunicator.stopSession(message: "连接失败，请重试")
+            }
+        
+        }
+        
+    }
+    
+    func sendColors(_ connectDevice:Device, _ colors:[String]) async {
+        do {
+            self.nfcCommunicator.updateSessionAlertMessage("图案写入中，请稍等...")
+            try await connectDevice.deviceFuction?.sendColors(connectDevice, commandType: .writeCmd, colors: [colors], timeInterval: nil, response: { response in
+                //假设预期数据为 0x11FC0101 则成功写入 reponse 为Data 如何解析
+                if response.count >= 4 {
+                    let expectedData = Data([0x11, 0xFC, 0x01, 0x01])
+                    if response.starts(with: expectedData) {
+                        Logger.shared.log("图案写入成功")
+                        //self.showToast = true
+                    } else {
+                            Logger.shared.log("图案写入失败，返回数据不匹配")
+                        self.nfcCommunicator.stopSession(message: "图案写入完成")
+                    }
+                } else {
+                    Logger.shared.log("图案写入失败，返回数据长度不足")
+                    self.nfcCommunicator.stopSession(message: "图案写入完成")
+                }
+            })
+
+            
+        } catch {
+            AlertWindow.show(title: "Apply Failured", message: "\(error.localizedDescription)")
+        }
+    }
+    
+}
+
+//#Preview {
+//    DIYView(model: DIYViewModel(DeviceManager.shared.showDevices.last!), isPresented: .constant(false))
+//}

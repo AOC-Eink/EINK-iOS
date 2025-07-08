@@ -171,6 +171,18 @@ struct HomeView: View {
             // Load preset designs from the device type
             loadPresetDesigns(devicePid: device.devicePidString)
         }
+        .sheet(item: router.presentSheetBinding()) { destination in
+            switch destination {
+            case .sendDesigns( _, let designs):
+                PlaybackView(device: self.device, designs: designs)
+                    .presentationDetents([.height(400)])
+                    .presentationDragIndicator(.visible)
+            default:
+                EmptyView()
+            }
+            
+            
+        }
         
 //        .toolbar {
 //            ToolbarItem(placement: .topBarLeading) {

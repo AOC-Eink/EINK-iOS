@@ -101,9 +101,16 @@ struct DiscoverView: View {
                         Text("Device not found")
                             .foregroundColor(.red)
                     }
-
-                default:
-                    EmptyView()
+                    
+                case .designDetail(deviceId: let deviceId, design: let design):
+                    
+                    if let device = showDevices.first(where: { $0.id == deviceId }) {
+                        
+                        DesignDetail(device: device, design:design)
+                    } else {
+                        Text("Device not found")
+                            .foregroundColor(.red)
+                    }
                 }
             }
             

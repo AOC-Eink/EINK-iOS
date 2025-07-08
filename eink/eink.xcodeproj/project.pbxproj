@@ -27,6 +27,8 @@
 		930F2EA72CBAB35F00C6A7F8 /* PlaybackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930F2EA62CBAB35F00C6A7F8 /* PlaybackView.swift */; };
 		930F2EA92CBB3F8C00C6A7F8 /* CommandSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930F2EA82CBB3F8C00C6A7F8 /* CommandSender.swift */; };
 		933A17222E1A264D00853638 /* textView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933A17212E1A264900853638 /* textView.swift */; };
+		933A17252E1D47C100853638 /* FunctionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933A17242E1D47B100853638 /* FunctionButton.swift */; };
+		933A17272E1D627400853638 /* DesignDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933A17262E1D625E00853638 /* DesignDetail.swift */; };
 		933EFF912C99CC9000856EE1 /* FetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933EFF902C99CC9000856EE1 /* FetchRequest.swift */; };
 		933EFF982C9E559100856EE1 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933EFF972C9E559000856EE1 /* AlertManager.swift */; };
 		936017C52CB697510021DE05 /* PacketFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936017C42CB697510021DE05 /* PacketFormat.swift */; };
@@ -121,6 +123,8 @@
 		930F2EA82CBB3F8C00C6A7F8 /* CommandSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandSender.swift; sourceTree = "<group>"; };
 		933A17212E1A264900853638 /* textView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = textView.swift; sourceTree = "<group>"; };
 		933A17232E1A5E6600853638 /* Untitled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Untitled.swift; sourceTree = "<group>"; };
+		933A17242E1D47B100853638 /* FunctionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionButton.swift; sourceTree = "<group>"; };
+		933A17262E1D625E00853638 /* DesignDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignDetail.swift; sourceTree = "<group>"; };
 		933EFF902C99CC9000856EE1 /* FetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchRequest.swift; sourceTree = "<group>"; };
 		933EFF972C9E559000856EE1 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		936017C42CB697510021DE05 /* PacketFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PacketFormat.swift; sourceTree = "<group>"; };
@@ -482,6 +486,8 @@
 		93F332CB2C91C35400C01091 /* Preset */ = {
 			isa = PBXGroup;
 			children = (
+				933A17262E1D625E00853638 /* DesignDetail.swift */,
+				933A17242E1D47B100853638 /* FunctionButton.swift */,
 				93F332C62C8F3DF400C01091 /* PresetGridView.swift */,
 				93F332C42C8F36FD00C01091 /* PresetCard.swift */,
 				93F332C82C8F3F2100C01091 /* PresetView.swift */,
@@ -644,6 +650,7 @@
 			files = (
 				93FBAC8F2CAD609800BB2B7B /* EditPopverMenu.swift in Sources */,
 				9301E7FD2C87489800381CA7 /* eink.xcdatamodeld in Sources */,
+				933A17272E1D627400853638 /* DesignDetail.swift in Sources */,
 				93F2924E2C96671400ECCE35 /* StringExtension.swift in Sources */,
 				930D916A2CBA869600AA52BD /* DeviceCommand.swift in Sources */,
 				9301E7FA2C87489800381CA7 /* Persistence.swift in Sources */,
@@ -659,6 +666,7 @@
 				93F292582C96C4CF00ECCE35 /* OperationButton.swift in Sources */,
 				93F2924A2C95D1ED00ECCE35 /* DiscoverView.Model.swift in Sources */,
 				93C898E02C9FFCC30001E331 /* RoundedBorderModifier.swift in Sources */,
+				933A17252E1D47C100853638 /* FunctionButton.swift in Sources */,
 				933EFF982C9E559100856EE1 /* AlertManager.swift in Sources */,
 				930F2EA92CBB3F8C00C6A7F8 /* CommandSender.swift in Sources */,
 				93AF5B472CBCEC1000877C56 /* AlertWindow.swift in Sources */,

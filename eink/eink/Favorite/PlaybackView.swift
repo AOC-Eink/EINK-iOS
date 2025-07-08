@@ -29,7 +29,7 @@ struct PlaybackView: View {
     @State private var selectedMinutes = 0
     @State private var selectedSeconds = 0
     @State private var selectedMode: PlaybackMode = .singlePlayback
-    @State private var selectDesgins:[Design] = []
+    //@State private var selectDesgins:[Design] = []
     
     
     var commandType:CommandType {
@@ -70,34 +70,34 @@ struct PlaybackView: View {
 //            .frame(height: 44)
             
             
-            deviceInfoSection
+            //deviceInfoSection
             
-            if selectDesgins.isEmpty {
-                VStack{
-                    Spacer()
-                    Button(action: {
-                        showAddView = true
-                    }) {
-                        Image(systemName: "plus.app.fill")
-                            .resizable()
-                            .frame(width: 40, height: 40)
-                            .foregroundColor(.opButton)
-                            .clipShape(Circle())
-                    }
-                    .padding()
-                    
-                    
-                    Text("请添加播放图案")
-                        .padding()
-                    Spacer()
-                    
-                }
-            } else {
-                playbackListView
-            }
+//            if selectDesgins.isEmpty {
+//                VStack{
+//                    Spacer()
+//                    Button(action: {
+//                        showAddView = true
+//                    }) {
+//                        Image(systemName: "plus.app.fill")
+//                            .resizable()
+//                            .frame(width: 40, height: 40)
+//                            .foregroundColor(.opButton)
+//                            .clipShape(Circle())
+//                    }
+//                    .padding()
+//                    
+//                    
+//                    Text("请添加播放图案")
+//                        .padding()
+//                    Spacer()
+//                    
+//                }
+//            } else {
+//                playbackListView
+//            }
             
             
-            Spacer()
+            //Spacer()
             
             controlButtonsSection
             scheduledPlaybackSection
@@ -116,9 +116,9 @@ struct PlaybackView: View {
         .sheet(isPresented: $showAddView) {
             SelectDesginView(device: device, designs: designs, showAddView: $showAddView)
         }
-        .environment(\.selectDesigns) { designs in
-            selectDesgins = designs
-        }
+//        .environment(\.selectDesigns) { designs in
+//            selectDesgins = designs
+//        }
 
         
         
@@ -131,30 +131,30 @@ struct PlaybackView: View {
         return selectedMinutes*60 + selectedSeconds
     }
     
-    private var playbackListView: some View {
-        List{
-            ForEach(selectDesgins, id: \.self) { design in
-                Text(design.name)
-                    .font(.sectionTitle)
-                    .foregroundStyle(.sectionTitle)
-                    .frame(maxWidth: .infinity, alignment:.leading)
-                    .background(.white)
-                    .buttonStyle(.borderless)
-                
-            }
-            .onDelete(perform: deleteItem)
-        }
-        .background(.white)
-        .listStyle(PlainListStyle())
-        .clipCornerRadius(10)
-        .shadow(color: .deviceItemShadow, radius: 2, x: 2, y: 1)
-        .padding(.bottom, 20)
-        
-    }
+//    private var playbackListView: some View {
+//        List{
+//            ForEach(selectDesgins, id: \.self) { design in
+//                Text(design.name)
+//                    .font(.sectionTitle)
+//                    .foregroundStyle(.sectionTitle)
+//                    .frame(maxWidth: .infinity, alignment:.leading)
+//                    .background(.white)
+//                    .buttonStyle(.borderless)
+//                
+//            }
+//            .onDelete(perform: deleteItem)
+//        }
+//        .background(.white)
+//        .listStyle(PlainListStyle())
+//        .clipCornerRadius(10)
+//        .shadow(color: .deviceItemShadow, radius: 2, x: 2, y: 1)
+//        .padding(.bottom, 20)
+//        
+//    }
     
-    func deleteItem(at offsets: IndexSet) {
-        selectDesgins.remove(atOffsets: offsets)
-    }
+//    func deleteItem(at offsets: IndexSet) {
+//        selectDesgins.remove(atOffsets: offsets)
+//    }
     
     private var deviceInfoSection: some View {
         HStack{
@@ -236,7 +236,7 @@ struct PlaybackView: View {
                 }
             }
             .pickerStyle(WheelPickerStyle())
-            .frame(height: 100)
+            .frame(maxHeight: .infinity)
             .clipped()
         }
         .padding()
@@ -244,13 +244,13 @@ struct PlaybackView: View {
     
     private var actionButtonsSection: some View {
         HStack(spacing:40) {
-            CustomButton(title: "Cancel", bgColor: selectDesgins.isEmpty ? .opButton : .deviceItemShadow) {
+            CustomButton(title: "Cancel", bgColor: designs.isEmpty ? .philipsBlue : .deviceItemShadow) {
                 //showBottomSheet.toggle()
             }
 
-            CustomButton(title: "Confirm", bgColor: selectDesgins.isEmpty ? .deviceItemShadow : .opButton) {
+            CustomButton(title: "Confirm", bgColor: designs.isEmpty ? .deviceItemShadow : .philipsBlue) {
                 
-                if selectDesgins.isEmpty {
+                if designs.isEmpty {
                     return
                 }
                 Logger.shared.log("--点击 Confirm 发送--")
@@ -261,7 +261,7 @@ struct PlaybackView: View {
                     
                     Task {
                         Logger.shared.log("--存在写特证 Confirm 发送--")
-                        let colors = selectDesgins.map { design in
+                        let colors = designs.map { design in
                             design.colors.split(separator: ",").map(String.init)
                         }
                         do {
@@ -314,4 +314,5 @@ struct ColoredToggleStyle: ToggleStyle {
 
 #Preview {
     PlaybackView(device: Device(indentify: "", deviceName: "EINK Phone Case"), designs: [])
+        .environment(AppRouter.shared)
 }
