@@ -24,9 +24,9 @@ struct PresetCard: View {
     var actions:[EditAction] {
         switch pageType {
         case .preset:
-            return [.apply, .edit, .favorite, .delete]
+            return [.apply, .favorite]
         case .custom:
-            return [.apply, .edit, .favorite, .delete]
+            return [.apply, .favorite]
         case .category:
             return [.apply, .favorite]
         case .favorite:
@@ -71,27 +71,34 @@ struct PresetCard: View {
         }
         
         .onTapGesture {
-//            if actions.isEmpty { 
-//                isSelected.toggle()
-//                
-//                selectDesign(design,isSelected)
-//                
-//            } else {
-//                showPopover.toggle()
-//            }
-            if (isEdit) {
+            if isEdit {
                 isSelected.toggle()
-                selectDesign(design,isSelected)
-                return
-            }
                 
-            onTouch?(.edit)
+                selectDesign(design,isSelected)
+                
+            } else {
+                onTouch?(.edit)
+            }
+//            if (isEdit) {
+//                isSelected.toggle()
+//                selectDesign(design,isSelected)
+//                return
+//            }
+                
+//            onTouch?(.edit)
+        }
+        .onLongPressGesture {
+            if !actions.isEmpty {
+                
+                showPopover.toggle()
+                
+            }
         }
 
-//        .popover(isPresented: $showPopover, content: {
-//            EditPopverMenu(showPopover: $showPopover, actions: actions, onTouch: onTouch)
-//                .presentationCompactAdaptation(.popover)
-//        })
+        .popover(isPresented: $showPopover, content: {
+            EditPopverMenu(showPopover: $showPopover, actions: actions, onTouch: onTouch)
+                .presentationCompactAdaptation(.popover)
+        })
     }
 }
 

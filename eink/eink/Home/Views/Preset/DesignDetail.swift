@@ -107,20 +107,23 @@ struct DesignDetail: View {
     
     func applay(_ colors:[String]) async {
         
-
-        nfcCommunicator.startSession { result in
-            switch result {
-            case .success(let macAddress):
-                print("操作成功完成，MAC地址为: \(macAddress)")
-                //AlertWindow.show(title: "读取结果", message: "\(macAddress)")
-                Task {
-                    await self.startScanAndConnect(mac: macAddress, colors: colors)
+        if device.deviceType == .phoneCase {
+            nfcCommunicator.startSession { result in
+                switch result {
+                case .success(let macAddress):
+                    print("操作成功完成，MAC地址为: \(macAddress)")
+                    //AlertWindow.show(title: "读取结果", message: "\(macAddress)")
+                    Task {
+                        await self.startScanAndConnect(mac: macAddress, colors: colors)
+                    }
+                    
+                case .failure(let error):
+                    print("操作失败: \(error.localizedDescription)")
+                    AlertWindow.show(title: "读取失败", message: error.localizedDescription)
                 }
-                
-            case .failure(let error):
-                print("操作失败: \(error.localizedDescription)")
-                AlertWindow.show(title: "读取失败", message: error.localizedDescription)
             }
+        } else {
+            await sendColors(device, colors)
         }
         
     }

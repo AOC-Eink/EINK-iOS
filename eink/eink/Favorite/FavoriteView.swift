@@ -139,9 +139,9 @@ struct FavoriteView: View {
         //        }
     }
         
-        func applay(_ colors:[String]) async {
-            
-
+    func applay(_ colors:[String]) async {
+        
+        if device.deviceType == .phoneCase {
             nfcCommunicator.startSession { result in
                 switch result {
                 case .success(let macAddress):
@@ -156,8 +156,11 @@ struct FavoriteView: View {
                     AlertWindow.show(title: "读取失败", message: error.localizedDescription)
                 }
             }
-            
+        } else {
+            await sendColors(device, colors)
         }
+        
+    }
         
         func startScanAndConnect(mac:String, colors:[String]) async {
             

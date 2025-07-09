@@ -130,7 +130,7 @@ struct TabbarView: View {
 //                            Label("Favorites", systemImage: "heart")}
 //                        .tag(Router.favorites(nil))
                     
-                    Color.clear
+                    Text("Coming Soon")
                         .tabItem {
                             Label("Support", systemImage: "ellipsis.message")
                         }
