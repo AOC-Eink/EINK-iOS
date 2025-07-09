@@ -73,6 +73,7 @@
 		93F332D12C91C52E00C01091 /* SliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F332D02C91C52E00C01091 /* SliderView.swift */; };
 		93FBAC8F2CAD609800BB2B7B /* EditPopverMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FBAC8E2CAD609800BB2B7B /* EditPopverMenu.swift */; };
 		93FBAC942CAD825400BB2B7B /* EnvironmentKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FBAC932CAD825400BB2B7B /* EnvironmentKey.swift */; };
+		BE5833DD2E1E5A9F009A79B2 /* FunctionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5833DC2E1E5A8A009A79B2 /* FunctionService.swift */; };
 		BE70110E2CB904D000729C8C /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE70110D2CB904D000729C8C /* LogView.swift */; };
 		BE940EF52CBF79E900EF0088 /* SwiftfulLoadingIndicators in Frameworks */ = {isa = PBXBuildFile; productRef = BE940EF42CBF79E900EF0088 /* SwiftfulLoadingIndicators */; };
 		BE940EF92CBF79F700EF0088 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = BE940EF82CBF79F700EF0088 /* AlertToast */; };
@@ -169,6 +170,7 @@
 		93F332D02C91C52E00C01091 /* SliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderView.swift; sourceTree = "<group>"; };
 		93FBAC8E2CAD609800BB2B7B /* EditPopverMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPopverMenu.swift; sourceTree = "<group>"; };
 		93FBAC932CAD825400BB2B7B /* EnvironmentKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentKey.swift; sourceTree = "<group>"; };
+		BE5833DC2E1E5A8A009A79B2 /* FunctionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionService.swift; sourceTree = "<group>"; };
 		BE70110D2CB904D000729C8C /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		BE70110F2CB9173000729C8C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -279,6 +281,7 @@
 		930BDA892C8B3297008672C5 /* AppData */ = {
 			isa = PBXGroup;
 			children = (
+				BE5833DC2E1E5A8A009A79B2 /* FunctionService.swift */,
 				9303C0C62E097E6E00053C1C /* NFCManager.swift */,
 				930BDA8A2C8B32F1008672C5 /* Device.swift */,
 				930D91692CBA869600AA52BD /* DeviceCommand.swift */,
@@ -705,6 +708,7 @@
 				936D15F22C89DC1F00066274 /* DiscoverView.swift in Sources */,
 				93F332CF2C91C4E000C01091 /* SliderCard.swift in Sources */,
 				936D15F52C89F74100066274 /* TabbarView.swift in Sources */,
+				BE5833DD2E1E5A9F009A79B2 /* FunctionService.swift in Sources */,
 				93F292522C96916300ECCE35 /* DIYPanel.swift in Sources */,
 				937919B72E16BE28000C902E /* SplashView.swift in Sources */,
 				936017C52CB697510021DE05 /* PacketFormat.swift in Sources */,
@@ -872,7 +876,7 @@
 				CODE_SIGN_ENTITLEMENTS = eink/eink.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"eink/Preview Content\"";
 				DEVELOPMENT_TEAM = B3K28DD4HW;
 				ENABLE_PREVIEWS = YES;
@@ -916,7 +920,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"eink/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = B3K28DD4HW;

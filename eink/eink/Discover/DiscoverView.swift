@@ -153,13 +153,13 @@ struct DiscoverView: View {
                 .presentationDetents([.height(400)])
                 .presentationDragIndicator(.visible)
         })
-        .alert("添加设备", isPresented: $showSelectType) {
+        .alert("Add Device", isPresented: $showSelectType) {
             HStack {
                 Button {
                     // 蓝牙连接逻辑
                     showAddView = true
                 } label: {
-                    Label("蓝牙", systemImage: "bluetooth")
+                    Label("BT", systemImage: "bluetooth")
                 }
                 
                 Button {
@@ -169,12 +169,12 @@ struct DiscoverView: View {
                     Label("NFC", systemImage: "radiowaves.left")
                 }
                 
-                Button("取消", role: .cancel) {
+                Button("Cancel", role: .cancel) {
                        
                 }
             }
         } message: {
-            Text("请选择要使用的连接方式")
+            Text("Please select a connection method")
         }
         
         .onAppear{

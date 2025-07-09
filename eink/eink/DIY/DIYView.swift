@@ -23,7 +23,13 @@ struct DIYView: View {
     
     init(device: Device, name:String = "DIY", colors:[String] = [], favorite:Bool = false) {
         
-        _model = State(initialValue: DIYViewModel(device, name: name, colors: colors, favorite: favorite))
+        _model = State(initialValue: DIYViewModel(
+            device,
+            DeviceManager.shared,
+            NFCCommunicator.shared,
+            name: name,
+            colors: colors,
+            favorite: favorite))
     }
     
     var itemWidth: CGFloat {
@@ -138,18 +144,12 @@ struct DIYView: View {
             },
             onSave: { //isFavorite, name
                 //model.saveDesgin(name, isFavorite)
-                router.dismissSheet()
+                router.navigateBack()
             },
             onEmploy: {
             
                 Task{
-                    do {
-                        try await model.applay({ _ in
-                            router.navigateBack()
-                        })
-                    } catch  {
-                        AlertWindow.show(title: "Apply failured", message: "\(error.localizedDescription)")
-                    }
+                    await model.applay()
                     
                 }
             }

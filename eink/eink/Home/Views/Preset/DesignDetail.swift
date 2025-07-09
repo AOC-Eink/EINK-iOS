@@ -119,7 +119,7 @@ struct DesignDetail: View {
                     
                 case .failure(let error):
                     print("操作失败: \(error.localizedDescription)")
-                    AlertWindow.show(title: "读取失败", message: error.localizedDescription)
+                    AlertWindow.show(title: "Notify", message: error.localizedDescription)
                 }
             }
         } else {
@@ -133,17 +133,17 @@ struct DesignDetail: View {
         deviceManager.startScanning(mac) { device, success in
             
             if success {
-                self.nfcCommunicator.updateSessionAlertMessage("连接成功，准备写入图案")
+                self.nfcCommunicator.updateSessionAlertMessage("Connect successfully")
                 
                 guard let connectDevice = device else {
-                    self.nfcCommunicator.stopSession(message: "连接失败，请重试")
+                    self.nfcCommunicator.stopSession(message: "Connect failed, please try again")
                     return
                 }
                 Task {
                     await sendColors(connectDevice, colors)
                 }
             } else {
-                self.nfcCommunicator.stopSession(message: "连接失败，请重试")
+                self.nfcCommunicator.stopSession(message: "Connect failed, please try again")
             }
         
         }
@@ -152,21 +152,22 @@ struct DesignDetail: View {
     
     func sendColors(_ connectDevice:Device, _ colors:[String]) async {
         do {
-            self.nfcCommunicator.updateSessionAlertMessage("图案写入中，请稍等...")
+            self.nfcCommunicator.updateSessionAlertMessage("Writing colors...")
             try await connectDevice.deviceFuction?.sendColors(connectDevice, commandType: .writeCmd, colors: [colors], timeInterval: nil, response: { response in
                 //假设预期数据为 0x11FC0101 则成功写入 reponse 为Data 如何解析
                 if response.count >= 4 {
                     let expectedData = Data([0x11, 0xFC, 0x01, 0x01])
                     if response.starts(with: expectedData) {
                         Logger.shared.log("图案写入成功")
+                        self.nfcCommunicator.stopSession(message: "Patterns write success")
                         //self.showToast = true
                     } else {
                             Logger.shared.log("图案写入失败，返回数据不匹配")
-                        self.nfcCommunicator.stopSession(message: "图案写入完成")
+                        self.nfcCommunicator.stopSession(message: "Patterns write failed")
                     }
                 } else {
                     Logger.shared.log("图案写入失败，返回数据长度不足")
-                    self.nfcCommunicator.stopSession(message: "图案写入完成")
+                    self.nfcCommunicator.stopSession(message: "Patterns write failed")
                 }
             })
 

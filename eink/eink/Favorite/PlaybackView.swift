@@ -29,6 +29,8 @@ struct PlaybackView: View {
     @State private var selectedMinutes = 0
     @State private var selectedSeconds = 0
     @State private var selectedMode: PlaybackMode = .singlePlayback
+    @Environment(NFCCommunicator.self) var nfcCommunicator
+    @Environment(DeviceManager.self) var deviceManager
     //@State private var selectDesgins:[Design] = []
     
     
@@ -246,43 +248,117 @@ struct PlaybackView: View {
         HStack(spacing:40) {
             CustomButton(title: "Cancel", bgColor: designs.isEmpty ? .philipsBlue : .deviceItemShadow) {
                 //showBottomSheet.toggle()
+                router.dismissSheet()
             }
 
             CustomButton(title: "Confirm", bgColor: designs.isEmpty ? .deviceItemShadow : .philipsBlue) {
                 
-                if designs.isEmpty {
-                    return
-                }
-                Logger.shared.log("--点击 Confirm 发送--")
-                if showToast { return }
-                Logger.shared.log("--点击 Confirm 发送 222-- \(device.bleDevice?.name ?? "Unknown")")
-                if let _ = device.bleDevice?.writeCharacteristic {
-                    Logger.shared.log("--存在写特证 Confirm 发送 333--")
+//                if designs.isEmpty {
+//                    return
+//                }
+//                Logger.shared.log("--点击 Confirm 发送--")
+//                if showToast { return }
+//                Logger.shared.log("--点击 Confirm 发送 222-- \(device.bleDevice?.name ?? "Unknown")")
+//                if let _ = device.bleDevice?.writeCharacteristic {
+//                    Logger.shared.log("--存在写特证 Confirm 发送 333--")
+//                    
+//                    Task {
+//                        Logger.shared.log("--存在写特证 Confirm 发送--")
+//                        let colors = designs.map { design in
+//                            design.colors.split(separator: ",").map(String.init)
+//                        }
+//                        
+//                        await applay(colors)
+//                        
+//                    }
+//                } else {
+//                    Logger.shared.log("--不存在写特证 Confirm 发送 333--")
+//                    AlertWindow.show(title: "Reminder", message: "设备异常，请重新连接。") {
+//                        //appRouter.isConnected = false
+//                    }
+//                }
+                Task {
+                    Logger.shared.log("--Confirm 发送--")
+                    let colors = designs.map { design in
+                        design.colors.split(separator: ",").map(String.init)
+                    }
                     
-                    Task {
-                        Logger.shared.log("--存在写特证 Confirm 发送--")
-                        let colors = designs.map { design in
-                            design.colors.split(separator: ",").map(String.init)
-                        }
-                        do {
-                            try await device.deviceFuction?.sendColors(
-                                device,
-                                commandType: commandType,
-                                colors: colors,
-                                timeInterval: totalSeconds, response: nil)
-                            showToast.toggle()
-                        } catch {
-                            AlertWindow.show(title: "Apply failured", message: "\(error.localizedDescription)")
-                        }
-                        
-                    }
-                } else {
-                    Logger.shared.log("--不存在写特证 Confirm 发送 333--")
-                    AlertWindow.show(title: "Reminder", message: "设备异常，请重新连接。") {
-                        //appRouter.isConnected = false
-                    }
+                    await applay(colors)
+                    
                 }
             }
+        }
+    }
+    
+    func applay(_ colors:[[String]]) async {
+        
+        if device.deviceType == .phoneCase {
+            nfcCommunicator.startSession { result in
+                switch result {
+                case .success(let macAddress):
+                    print("操作成功完成，MAC地址为: \(macAddress)")
+                    //AlertWindow.show(title: "读取结果", message: "\(macAddress)")
+                    Task {
+                        await self.startScanAndConnect(mac: macAddress, colors: colors)
+                    }
+                    
+                case .failure(let error):
+                    print("操作失败: \(error.localizedDescription)")
+                    AlertWindow.show(title: "Notify", message: error.localizedDescription)
+                }
+            }
+        } else {
+            await sendColors(device, colors)
+        }
+        
+    }
+    
+    func startScanAndConnect(mac:String, colors:[[String]]) async {
+        
+        deviceManager.startScanning(mac) { device, success in
+            
+            if success {
+                self.nfcCommunicator.updateSessionAlertMessage("Connect successfully")
+                
+                guard let connectDevice = device else {
+                    self.nfcCommunicator.stopSession(message: "Connect failed, please try again")
+                    return
+                }
+                Task {
+                    await sendColors(connectDevice, colors)
+                }
+            } else {
+                self.nfcCommunicator.stopSession(message: "Connect failed, please try again")
+            }
+        
+        }
+        
+    }
+    
+    func sendColors(_ connectDevice:Device, _ colors:[[String]]) async {
+        do {
+            self.nfcCommunicator.updateSessionAlertMessage("Writing colors...")
+            try await connectDevice.deviceFuction?.sendColors(connectDevice, commandType: .writeCmd, colors: colors, timeInterval: nil, response: { response in
+                //假设预期数据为 0x11FC0101 则成功写入 reponse 为Data 如何解析
+                if response.count >= 4 {
+                    let expectedData = Data([0x11, 0xFC, 0x01, 0x01])
+                    if response.starts(with: expectedData) {
+                        Logger.shared.log("图案写入成功")
+                        self.nfcCommunicator.stopSession(message: "Patterns write success")
+                        //self.showToast = true
+                    } else {
+                        Logger.shared.log("图案写入失败，返回数据不匹配")
+                        self.nfcCommunicator.stopSession(message: "Patterns write failed")
+                    }
+                } else {
+                    Logger.shared.log("图案写入失败，返回数据长度不足")
+                    self.nfcCommunicator.stopSession(message: "Patterns write failed")
+                }
+            })
+
+            
+        } catch {
+            AlertWindow.show(title: "Apply Failured", message: "\(error.localizedDescription)")
         }
     }
 }

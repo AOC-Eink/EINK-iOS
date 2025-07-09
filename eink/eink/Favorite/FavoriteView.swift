@@ -55,22 +55,34 @@ struct FavoriteView: View {
             if isEditing {
                 FunctionArea(functions: [
                     (image: "square.and.arrow.up", text: "Screen Cast", active: selectDesins.count == 1, action: {
-                        let design = selectDesins.first
-                        let colors = design?.colors.components(separatedBy: ",")
-                        guard let colors = colors, !colors.isEmpty else {
-                            AlertWindow.show(title: "Error", message: "No colors found in the selected design.")
-                            return
+                        
+                        if (selectDesins.count == 1) {
+                        
+                            let design = selectDesins.first
+                            let colors = design?.colors.components(separatedBy: ",")
+                            guard let colors = colors, !colors.isEmpty else {
+                                AlertWindow.show(title: "Error", message: "No colors found in the selected design.")
+                                return
+                            }
+                        
+                            Task{
+                                await applay(colors)
+                            }
                         }
-                        Task{
-                            await applay(colors)
-                        }
+                        
                     }),
                     (image: "timer", text: "Timing", active: selectDesins.count > 1, action: {
-                        router.presentSheet(.sendDesigns(deviceId: device.id, designs: selectDesins))
+                        if (selectDesins.count > 1) {
+                            router.presentSheet(.sendDesigns(deviceId: device.id, designs: selectDesins))
+                        }
+                        
                     }),
                     (image: "trash", text: "Delete", active: selectDesins.count > 0, action: {
                         //弹出底部sheet Confirm delete and cancel
-                        showDeleteSheet = true
+                        if selectDesins.count > 0 {
+                            showDeleteSheet = true
+                        }
+                        
                         
                     })
                 ])
@@ -91,6 +103,7 @@ struct FavoriteView: View {
                     showDeleteSheet = false
                     if !selectDesins.isEmpty {
                         //router.deleteDesigns(selectDesins)
+                        
                         selectDesins.removeAll()
                     }
                 }) {
@@ -153,7 +166,7 @@ struct FavoriteView: View {
                     
                 case .failure(let error):
                     print("操作失败: \(error.localizedDescription)")
-                    AlertWindow.show(title: "读取失败", message: error.localizedDescription)
+                    AlertWindow.show(title: "Notify", message: error.localizedDescription)
                 }
             }
         } else {
@@ -161,54 +174,55 @@ struct FavoriteView: View {
         }
         
     }
+    
+    func startScanAndConnect(mac:String, colors:[String]) async {
         
-        func startScanAndConnect(mac:String, colors:[String]) async {
+        deviceManager.startScanning(mac) { device, success in
             
-            deviceManager.startScanning(mac) { device, success in
+            if success {
+                self.nfcCommunicator.updateSessionAlertMessage("Connect successfully")
                 
-                if success {
-                    self.nfcCommunicator.updateSessionAlertMessage("连接成功，准备写入图案")
-                    
-                    guard let connectDevice = device else {
-                        self.nfcCommunicator.stopSession(message: "连接失败，请重试")
-                        return
-                    }
-                    Task {
-                        await sendColors(connectDevice, colors)
+                guard let connectDevice = device else {
+                    self.nfcCommunicator.stopSession(message: "Connect failed, please try again")
+                    return
+                }
+                Task {
+                    await sendColors(connectDevice, colors)
+                }
+            } else {
+                self.nfcCommunicator.stopSession(message: "Connect failed, please try again")
+            }
+        
+        }
+        
+    }
+    
+    func sendColors(_ connectDevice:Device, _ colors:[String]) async {
+        do {
+            self.nfcCommunicator.updateSessionAlertMessage("Writing colors...")
+            try await connectDevice.deviceFuction?.sendColors(connectDevice, commandType: .writeCmd, colors: [colors], timeInterval: nil, response: { response in
+                //假设预期数据为 0x11FC0101 则成功写入 reponse 为Data 如何解析
+                if response.count >= 4 {
+                    let expectedData = Data([0x11, 0xFC, 0x01, 0x01])
+                    if response.starts(with: expectedData) {
+                        Logger.shared.log("图案写入成功")
+                        self.nfcCommunicator.stopSession(message: "Patterns write success")
+                        //self.showToast = true
+                    } else {
+                            Logger.shared.log("图案写入失败，返回数据不匹配")
+                        self.nfcCommunicator.stopSession(message: "Patterns write failed")
                     }
                 } else {
-                    self.nfcCommunicator.stopSession(message: "连接失败，请重试")
+                    Logger.shared.log("图案写入失败，返回数据长度不足")
+                    self.nfcCommunicator.stopSession(message: "Patterns write failed")
                 }
-            
-            }
-            
-        }
-        
-        func sendColors(_ connectDevice:Device, _ colors:[String]) async {
-            do {
-                self.nfcCommunicator.updateSessionAlertMessage("图案写入中，请稍等...")
-                try await connectDevice.deviceFuction?.sendColors(connectDevice, commandType: .writeCmd, colors: [colors], timeInterval: nil, response: { response in
-                    //假设预期数据为 0x11FC0101 则成功写入 reponse 为Data 如何解析
-                    if response.count >= 4 {
-                        let expectedData = Data([0x11, 0xFC, 0x01, 0x01])
-                        if response.starts(with: expectedData) {
-                            Logger.shared.log("图案写入成功")
-                            //self.showToast = true
-                        } else {
-                                Logger.shared.log("图案写入失败，返回数据不匹配")
-                            self.nfcCommunicator.stopSession(message: "图案写入完成")
-                        }
-                    } else {
-                        Logger.shared.log("图案写入失败，返回数据长度不足")
-                        self.nfcCommunicator.stopSession(message: "图案写入完成")
-                    }
-                })
+            })
 
-                
-            } catch {
-                AlertWindow.show(title: "Apply Failured", message: "\(error.localizedDescription)")
-            }
+            
+        } catch {
+            AlertWindow.show(title: "Apply Failured", message: "\(error.localizedDescription)")
         }
+    }
         
     
 }

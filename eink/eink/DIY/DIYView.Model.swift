@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import BLECommunicator
 
     
     @Observable
@@ -15,12 +16,19 @@ import Foundation
         var colors:[String]
         let diyName:String
         let initFavorite:Bool
+        private let deviceManager:DeviceManager
+        private let nfcCommunicator:NFCCommunicator
         
-        init(_ device: Device, name:String = "", colors:[String] = [], favorite:Bool = false) {
+        init(_ device: Device,
+             _ deviceManager:DeviceManager,
+             _ nfcCommunicator:NFCCommunicator,
+             name:String = "", colors:[String] = [], favorite:Bool = false) {
             self.device = device
             self.diyName = name
             self.colors = colors == [] ? Array(repeating: "DBDBDB", count: device.inkCounts) : colors
             self.initFavorite = favorite
+            self.deviceManager = deviceManager
+            self.nfcCommunicator = nfcCommunicator
         }
         
         let panelColors = [("green", "497A64"),
@@ -84,15 +92,88 @@ import Foundation
                 return String((0..<8).map { _ in letters.randomElement()! })
         }
         
-        func applay(_ response:@escaping(Bool)->Void) async throws {
-            //showToast.toggle()
+//        func applay(_ response:@escaping(Bool)->Void) async throws {
+//            //showToast.toggle()
+//        
+//            try await device.deviceFuction?.sendColors(device, commandType: .writeCmd, colors: [colors], timeInterval: nil, response: { _ in
+//                debugPrint("Colors sent successfully")
+//                response(true)
+//            })
+//            
+//            
+//        }
         
-            try await device.deviceFuction?.sendColors(device, commandType: .writeCmd, colors: [colors], timeInterval: nil, response: { _ in
-                debugPrint("Colors sent successfully")
-                response(true)
-            })
+        func applay() async {
             
+            if device.deviceType == .phoneCase {
+                nfcCommunicator.startSession { result in
+                    switch result {
+                    case .success(let macAddress):
+                        print("操作成功完成，MAC地址为: \(macAddress)")
+                        //AlertWindow.show(title: "读取结果", message: "\(macAddress)")
+                        Task {
+                            await self.startScanAndConnect(mac: macAddress, colors: self.colors)
+                        }
+                        
+                    case .failure(let error):
+                        print("操作失败: \(error.localizedDescription)")
+                        //AlertWindow.show(title: "Notify", message: error.localizedDescription)
+                    }
+                }
+            } else {
+                await sendColors(device, colors)
+            }
             
+        }
+        
+        func startScanAndConnect(mac:String, colors:[String]) async {
+            
+            deviceManager.startScanning(mac) {[weak self] device, success in
+                guard let self = self else { return }
+                
+                if success {
+                    self.nfcCommunicator.updateSessionAlertMessage("Connect successfully")
+                    
+                    guard let connectDevice = device else {
+                        self.nfcCommunicator.stopSession(message: "Connect failed, please try again")
+                        return
+                    }
+                    Task {
+                        await self.sendColors(connectDevice, colors)
+                    }
+                } else {
+                    self.nfcCommunicator.stopSession(message: "Connect failed, please try again")
+                }
+            
+            }
+            
+        }
+        
+        func sendColors(_ connectDevice:Device, _ colors:[String]) async {
+            do {
+                self.nfcCommunicator.updateSessionAlertMessage("Writing colors...")
+                try await connectDevice.deviceFuction?.sendColors(connectDevice, commandType: .writeCmd, colors: [colors], timeInterval: nil, response: { response in
+                    //假设预期数据为 0x11FC0101 则成功写入 reponse 为Data 如何解析
+                    if response.count >= 4 {
+                        let expectedData = Data([0x11, 0xFC, 0x01, 0x01])
+                        if response.starts(with: expectedData) {
+                            Logger.shared.log("图案写入成功")
+                            self.nfcCommunicator.stopSession(message: "Patterns write success")
+                            
+                        } else {
+                                Logger.shared.log("图案写入失败，返回数据不匹配")
+                            self.nfcCommunicator.stopSession(message: "Patterns write failed")
+                        }
+                    } else {
+                        Logger.shared.log("图案写入失败，返回数据长度不足")
+                        self.nfcCommunicator.stopSession(message: "Patterns write failed")
+                    }
+                })
+
+                
+            } catch {
+                //AlertWindow.show(title: "Apply Failured", message: "\(error.localizedDescription)")
+            }
         }
         
         

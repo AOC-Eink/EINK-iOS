@@ -40,6 +40,7 @@ class DeviceManager:BLEDataService {
         
     
     let bleHandle:BLEHandler = BLEHandler()
+    let nfcHandle:NFCCommunicator = NFCCommunicator()
     
     var valueResponse:((Data)->Void)?
     
@@ -329,8 +330,6 @@ class DeviceManager:BLEDataService {
         if response != nil {
             valueResponse = response
         }
-        
-        
         
         guard let bleDevice = device.bleDevice else { return }
         

@@ -83,7 +83,7 @@ extension DiscoverView {
                     
                 case .failure(let error):
                     print("操作失败: \(error.localizedDescription)")
-                    AlertWindow.show(title: "读取失败", message: error.localizedDescription)
+                    AlertWindow.show(title: "Notify", message: error.localizedDescription)
                 }
             }
         }
@@ -93,9 +93,9 @@ extension DiscoverView {
             deviceManager.startScanning(mac) { device, success in
                 
                 if success {
-                    self.nfcCommunicator?.stopSession(message: "连接成功，设备已连接")
+                    self.nfcCommunicator?.stopSession(message: "Connect successfully")
                 } else {
-                    self.nfcCommunicator?.stopSession(message: "连接失败，请重试")
+                    self.nfcCommunicator?.stopSession(message: "Connect failed, please try again")
                 }
                 self.nfcCommunicator = nil
             
