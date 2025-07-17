@@ -41,14 +41,14 @@ struct ProfileView: View {
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        //appRouter.isConnected?.toggle()
-                    }) {
-                        Image(systemName: "chevron.backward")
-                            .foregroundColor(.plusbutton)
-                    }
-                }
+//                ToolbarItem(placement: .navigationBarLeading) {
+//                    Button(action: {
+//                        //appRouter.isConnected?.toggle()
+//                    }) {
+//                        Image(systemName: "chevron.backward")
+//                            .foregroundColor(.plusbutton)
+//                    }
+//                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         exportLog()
@@ -59,8 +59,8 @@ struct ProfileView: View {
                 }
                 ToolbarItem(placement: .principal) {
                     Text("Profile")
-                        .font(.title)
-                        .foregroundStyle(.mydevicestitle)
+                        .font(.navTitle)
+                        .foregroundStyle(.black)
                 }
             }
         }

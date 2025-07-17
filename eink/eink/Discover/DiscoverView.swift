@@ -60,6 +60,7 @@ struct DiscoverView: View {
                 }
             }
             .padding()
+            .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("E-ink Prism")
             .navigationDestination(for: AppDestination.self) { destination in
                 switch destination {

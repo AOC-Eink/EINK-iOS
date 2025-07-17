@@ -99,6 +99,7 @@ struct DIYView: View {
             Spacer()
             colorPanel
         }
+        .navigationTitle("Customize")
         .background(.white)
     }
     

@@ -130,7 +130,14 @@ struct TabbarView: View {
 //                            Label("Favorites", systemImage: "heart")}
 //                        .tag(Router.favorites(nil))
                     
-                    Text("Coming Soon")
+                    
+                        VStack(){
+                            Text("Coming Soon")
+                            
+                        }
+                        .padding()
+                        .navigationBarTitleDisplayMode(.inline)
+                        .navigationTitle("Support")
                         .tabItem {
                             Label("Support", systemImage: "ellipsis.message")
                         }
