@@ -882,7 +882,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = eink/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = EINK;
+				INFOPLIST_KEY_CFBundleDisplayName = "E-ink Studio";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NFCReaderUsageDescription = "此应用需要访问NFC以读取标签信息";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This will allow \"E-INK\" to connect to your accessories.";
@@ -927,7 +927,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = eink/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = EINK;
+				INFOPLIST_KEY_CFBundleDisplayName = "E-ink Studio";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NFCReaderUsageDescription = "此应用需要访问NFC以读取标签信息";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This will allow \"E-INK\" to connect to your accessories.";

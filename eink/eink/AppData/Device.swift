@@ -271,7 +271,7 @@ struct Device:Hashable, Equatable {
             case .phoneCase:
                 return InkStyle(itemWidth: 50,
                                 panelHeight: panelHeight(50,64),
-                                cornerRadius: 35,
+                                cornerRadius: 56,
                                 borderWidth: 5,
                                 borderColor: .caseBorderWhite,
                                 heightRatio: 1.0, presetSize: 35)

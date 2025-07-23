@@ -154,13 +154,14 @@ struct PresetGridView: View {
                 ForEach(designs, id: \.self) { item in
                     PresetCard(title: item.name,
                                pageType:pageType,
+                               device: device,
                                design: item,
                                
                                presetView: PresetView(colors: item.colors,
                                                       hGrids: Int(item.hGrids),
                                                       vGrides: Int(item.vGrids),
                                                       heightRatio: device.inkStyle.heightRatio,
-                                                      inkStyle: device.inkStyle, 
+                                                      inkStyle: device.inkStyle,
                                                       itemWidth:device.inkStyle.presetSize
                                                      ),
                                isEdit: $isEditing,

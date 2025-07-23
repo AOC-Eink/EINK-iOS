@@ -87,11 +87,22 @@ struct DIYView: View {
                     }
                     
                 })
-                .roundedBorder(cornerRadius: model.device.inkStyle.cornerRadius,
+                .roundedBorder(cornerRadius: model.device.inkStyle.cornerRadius*0.8,
                                borderWidth: model.device.inkStyle.borderWidth,
                                borderColor: model.device.inkStyle.borderColor,
                                isCircle: model.device.inkStyle.isCircle
                 )
+                
+                
+                if model.device.deviceType == .phoneCase {
+                    
+                    Image(.iphoneCamera)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 130, height: 130)
+                        .padding(.leading, -3)
+                        .padding(.top, -3)
+                }
                 
             }
             
@@ -130,7 +141,7 @@ struct DIYView: View {
     @ViewBuilder
     var colorPanel: some View {
         DIYPanel(colors: model.panelColors,
-                 name: model.diyName, 
+                 name: model.diyName,
                  initFavorite: model.initFavorite,
                  onTouch: { color in
                 currentColor = color

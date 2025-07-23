@@ -62,20 +62,34 @@ struct DesignDetail: View {
             //topbarView
             Spacer()
             
+            ZStack(alignment:.topLeading){
                 
-            TriangleGridView(colors: colors,
-                             columns: hGirds,
-                             rows: vGirds,
-                             triangleSize: itemWidth,
-                             heightRatio: device.heightRatio,
-                             onTouch: {index, isRepeat, preColor in
                 
-            })
-            .roundedBorder(cornerRadius: device.inkStyle.cornerRadius,
-                           borderWidth: device.inkStyle.borderWidth,
-                           borderColor: device.inkStyle.borderColor,
-                           isCircle: device.inkStyle.isCircle
-            )
+                
+                TriangleGridView(colors: colors,
+                                 columns: hGirds,
+                                 rows: vGirds,
+                                 triangleSize: itemWidth,
+                                 heightRatio: device.heightRatio,
+                                 onTouch: {index, isRepeat, preColor in
+                    
+                })
+                .roundedBorder(cornerRadius: device.inkStyle.cornerRadius*0.8,
+                               borderWidth: device.inkStyle.borderWidth,
+                               borderColor: device.inkStyle.borderColor,
+                               isCircle: device.inkStyle.isCircle
+                )
+                
+                if device.deviceType == .phoneCase {
+                    
+                    Image(.iphoneCamera)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 130, height: 130)
+                        .padding(.leading, -3)
+                        .padding(.top, -3)
+                }
+            }
                 
             
             

@@ -11,6 +11,7 @@ struct PresetCard: View {
     
     let title:String
     let pageType:PageType
+    let device:Device
     let design:Design
     let presetView: PresetView?
     let ratio:CGFloat = 1.0
@@ -37,7 +38,11 @@ struct PresetCard: View {
     }
     
     var body: some View {
-//        ZStack(alignment:.topLeading) {
+        ZStack(alignment:.topLeading) {
+            
+            
+                
+            
             VStack(alignment:.center, spacing: 10){
                     
                 if (presetView != nil) {
@@ -61,9 +66,17 @@ struct PresetCard: View {
 //                    .font(.deviceCount)
 //                    .foregroundStyle(.sectionTitle)
             }
+            if device.deviceType == .phoneCase {
+                Image(.iphoneCamera)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 90 * ratio, height: 90 * ratio)
+                    .padding(.leading, 15)
+                    .padding(.top, -1)
+            }
             
             
-//        }
+        }
         
         .background(Color.white) // 设置背景色
         .environment(\.triggleEdit) { isEdit in
