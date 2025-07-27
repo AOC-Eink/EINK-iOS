@@ -7,16 +7,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "8275F601-6CDB-4EF8-B744-CE9B5F329EFC"
+            uuid = "2BB61530-5FB6-431F-9ED3-8A2AE13E3507"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "eink/Discover/AddDevice/AddDeviceView.swift"
+            filePath = "eink/AppData/Device.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "182"
-            endingLineNumber = "182"
-            landmarkName = "connectDeviceView"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
+            landmarkName = "bleStatus"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>

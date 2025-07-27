@@ -112,6 +112,13 @@ struct DIYView: View {
         }
         .navigationTitle("Customize")
         .background(.white)
+        .onChange(of: model.device.bleStatus) { oldValue, newValue in
+            print("Device status changed from \(oldValue) to \(newValue)")
+            if newValue == .disconnected {
+                DeviceManager.shared.startScanning(discover: nil)
+                router.navigateToRoot()
+            }
+        }
     }
     
     @ViewBuilder

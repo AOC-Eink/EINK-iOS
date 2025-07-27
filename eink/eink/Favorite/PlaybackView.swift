@@ -118,6 +118,13 @@ struct PlaybackView: View {
         .sheet(isPresented: $showAddView) {
             SelectDesginView(device: device, designs: designs, showAddView: $showAddView)
         }
+        .onChange(of: device.bleStatus) { oldValue, newValue in
+            print("Device status changed from \(oldValue) to \(newValue)")
+            if newValue == .disconnected {
+                DeviceManager.shared.startScanning(discover: nil)
+                router.navigateToRoot()
+            }
+        }
 //        .environment(\.selectDesigns) { designs in
 //            selectDesgins = designs
 //        }

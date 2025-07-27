@@ -122,6 +122,13 @@ struct CatagoryView: View {
                     selectedCategory = first
                 }
            }
+            .onChange(of: device.bleStatus) { oldValue, newValue in
+                print("Device status changed from \(oldValue) to \(newValue)")
+                if newValue == .disconnected {
+                    DeviceManager.shared.startScanning(discover: nil)
+                    router.navigateToRoot()
+                }
+            }
         }
         
     

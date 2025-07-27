@@ -142,6 +142,13 @@ struct FavoriteView: View {
             }
             
         }
+        .onChange(of: device.bleStatus) { oldValue, newValue in
+            print("Device status changed from \(oldValue) to \(newValue)")
+            if newValue == .disconnected {
+                DeviceManager.shared.startScanning(discover: nil)
+                router.navigateToRoot()
+            }
+        }
         //
         //        .sheet(isPresented: $showBottomSheet) {
         //            PlaybackView(device: device, designs: designs, showBottomSheet: $showBottomSheet)

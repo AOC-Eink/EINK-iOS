@@ -59,6 +59,7 @@ class DeviceManager:BLEDataService {
         bleHandle.disconnectNotify = { [self] device in
             if let index = self.showDevices.firstIndex(where: { $0.id == device.id.uuidString }) {
                 self.showDevices[index].bleDevice = nil
+                //self.showDevices[index].bleStatus = .disconnected
             }
         }
     }
@@ -84,9 +85,9 @@ class DeviceManager:BLEDataService {
                                                          item: Device(indentify: device.id.uuidString,
                                                                       deviceName: device.name ?? "Unknown",
                                                                       bleDevice: device))
-                self.showDevices.append(Device(indentify: device.id.uuidString,
-                                               deviceName: device.name ?? "Unknown",
-                                               bleDevice: device))
+//                self.showDevices.append(Device(indentify: device.id.uuidString,
+//                                               deviceName: device.name ?? "Unknown",
+//                                               bleDevice: device))
             }
         }
     }
@@ -109,18 +110,24 @@ class DeviceManager:BLEDataService {
 //        saveDevices.removeAll()
 //        saveDevices = devices;
         
+        Logger.shared.log("updateSaveDevices \(devices.count) devices")
         showDevices = devices.map{Device(indentify: $0.mac ?? "", deviceName: $0.name ?? "", deviceFunction: self)}
         
     }
     
     func addNewDevice(device:Device) {
+        Logger.shared.log("addNewDevice \(device.deviceName) \(device.id)")
         if let index = self.showDevices.firstIndex(where: { $0.id == device.id }) {
+            Logger.shared.log("update device \(device.deviceName) at index \(index)")
+            //self.showDevices[index].bleDevice = device.bleDevice
             self.showDevices[index].deviceFuction = device.deviceFuction
         } else {
+            Logger.shared.log("add new device \(device.deviceName)  \(device.id)")
             showDevices.append(device)
+            CoreDataStack.shared.insetOrUpdateDevice(name: device.deviceName, item: device)
         }
         
-        CoreDataStack.shared.insetOrUpdateDevice(name: device.deviceName, item: device)
+        
     }
     
     

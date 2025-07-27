@@ -132,9 +132,9 @@ struct DiscoverView: View {
 //                    }) {
 //                        Image(systemName: "plus")
 //                            .foregroundColor(.plusbutton)
-//                            
+//
 //                    }
-//                    
+//
 //                }
 //            }
         }
@@ -144,7 +144,7 @@ struct DiscoverView: View {
 //                    .transition(.move(edge: .bottom))
 //                    .animation(.spring(), value: showAddView)
 //                    .id(UUID())
-//                
+//
 //            }
 //        }
         .sheet(isPresented: $showAddView, onDismiss: {
@@ -200,7 +200,7 @@ struct DiscoverView: View {
             deviceManager.updateSaveDevices(newValue)
         }
 //        .onChange(of: appRouter.isConnected) { oldValue, newValue in
-//            
+//
 //            if (oldValue ?? false) && !(newValue ?? true) {
 //                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
 //                    model.refreshDevicesStatus()
@@ -279,7 +279,15 @@ struct DiscoverView: View {
                             //selectIndex = index
                             isShowingPopup = true
                             Task {
-                                await model.connectDevice(device: device)
+                                let result = await model.connectDevice(device: device)
+                                isShowingPopup = false
+                                if result {
+                                    
+                                    router.navigate(to: .device(id: device.id))
+                                } else {
+                                
+                                    AlertWindow.show(title: "Error", message: "Failed to connect to device.")
+                                }
                             }
                             
                         }

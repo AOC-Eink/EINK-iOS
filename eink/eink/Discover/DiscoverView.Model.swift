@@ -25,7 +25,7 @@ extension DiscoverView {
 //                self.deviceManager = deviceManager
 //                print("new init model")
 //            }
-//            
+//
 //        }
         
 //        init(_ deviceManager:DeviceManager) {
@@ -50,17 +50,20 @@ extension DiscoverView {
         }
         
         
-        func connectDevice(device:Device) async {
+        func connectDevice(device:Device) async -> Bool {
             
             do {
                 let result = try await deviceManager.startConnect(device)
                 if result {
                     errorMessage = "success"
+                    return true
                 } else {
                     errorMessage = "Connect failured"
+                    return false
                 }
             } catch {
                 errorMessage = "Connect \(error)"
+                return false
             }
         }
         

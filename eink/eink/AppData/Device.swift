@@ -232,7 +232,7 @@ struct Device:Hashable, Equatable {
             return .speaker
         }
         
-        return .phoneCase
+        return .clock
     }
     
     var commandHeader:UInt8 {

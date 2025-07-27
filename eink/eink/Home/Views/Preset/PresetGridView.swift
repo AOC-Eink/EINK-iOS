@@ -167,10 +167,10 @@ struct PresetGridView: View {
                                isEdit: $isEditing,
                         onTouch:{ action in
                         
-                        if !isEditing {
-                            router.navigate(to: .designDetail(deviceId: device.id, design: item))
-                            return
-                        }
+//                        if !isEditing {
+//                            router.navigate(to: .designDetail(deviceId: device.id, design: item))
+//                            return
+//                        }
                         
                           
                         
@@ -183,7 +183,12 @@ struct PresetGridView: View {
                             }
                             
                         case .edit:
+                            if !isEditing {
+                                router.navigate(to: .designDetail(deviceId: device.id, design: item))
+                                return
+                            }
                             edit(item)
+                            
                         case .delete:
                             deleteAlert(item.name)
                         case .favorite:
