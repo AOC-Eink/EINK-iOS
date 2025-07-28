@@ -119,7 +119,7 @@ class DeviceManager:BLEDataService {
         Logger.shared.log("addNewDevice \(device.deviceName) \(device.id)")
         if let index = self.showDevices.firstIndex(where: { $0.id == device.id }) {
             Logger.shared.log("update device \(device.deviceName) at index \(index)")
-            //self.showDevices[index].bleDevice = device.bleDevice
+            self.showDevices[index].bleDevice = device.bleDevice
             self.showDevices[index].deviceFuction = device.deviceFuction
         } else {
             Logger.shared.log("add new device \(device.deviceName)  \(device.id)")

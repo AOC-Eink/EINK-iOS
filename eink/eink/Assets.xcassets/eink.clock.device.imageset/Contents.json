@@ -1,16 +1,17 @@
 {
   "images" : [
     {
+      "filename" : "untitled.1510 1.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "eink.clock.device@2x.png",
+      "filename" : "untitled.1510 1@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "eink.clock.device@3x.png",
+      "filename" : "untitled.1510 1@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
