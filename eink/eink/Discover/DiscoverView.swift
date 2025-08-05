@@ -196,9 +196,9 @@ struct DiscoverView: View {
                 model.refreshDevicesStatus()
             })
         }
-        .onChange(of: saveCVDevices) { oldValue, newValue in
-            deviceManager.updateSaveDevices(newValue)
-        }
+//        .onChange(of: saveCVDevices) { oldValue, newValue in
+//            deviceManager.updateSaveDevices(newValue)
+//        }
 //        .onChange(of: appRouter.isConnected) { oldValue, newValue in
 //
 //            if (oldValue ?? false) && !(newValue ?? true) {

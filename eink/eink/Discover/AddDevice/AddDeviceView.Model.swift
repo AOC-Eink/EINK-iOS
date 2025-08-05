@@ -63,7 +63,7 @@ extension AddDeviceView {
                 let result = try await deviceManager.startConnect(selectDevice)
 
                 if result {
-                    saveAdd(deviceManager)
+                    //saveAdd(deviceManager)
                     addStatus = .addSuccess
                 } else {
                     //errorMessage = "Connect failured"

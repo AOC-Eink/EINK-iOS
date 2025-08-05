@@ -73,21 +73,24 @@ class DeviceManager:BLEDataService {
     func didConnectedListener() {
         bleHandle.didConnectNotify = { [self] device in
             
+            Logger.shared.log("设备连接通知 bleDevice： uuid = \(device.id)")
+            
             if directConnectDevice?.id == device.id.uuidString {
                 directConnectDevice?.bleDevice = device
                 return
             }
             
             if let index = self.showDevices.firstIndex(where: { $0.id == device.peripheral.identifier.uuidString }) {
+                Logger.shared.log("更新设备信息 bleDevice = uuid = \(device.id), 写特证 = \(device.writeCharacteristic?.uuid.uuidString ?? "")")
                 self.showDevices[index].bleDevice = device
             } else {
                 CoreDataStack.shared.insetOrUpdateDevice(name: device.name ?? "Unknown",
                                                          item: Device(indentify: device.id.uuidString,
                                                                       deviceName: device.name ?? "Unknown",
                                                                       bleDevice: device))
-//                self.showDevices.append(Device(indentify: device.id.uuidString,
-//                                               deviceName: device.name ?? "Unknown",
-//                                               bleDevice: device))
+                self.showDevices.append(Device(indentify: device.id.uuidString,
+                                               deviceName: device.name ?? "Unknown",
+                                               bleDevice: device, deviceFunction: self))
             }
         }
     }
@@ -109,9 +112,16 @@ class DeviceManager:BLEDataService {
     func updateSaveDevices(_ devices:[InkDevice]) {
 //        saveDevices.removeAll()
 //        saveDevices = devices;
+        for device in devices {
+            if let index = showDevices.firstIndex(where: { $0.id == device.mac }) {
+                
+            } else {
+                showDevices.append(Device(indentify: device.mac ?? "", deviceName: device.name ?? "", deviceFunction: self))
+            }
+        }
         
         Logger.shared.log("updateSaveDevices \(devices.count) devices")
-        showDevices = devices.map{Device(indentify: $0.mac ?? "", deviceName: $0.name ?? "", deviceFunction: self)}
+        //showDevices = devices.map{Device(indentify: $0.mac ?? "", deviceName: $0.name ?? "", deviceFunction: self)}
         
     }
     

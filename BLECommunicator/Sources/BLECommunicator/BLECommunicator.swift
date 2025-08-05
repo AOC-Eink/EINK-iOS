@@ -235,7 +235,7 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
                 
                 if let (pendingUUID, continuation) = pendingConnection, pendingUUID == peripheral.identifier {
                     continuation.resume(returning: true)
-                    Logger.shared.log("连接成功返回结束 name = \(peripheral.name ?? "Unknown"), uuid = \(peripheral.identifier)")
+                    Logger.shared.log("连接成功返回结束 name = \(peripheral.name ?? "Unknown"), uuid = \(peripheral.identifier), 写特证 = \(connectDeivce.writeCharacteristic?.uuid)")
                     pendingConnection = nil
                     delegate?.bleCommunicator(self, didConnectDevice: connectDeivce)
                 }

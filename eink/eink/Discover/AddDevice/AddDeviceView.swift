@@ -180,7 +180,7 @@ struct AddDeviceView: View {
                         let result = try await deviceManager.startConnect(device)
     
                         if result {
-                            model.saveAdd(deviceManager)
+                            //model.saveAdd(deviceManager)
                             model.addStatus = .addSuccess
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                 model.addStatus = .addSuccess
