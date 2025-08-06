@@ -71,11 +71,12 @@ struct DIYView: View {
                     
                     if let color = currentColor{
                         if isRepeat || preColor == color {
-                            if preColor == "DBDBDB" {
-                                model.colors[touchIndex] = color
-                            } else {
-                                model.colors[touchIndex] = "DBDBDB"
-                            }
+//                            if preColor == "DBDBDB" {
+//                                model.colors[touchIndex] = color
+//                            } else {
+//                                model.colors[touchIndex] = "DBDBDB"
+//                            }
+                            model.colors[touchIndex] = color
                             
                             print("repeat reset color : DBDBDB")
                             
@@ -157,9 +158,9 @@ struct DIYView: View {
                     return
                 }
                 print("color : \(touchColor)")
-                if let index = selectIndex {
-                    model.colors[index] = touchColor
-                }
+//                if let index = selectIndex {
+//                    model.colors[index] = touchColor
+//                }
             },
             onSave: { //isFavorite, name
                 //model.saveDesgin(name, isFavorite)
