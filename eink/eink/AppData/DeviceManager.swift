@@ -355,20 +355,20 @@ class DeviceManager:BLEDataService {
         
         let dateInfo = getCurrentTimeArray()
         
+        if device.deviceType == .clock {
+            headers.append(UInt8(dateInfo[0]))//发送当前时间
+            headers.append(UInt8(dateInfo[1]))
+            headers.append(UInt8(dateInfo[2]))
+            headers.append(UInt8(dateInfo[3]))
+            headers.append(UInt8(dateInfo[4]))
+            headers.append(UInt8(dateInfo[5]))
+        }
+        
         
         if timeInterval == nil {
             headers.append(commandType.rawValue)
             headers.append(0x00)
             headers.append(0x00) //延时两个字节
-            
-            if device.deviceType == .clock {
-                headers.append(UInt8(dateInfo[0]))//发送当前时间
-                headers.append(UInt8(dateInfo[1]))
-                headers.append(UInt8(dateInfo[2]))
-                headers.append(UInt8(dateInfo[3]))
-                headers.append(UInt8(dateInfo[4]))
-                headers.append(UInt8(dateInfo[5]))
-            }
             
             headers.append(0x00) //单个命令不设置张数
         } else {
@@ -378,18 +378,7 @@ class DeviceManager:BLEDataService {
             let lowByte: UInt8 = UInt8(time & 0xFF)
             headers.append(highByte)
             headers.append(lowByte) //延时两个字节
-            
-            
-            if device.deviceType == .clock {
-                headers.append(UInt8(dateInfo[0]))//发送当前时间
-                headers.append(UInt8(dateInfo[1]))
-                headers.append(UInt8(dateInfo[2]))
-                headers.append(UInt8(dateInfo[3]))
-                headers.append(UInt8(dateInfo[4]))
-                headers.append(UInt8(dateInfo[5]))
-            }
-            
-            
+
             headers.append(UInt8(colors.count)) //张数
         }
         
