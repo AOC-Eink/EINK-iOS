@@ -63,6 +63,7 @@ class NFCCommunicator: NSObject, NFCTagReaderSessionDelegate {
                 // 这里可以操作miFareTag
                 // 例如读取NDEF或自定义命令
                 session.alertMessage = "连接标签成功，正在读取数据..."
+                Logger.shared.log("连接Mifare标签: \(miFareTag)")
                 
                 self.readTag(tag: miFareTag, session: session)
                 
@@ -73,6 +74,7 @@ class NFCCommunicator: NSObject, NFCTagReaderSessionDelegate {
     }
     
     private func readTag(tag: NFCMiFareTag, session: NFCTagReaderSession) {
+        Logger.shared.log("读取Mifare标签: \(tag)")
         let ndefTag = tag as NFCNDEFTag
         ndefTag.queryNDEFStatus { status, capacity, error in
             if status == .notSupported {
@@ -128,6 +130,7 @@ class NFCCommunicator: NSObject, NFCTagReaderSessionDelegate {
     
 
     func startSession(completion: @escaping (Result<String, Error>) -> Void) {
+        Logger.shared.log("开始NFC会话")
         guard NFCTagReaderSession.readingAvailable else {
             completion(.failure(NFCError.unsupportedTag))
             return

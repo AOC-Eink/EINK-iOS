@@ -76,6 +76,7 @@ class DeviceManager:BLEDataService {
             Logger.shared.log("设备连接通知 bleDevice： uuid = \(device.id)")
             
             if directConnectDevice?.id == device.id.uuidString {
+                Logger.shared.log("直接连接设备: \(device.name ?? "Unknown")")
                 directConnectDevice?.bleDevice = device
                 return
             }
@@ -196,6 +197,7 @@ class DeviceManager:BLEDataService {
     }
     
     func startScanning(_ withIndentify:String, result: @escaping (Device?, Bool)->Void) {
+        Logger.shared.log("开始扫描设备: \(withIndentify)")
         discoverInfo.removeAll()
         discoveredDevices.removeAll()
         // 取消之前的扫描任务（如果存在）
@@ -211,6 +213,7 @@ class DeviceManager:BLEDataService {
         cancellable = Timer.publish(every: 60, on: .main, in: .common)
             .autoconnect()
             .sink { [weak self] _ in
+                Logger.shared.log("扫描超时，停止扫描")
                 result(nil, false)
                 self?.stopScanning()
             }
@@ -263,7 +266,7 @@ class DeviceManager:BLEDataService {
         if result == false {
             discover(nil, false)
         } else {
-            
+            Logger.shared.log("连接设备成功: \(device?.deviceName ?? "") discover = \(String(describing: discover))")
             discover(self.directConnectDevice, result ?? false)
         }
     }
@@ -300,6 +303,7 @@ class DeviceManager:BLEDataService {
     }
     
     func startConnect(_ device:Device?) async throws -> Bool {
+        Logger.shared.log("开始连接设备: \(device?.deviceName ?? "Unknown")")
         guard let bleDevice = device?.bleDevice else {
             return false
         }
@@ -343,7 +347,7 @@ class DeviceManager:BLEDataService {
     
     
     func sendColors(_ device: Device, commandType:CommandType, colors: [[String]], timeInterval:Int? = nil, response: ((Data)->Void)? = nil) async throws {
-        
+        Logger.shared.log("sendColors: \(device.deviceName)")
         if response != nil {
             valueResponse = response
         }

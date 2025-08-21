@@ -128,6 +128,7 @@ struct DesignDetail: View {
     
     func applay(_ colors:[String]) async {
         
+        Logger.shared.log("Apply colors: start")
         if device.deviceType == .phoneCase {
             nfcCommunicator.startSession { result in
                 switch result {
@@ -152,6 +153,7 @@ struct DesignDetail: View {
     func startScanAndConnect(mac:String, colors:[String]) async {
         
         deviceManager.startScanning(mac) { device, success in
+            Logger.shared.log("connect result: \(success), device: \(String(describing: device))")
             
             if success {
                 self.nfcCommunicator.updateSessionAlertMessage("Connect successfully")
