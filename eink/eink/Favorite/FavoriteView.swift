@@ -160,6 +160,11 @@ struct FavoriteView: View {
     }
         
     func applay(_ colors:[String]) async {
+        if (device.bleDevice?.peripheral.state == .connected) {
+            self.nfcCommunicator.updateSessionAlertMessage("Connected Wirte")
+            await sendColors(device, colors)
+            return
+        }
         
         if device.deviceType == .phoneCase {
             nfcCommunicator.startSession { result in
@@ -169,6 +174,7 @@ struct FavoriteView: View {
                     //AlertWindow.show(title: "读取结果", message: "\(macAddress)")
                     Task {
                         await self.startScanAndConnect(mac: macAddress, colors: colors)
+                        
                     }
                     
                 case .failure(let error):

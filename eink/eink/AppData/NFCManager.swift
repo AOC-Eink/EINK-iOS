@@ -108,6 +108,7 @@ class NFCCommunicator: NSObject, NFCTagReaderSessionDelegate {
                             session.invalidate(errorMessage: "无法解析NDEF内容")
                             self.completionHandler?(.failure(NFCError.invalidResponse))
                         }
+                        self.completionHandler = nil
                         
                     }
                     //session.invalidate()

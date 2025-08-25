@@ -78,7 +78,7 @@ class DeviceManager:BLEDataService {
             if directConnectDevice?.id == device.id.uuidString {
                 Logger.shared.log("直接连接设备: \(device.name ?? "Unknown")")
                 directConnectDevice?.bleDevice = device
-                return
+                //return
             }
             
             if let index = self.showDevices.firstIndex(where: { $0.id == device.peripheral.identifier.uuidString }) {

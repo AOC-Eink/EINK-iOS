@@ -104,6 +104,11 @@ import BLECommunicator
 //        }
         
         func applay() async {
+            if (device.bleDevice?.peripheral.state == .connected) {
+                self.nfcCommunicator.updateSessionAlertMessage("Connected Wirte")
+                await sendColors(device, colors)
+                return
+            }
             
             if device.deviceType == .phoneCase {
                 nfcCommunicator.startSession { result in

@@ -234,10 +234,11 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
                 connectedDevices[peripheral.identifier] = peripheral
                 
                 if let (pendingUUID, continuation) = pendingConnection, pendingUUID == peripheral.identifier {
-                    continuation.resume(returning: true)
+                    
                     Logger.shared.log("连接成功返回结束 name = \(peripheral.name ?? "Unknown"), uuid = \(peripheral.identifier), 写特证 = \(connectDeivce.writeCharacteristic?.uuid)")
                     pendingConnection = nil
                     delegate?.bleCommunicator(self, didConnectDevice: connectDeivce)
+                    continuation.resume(returning: true)
                 }
                 
             } else {
@@ -258,10 +259,13 @@ extension BLECommunicator: CBCentralManagerDelegate, CBPeripheralDelegate {
         Logger.shared.log("peripheral didUpdateValueFor : \(peripheral.name ?? "") data: \(data.hexEncodedString()), error:\(error?.localizedDescription ?? "")")
         if let error = error {
             readContinuation?.resume(throwing: error)
+            Logger.shared.log("peripheral didUpdateValueFor : error:\(error.localizedDescription ?? "")")
         } else if let value = characteristic.value {
             readContinuation?.resume(returning: value)
+            Logger.shared.log("peripheral didUpdateValueFor : value:\(value)")
         } else {
             readContinuation?.resume(throwing: BLEError.noData)
+            Logger.shared.log("peripheral didUpdateValueFor : noData")
         }
         readContinuation = nil
         delegate?.bleCommunicator(self, didReceiveData: data, fromDevice: device)
