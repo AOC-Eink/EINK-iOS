@@ -8,6 +8,7 @@
 import SwiftUI
 import Combine
 import BLECommunicator
+import AlertToast
 
 struct FavoriteView: View {
     
@@ -19,6 +20,7 @@ struct FavoriteView: View {
     @State private var selectDesins:[Design] = []
     @Environment(\.selectDesigns) private var selected
     @State private var showDeleteSheet = false
+    @State private var showToast = false
     
     @Environment(NFCCommunicator.self) var nfcCommunicator
     @Environment(DeviceManager.self) var deviceManager
@@ -149,6 +151,12 @@ struct FavoriteView: View {
                 router.navigateToRoot()
             }
         }
+        .toast(isPresenting: $showToast, duration: 1, alert: {
+            AlertToast(type: .systemImage("checkmark.circle", .opButton), title: "Message Sent!")
+        }, completion: {
+            showToast = false
+            //showBottomSheet.toggle()
+        })
         //
         //        .sheet(isPresented: $showBottomSheet) {
         //            PlaybackView(device: device, designs: designs, showBottomSheet: $showBottomSheet)
@@ -230,7 +238,7 @@ struct FavoriteView: View {
                     self.nfcCommunicator.stopSession(message: "Patterns write failed")
                 }
             })
-
+            showToast = true
             
         } catch {
             AlertWindow.show(title: "Apply Failured", message: "\(error.localizedDescription)")

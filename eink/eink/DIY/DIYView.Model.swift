@@ -18,6 +18,8 @@ import BLECommunicator
         let initFavorite:Bool
         private let deviceManager:DeviceManager
         private let nfcCommunicator:NFCCommunicator
+        //定义一个可以绑定View的 binding 属性
+        var showToast:Bool = false
         
         init(_ device: Device,
              _ deviceManager:DeviceManager,
@@ -174,6 +176,7 @@ import BLECommunicator
                         self.nfcCommunicator.stopSession(message: "Patterns write failed")
                     }
                 })
+                showToast = true
 
                 
             } catch {

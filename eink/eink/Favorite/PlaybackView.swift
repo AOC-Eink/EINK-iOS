@@ -367,6 +367,7 @@ struct PlaybackView: View {
                     self.nfcCommunicator.stopSession(message: "Patterns write failed")
                 }
             })
+            showToast = true
 
             
         } catch {

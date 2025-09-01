@@ -141,6 +141,7 @@ struct PresetGridView: View {
                     self.nfcCommunicator.stopSession(message: "Patterns write failed")
                 }
             })
+            showToast = true
 
             
         } catch {
@@ -218,6 +219,12 @@ struct PresetGridView: View {
         .toast(isPresenting: $showToast) {
             AlertToast(type: .complete(.designGreen), title: "Apply Success")
         }
+        .toast(isPresenting: $showToast, duration: 1, alert: {
+            AlertToast(type: .systemImage("checkmark.circle", .opButton), title: "Message Sent!")
+        }, completion: {
+            showToast = false
+            //showBottomSheet.toggle()
+        })
         
     }
 }

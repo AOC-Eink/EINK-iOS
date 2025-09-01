@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct DIYView: View {
     
@@ -120,6 +121,12 @@ struct DIYView: View {
                 router.navigateToRoot()
             }
         }
+        .toast(isPresenting: $model.showToast, duration: 1, alert: {
+            AlertToast(type: .systemImage("checkmark.circle", .opButton), title: "Message Sent!")
+        }, completion: {
+            model.showToast = false
+            //showBottomSheet.toggle()
+        })
     }
     
     @ViewBuilder
@@ -170,7 +177,6 @@ struct DIYView: View {
             
                 Task{
                     await model.applay()
-                    
                 }
             }
         )

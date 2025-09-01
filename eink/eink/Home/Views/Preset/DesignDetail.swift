@@ -14,6 +14,7 @@
 
 import SwiftUI
 import BLECommunicator
+import AlertToast
 
 struct DesignDetail: View {
     
@@ -23,7 +24,7 @@ struct DesignDetail: View {
     @Environment(AppRouter.self) private var router
     @Environment(NFCCommunicator.self) var nfcCommunicator
     @Environment(DeviceManager.self) var deviceManager
-    
+    @State private var showToast = false
     @Environment(\.displayScale) var displayScale
     
     var itemDesignWidth:CGFloat {
@@ -124,6 +125,12 @@ struct DesignDetail: View {
                 router.navigateToRoot()
             }
         }
+        .toast(isPresenting: $showToast, duration: 1, alert: {
+            AlertToast(type: .systemImage("checkmark.circle", .opButton), title: "Message Sent!")
+        }, completion: {
+            showToast = false
+            //showBottomSheet.toggle()
+        })
     }
     
     func applay(_ colors:[String]) async {
@@ -201,7 +208,7 @@ struct DesignDetail: View {
                     self.nfcCommunicator.stopSession(message: "Patterns write failed")
                 }
             })
-
+            showToast = true
             
         } catch {
             AlertWindow.show(title: "Apply Failured", message: "\(error.localizedDescription)")
