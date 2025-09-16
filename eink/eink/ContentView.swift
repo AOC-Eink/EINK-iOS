@@ -53,7 +53,7 @@ struct ContentView: View {
 //                .zIndex(0)
             
             //if isConnected {
-                TabbarView()
+                DiscoverView()
 //                .transition(.move(edge: .bottom))
 //                .zIndex(1)
             //}

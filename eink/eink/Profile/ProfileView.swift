@@ -11,6 +11,12 @@ import BLECommunicator
 struct ProfileView: View {
     
     //@Environment(\.appRouter) var appRouter
+    @State private var appVersion: String = "1.0.0"
+    
+    init() {
+        //Get App version
+       appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
+    }
 
     var body: some View {
         NavigationStack {
@@ -31,7 +37,7 @@ struct ProfileView: View {
                 Section {
                     LabeledContent {
                         HStack {
-                            Text("V 1.0.0")
+                            Text("v \(appVersion)")
                             Image(systemName: "chevron.forward")
                         }
                     } label: {
